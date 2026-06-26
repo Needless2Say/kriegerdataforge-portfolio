@@ -1,0 +1,20 @@
+services:
+  kdf-portfolio:
+    build:
+      context: .
+      target: dev
+    image: kriegerdataforge-portfolio-dev
+    ports:
+      - "3003:3000"
+    volumes:
+      - .:/app
+      - kdf_portfolio_node_modules:/app/node_modules
+      - kdf_portfolio_next:/app/.next
+    environment:
+      - NODE_ENV=development
+      # Enables filesystem polling so hot-reload works on Docker for Windows
+      - WATCHPACK_POLLING=true
+
+volumes:
+  kdf_portfolio_node_modules:
+  kdf_portfolio_next:

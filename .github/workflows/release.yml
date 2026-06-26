@@ -1,0 +1,23 @@
+# Release Pipeline
+#
+# Fires automatically when the VERSION file is merged to main.
+# Creates a GitHub Release tagged "v{VERSION}" with auto-generated release notes.
+#
+# The VERSION file is manually edited by the developer before opening a PR.
+# CI validates the bump (version-check job in ci.yml) — this workflow just publishes.
+#
+# Skips gracefully if the tag already exists (safe to re-run).
+
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["VERSION"]
+
+jobs:
+  release:
+    name: Create release
+    permissions:
+      contents: write
+    uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/create-github-release.yml@main

@@ -58,5 +58,7 @@ must (1) add this repo to `deployer_registry.json`, (2) set the Environment's
 required reviewers, and (3) add the `NEXT_PUBLIC_EMAILJS_*` repo secrets (else the
 live contact form silently no-ops). See the PL-072 delivery checklist.
 
-Bump `VERSION` (and keep `package.json` `version` in lockstep) in the PR that ships
-a change — the version-check job enforces it.
+Bump the version in the PR that ships a change with **`make bump-patch`** (or
+`make bump-minor` / `make bump-major`) — it updates `VERSION` and `package.json`
+in lockstep (the version-check job requires they match). The bump targets use a
+local Python venv (`make venv`, auto-created on first bump).

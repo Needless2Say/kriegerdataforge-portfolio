@@ -1,0 +1,63 @@
+# CI Pipeline — KriegerDataForge Portfolio (marketing site)
+#
+# Runs on every PR targeting main — the gate before the marketing site can ship
+# (PL-072). Jobs run in parallel:
+#   • lint-and-typecheck — ESLint + tsc --noEmit
+#   • build              — next build (static export, verifies the site compiles)
+#   • npm-audit          — flags high/critical CVEs in production dependencies
+#   • secret-scan        — gitleaks (full-history checkout) over the PR's commits
+#   • version-check      — VERSION is bumped and matches package.json
+#
+# Static analysis (CodeQL) is a separate, gated codeql.yml.
+
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+    types: [opened, synchronize, reopened]
+
+# Cancel any in-progress run for the same ref when a new commit is pushed.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Minimal permissions — read-only is sufficient for all jobs here.
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  lint-and-typecheck:
+    uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/ci-nextjs-lint-typecheck.yml@main
+
+  build:
+    uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/ci-nextjs-build.yml@main
+    with:
+      upload_artifact: true
+
+  npm-audit:
+    uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/ci-npm-audit.yml@main
+
+  secret-scan:
+    uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/secret-scan.yml@main
+
+  version-check:
+    name: Version check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          repository: Needless2Say/kriegerdataforge-cicd
+          ref: main
+          path: .cicd
+
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
+        with:
+          python-version: "3.13"
+
+      - name: Run version check
+        run: python .cicd/scripts/common/check_version.py --skip-init --check-package-json

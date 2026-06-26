@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+/* ─── Base ─────────────────────────────────────────── */
+:root {
+	color-scheme: dark;
+}
+
+body {
+	background-color: #0a0704;
+	color: #f1f5f9;
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar {
+	width: 5px;
+}
+::-webkit-scrollbar-track {
+	background: #0a0704;
+}
+::-webkit-scrollbar-thumb {
+	background: #92400e;
+	border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #d97706;
+}
+
+/* ─── Accessibility ─────────────────────────────────── */
+.skip-to-content {
+	position: absolute;
+	top: -9999px;
+	left: 0;
+	padding: 8px 16px;
+	background: #d97706;
+	color: white;
+	z-index: 9999;
+	border-radius: 0 0 8px 0;
+	font-size: 0.875rem;
+}
+.skip-to-content:focus {
+	top: 0;
+}
+
+/* ─── Glass card ─────────────────────────────────────── */
+.glass-card {
+	background: rgba(255, 255, 255, 0.03);
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	border-radius: 12px;
+}
+
+/* ─── Text effects ──────────────────────────────────── */
+.gradient-text {
+	background: linear-gradient(to top,
+		#7c2d12 0%,
+		#c2410c 18%,
+		#f97316 38%,
+		#fbbf24 58%,
+		#fef08a 78%,
+		#fbbf24 90%,
+		#f97316 100%
+	);
+	background-size: 100% 350%;
+	background-position: 50% 100%;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	animation: fire-rise 3.5s ease-in-out infinite;
+}
+
+.glow-text {
+	text-shadow: 0 0 30px rgba(249, 115, 22, 0.55), 0 0 60px rgba(245, 158, 11, 0.25);
+}
+
+/* ─── Forge brand gradient (static amber→blue) ──────── */
+.forge-gradient-text {
+	background: linear-gradient(to right, #92400e 25%, #f59e0b 75%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+/* ─── Animations ─────────────────────────────────────── */
+@keyframes gradient-shift {
+	0%   { background-position: 0% center; }
+	100% { background-position: 200% center; }
+}
+
+/* Fire rises upward through the text — irregular flicker like real flame */
+@keyframes fire-rise {
+	0%   { background-position: 50% 100%; }
+	30%  { background-position: 50% 48%; }
+	50%  { background-position: 50% 12%; }
+	70%  { background-position: 50% 32%; }
+	100% { background-position: 50% 100%; }
+}
+
+@keyframes fade-in-up {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fade-in {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+	0%, 100% { opacity: 1; }
+	50%       { opacity: 0.35; }
+}
+
+@keyframes float {
+	0%, 100% { transform: translateY(0); }
+	50%       { transform: translateY(-8px); }
+}
+
+.animate-fade-in-up {
+	animation: fade-in-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+	animation: fade-in 0.8s ease-out both;
+}
+
+.animate-pulse-glow {
+	animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+.animate-float {
+	animation: float 3s ease-in-out infinite;
+}
+
+/* ─── Mobile nav item stagger ───────────────────────── */
+@keyframes nav-item-in {
+	from {
+		opacity: 0;
+		transform: translateX(-8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.animate-nav-item {
+	animation: nav-item-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Scroll reveal ──────────────────────────────────── */
+@keyframes warp-in {
+	from {
+		opacity: 0;
+		transform: translateY(28px) scale(0.97);
+		filter: blur(4px);
+	}
+	65% {
+		filter: blur(0);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+		filter: blur(0);
+	}
+}
+
+.animate-warp-in {
+	animation: warp-in 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Page transition ────────────────────────────────── */
+@keyframes page-enter {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-page-enter {
+	animation: page-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Forge loader ───────────────────────────────────── */
+@keyframes forge-bar-mask {
+	from { width: 100%; }
+	to   { width: 0%; }
+}
+
+@keyframes ember-drift {
+	0%   { transform: translateY(0) translateX(0); opacity: 0; }
+	10%  { opacity: 0.8; }
+	90%  { opacity: 0.6; }
+	100% { transform: translateY(-60px) translateX(8px); opacity: 0; }
+}
+
+@keyframes hammer-pulse {
+	0%, 100% { transform: rotate(-15deg) scale(1); }
+	50%       { transform: rotate(-12deg) scale(1.03); }
+}
+
+@keyframes star-blink {
+	0%, 100% { opacity: 0.15; }
+	50%       { opacity: 0.8; }
+}
+
+.animate-ember  { animation: ember-drift 1.8s ease-in-out infinite; }
+.animate-hammer { animation: hammer-pulse 1.4s ease-in-out infinite; }
+
+/* ─── Animated gradient divider line ────────────────── */
+.animate-gradient-line {
+	background: linear-gradient(90deg, #7c2d12 0%, #ea580c 20%, #f97316 38%, #fbbf24 50%, #f97316 62%, #ea580c 80%, #7c2d12 100%);
+	background-size: 300% auto;
+	animation: gradient-shift 16s linear infinite;
+}
+
+/* ─── Reduced motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+	.animate-fade-in-up,
+	.animate-fade-in,
+	.animate-pulse-glow,
+	.animate-float,
+	.animate-warp-in,
+	.animate-page-enter,
+	.animate-nav-item,
+	.animate-ping,
+	.animate-ember,
+	.animate-hammer,
+	.animate-gradient-line,
+	.gradient-text,
+	[style*="fire-rise"] {
+		animation: none;
+		opacity: 1;
+		transform: none;
+		filter: none;
+	}
+	.gradient-text {
+		background: #f97316;
+		-webkit-text-fill-color: unset;
+		color: #f97316;
+		background-clip: unset;
+		-webkit-background-clip: unset;
+	}
+}

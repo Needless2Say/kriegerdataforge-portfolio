@@ -1,42 +1,16 @@
-# kriegerdataforge-portfolio — Agent Quick-Start
+# kriegerdataforge-portfolio — Copilot Instructions
 
-## App Vision & Purpose
+The KriegerDataForge company portfolio / marketing site: a **Next.js 15.5 static export**
+(App Router · React 19 · TypeScript · TailwindCSS v4) deployed to **GitHub Pages**. No
+database, no auth, no backend — content and components live under `src/`.
 
-KriegerDataForge company portfolio showcasing KDF's projects, services, and tech stack.
-Forge/data blacksmith theme — dark industrial aesthetic with amber and blue accents.
+Conventions: no `any` types (use proper TS types); prefer named exports (except Next.js
+`page.tsx` / `layout.tsx`); keep it simple. Dev: `npm run dev`. Build: `npm run build`.
+Lint: `npm run lint`. CI gates: `make ci`. Version bump: `make bump-patch`.
 
-## Tech Stack
+## Security — read [`skills.md`](../skills.md)
 
-- Next.js 15.5 · App Router · React 19 · TypeScript · TailwindCSS
-
-## Read Before You Code
-
-- Explore `src/` to understand the existing component and page structure before making changes.
-
-## Critical Rules
-
-1. Keep it simple — no over-engineering.
-2. **No `any` type** — use proper TypeScript types.
-3. Named exports preferred over default exports (except Next.js `page.tsx` / `layout.tsx`).
-
-## Theme
-
-- Background: `#0a0704` (near-black, warm forge tinge)
-- Primary accent: amber `#f59e0b` (forge fire)
-- Secondary accent: electric blue `#3b82f6` (data streams)
-- Gradient text: amber ↔ blue animated
-
-## Commands
-
-| Task       | Command          |
-|------------|------------------|
-| Dev server | `npm run dev`    |
-| Build      | `npm run build`  |
-| Lint       | `npm run lint`   |
-
-## Security — read [`skills.md`](./skills.md)
-
-This repo follows the KriegerDataForge ecosystem **security playbook** in [`skills.md`](./skills.md).
+This repo follows the KriegerDataForge ecosystem **security playbook** in [`skills.md`](../skills.md).
 **Before any security-sensitive work** — auth/OIDC/tokens, BFF/proxy/CSP/cookies, backend authz/endpoints,
 secrets/env/config, Terraform/infra, CI/CD, or dependencies — open `skills.md` and follow the **scenario**
 that matches your task.

@@ -1,0 +1,24 @@
+version: 2
+updates:
+  # Keep GitHub Actions current — auto-PRs SHA-pin bumps so the commit-pinned
+  # actions don't go stale. Dependabot updates both the SHA and its `# vX`
+  # version comment for actions pinned by hash.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # Surface transitive JS CVEs (e.g. the postcss advisory that hid under `next`)
+  # as auto-PRs so they don't accumulate silently.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "javascript"

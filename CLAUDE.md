@@ -1,56 +1,14 @@
-# kriegerdataforge-portfolio — Agent Quick-Start
+# kriegerdataforge-portfolio — Agent instructions
 
-## App Vision & Purpose
+**The canonical agent guide for this repo is [`AGENTS.md`](./AGENTS.md). Read it first.**
 
-KriegerDataForge company portfolio showcasing KDF's projects, services, and tech stack.
-Forge/data blacksmith theme — dark industrial aesthetic with amber and blue accents.
+It covers this repo's vision & purpose, tech stack, module map, critical rules, **required reading**,
+and the commands you'll need.
 
-## Tech Stack
+Then, for every task:
 
-- Next.js 15.5 · App Router · React 19 · TypeScript · TailwindCSS
+- Follow the standard workflow in [`WORKFLOW.md`](./WORKFLOW.md) — pick a lane (Quick / Standard / Epic),
+  **plan → owner approves** → implement → `make ci` green locally → PR → confirm GitHub CI is green → owner merges.
+- Before any security-sensitive work, read the security playbook in [`skills.md`](./skills.md).
 
-## Read Before You Code
-
-- Explore `src/` to understand the existing component and page structure before making changes.
-
-## Critical Rules
-
-1. Keep it simple — no over-engineering.
-2. **No `any` type** — use proper TypeScript types.
-3. Named exports preferred over default exports (except Next.js `page.tsx` / `layout.tsx`).
-
-## Theme
-
-- Background: `#0a0704` (near-black, warm forge tinge)
-- Primary accent: amber `#f59e0b` (forge fire)
-- Secondary accent: electric blue `#3b82f6` (data streams)
-- Gradient text: amber ↔ blue animated
-
-## Commands
-
-| Task       | Command          |
-|------------|------------------|
-| Dev server | `npm run dev`    |
-| Build      | `npm run build`  |
-| Lint       | `npm run lint`   |
-
-## Security — read [`skills.md`](./skills.md)
-
-This repo follows the KriegerDataForge ecosystem **security playbook** in [`skills.md`](./skills.md).
-**Before any security-sensitive work** — auth/OIDC/tokens, BFF/proxy/CSP/cookies, backend authz/endpoints,
-secrets/env/config, Terraform/infra, CI/CD, or dependencies — open `skills.md` and follow the **scenario**
-that matches your task.
-
-Non-negotiables (full detail + the scenario rules are in `skills.md`):
-
-- **Fail closed, never open.** The **server is authoritative** — recompute security/$-relevant values
-  (totals, prices, roles, status); never trust client-sent ones.
-- **Never trust client input** for a security decision — IPs (use the edge header, not raw `X-Forwarded-For`),
-  hostnames / `request.url` (the internal bind, not the browser host), `Origin`, ownership (exact check, not a
-  substring/regex).
-- **Secrets never touch git or logs** — real values only in gitignored files; `.example` holds placeholders;
-  never echo a secret; the owner rotates.
-- **Least privilege** — closed request schemas + field allow-lists (no blind `setattr`), distinct per-client
-  OIDC audiences, validated `iss`/`aud`.
-- Found a security issue? **Verify it's real, then flag it** — and **pause for owner approval before any
-  architectural, destructive, or behavior-changing edit** (OIDC protocol changes get a design note first).
+Everything an agent needs lives in those files — this file is just the entry point Claude Code loads.

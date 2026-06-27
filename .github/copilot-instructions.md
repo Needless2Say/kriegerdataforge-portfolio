@@ -1,30 +1,10 @@
-# kriegerdataforge-portfolio — Copilot Instructions
+# Copilot instructions — kriegerdataforge-portfolio
 
-The KriegerDataForge company portfolio / marketing site: a **Next.js 15.5 static export**
-(App Router · React 19 · TypeScript · TailwindCSS v4) deployed to **GitHub Pages**. No
-database, no auth, no backend — content and components live under `src/`.
+The canonical agent guide for this repo is **`AGENTS.md`** at the repo root. Read
+[`AGENTS.md`](../AGENTS.md) first — it covers the repo's vision & purpose, tech stack, module map,
+critical rules, and required reading.
 
-Conventions: no `any` types (use proper TS types); prefer named exports (except Next.js
-`page.tsx` / `layout.tsx`); keep it simple. Dev: `npm run dev`. Build: `npm run build`.
-Lint: `npm run lint`. CI gates: `make ci`. Version bump: `make bump-patch`.
+For every task, follow:
 
-## Security — read [`skills.md`](../skills.md)
-
-This repo follows the KriegerDataForge ecosystem **security playbook** in [`skills.md`](../skills.md).
-**Before any security-sensitive work** — auth/OIDC/tokens, BFF/proxy/CSP/cookies, backend authz/endpoints,
-secrets/env/config, Terraform/infra, CI/CD, or dependencies — open `skills.md` and follow the **scenario**
-that matches your task.
-
-Non-negotiables (full detail + the scenario rules are in `skills.md`):
-
-- **Fail closed, never open.** The **server is authoritative** — recompute security/$-relevant values
-  (totals, prices, roles, status); never trust client-sent ones.
-- **Never trust client input** for a security decision — IPs (use the edge header, not raw `X-Forwarded-For`),
-  hostnames / `request.url` (the internal bind, not the browser host), `Origin`, ownership (exact check, not a
-  substring/regex).
-- **Secrets never touch git or logs** — real values only in gitignored files; `.example` holds placeholders;
-  never echo a secret; the owner rotates.
-- **Least privilege** — closed request schemas + field allow-lists (no blind `setattr`), distinct per-client
-  OIDC audiences, validated `iss`/`aud`.
-- Found a security issue? **Verify it's real, then flag it** — and **pause for owner approval before any
-  architectural, destructive, or behavior-changing edit** (OIDC protocol changes get a design note first).
+- [`WORKFLOW.md`](../WORKFLOW.md) — the tiered task workflow (Quick / Standard / Epic).
+- [`skills.md`](../skills.md) — the security playbook (read before any security-sensitive work).

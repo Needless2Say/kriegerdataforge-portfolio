@@ -102,7 +102,6 @@ Don't skip the plan-approval gate; don't self-merge. The supporting kit:
   [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)).
 - [`docs/agent/templates/`](docs/agent/templates/) — copy-paste **design-spec**, **ADR**, and
   **epic-tracker** templates. ADRs land in `docs/CHANGELOG_AND_DECISION_LOG.md` (create if absent).
-- Role prompts: [`prompts/`](./prompts).
 
 ### Before opening a PR (this repo)
 
@@ -113,10 +112,6 @@ Don't skip the plan-approval gate; don't self-merge. The supporting kit:
 - [ ] Version bumped with `make bump-patch` (or `minor`/`major`) so `VERSION` == `package.json` version (the CI version-check requires this).
 - [ ] No secrets committed — real `NEXT_PUBLIC_EMAILJS_*` values stay in gitignored `.env.local` / repo secrets, never in code; gitleaks scans full history.
 - [ ] Anything architectural (build pipeline, deploy, framework upgrade) gets an ADR / design note first.
-
-## Prompts
-
-Role prompts live in [`prompts/`](./prompts) — start from the role matching your task (e.g. implementer, reviewer) before diving in.
 
 ## Security — read [`skills.md`](./skills.md)
 

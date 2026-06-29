@@ -6,8 +6,8 @@ data-blacksmith" brand. **No database, no auth, no backend** — pure presentati
 client-side contact form. Keep it simple; over-engineering a static site is the wrong instinct.
 
 This guide gets you from zero to a running dev server, a green local CI, and your first PR.
-For the *why* and the deeper rules, read [`AGENTS.md`](../AGENTS.md) first, then
-[`WORKFLOW.md`](../WORKFLOW.md).
+For the *why* and the deeper rules, read [`AGENTS.md`](../../AGENTS.md) first, then
+[`WORKFLOW.md`](../../WORKFLOW.md).
 
 ---
 
@@ -59,7 +59,7 @@ NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=...
 These keys are **public-by-design** (they ship in the client bundle), but still treat
 `.env.local` as gitignored and keep placeholders only in `.env.local.example`. The setup steps
 to obtain each ID are documented inline in
-[`.env.local.example`](../.env.local.example). For deploys, the same three are set as repo
+[`.env.local.example`](../../.env.local.example). For deploys, the same three are set as repo
 secrets (`NEXT_PUBLIC_EMAILJS_*`).
 
 ---
@@ -131,7 +131,7 @@ make bump-patch     # or bump-minor / bump-major, chosen by impact
 | `scripts/bump_version.py` | Lockstep `VERSION` + `package.json` bumper (driven by `make bump-*`) |
 | `.github/workflows/` | `ci.yml`, `codeql.yml` (gated), `nextjs.yml` (Pages deploy), `release.yml` |
 
-**Required reading** before you change anything substantive (from [`AGENTS.md`](../AGENTS.md)):
+**Required reading** before you change anything substantive (from [`AGENTS.md`](../../AGENTS.md)):
 `src/constants/kdf-info.ts` (brand statement), `src/constants/projects.ts` (the apps you're
 showcasing), and `next.config.ts` (the constraints that govern every change).
 
@@ -139,12 +139,12 @@ showcasing), and `next.config.ts` (the constraints that govern every change).
 
 ## 7. Pick a lane and ship — the plan → approve → PR flow
 
-Every task runs through [`WORKFLOW.md`](../WORKFLOW.md). In short:
+Every task runs through [`WORKFLOW.md`](../../WORKFLOW.md). In short:
 
 1. **Pick a lane** — *Quick* (one-file, no-behavior), *Standard* (a one-repo feature/fix),
    or *Epic* (complex design or spans repos). When unsure, **size up**.
-2. **Orient** — read [`AGENTS.md`](../AGENTS.md) (vision, rules, required reading); for
-   security-relevant work read [`skills.md`](../skills.md) and follow the matching scenario.
+2. **Orient** — read [`AGENTS.md`](../../AGENTS.md) (vision, rules, required reading); for
+   security-relevant work read [`skills.md`](../../skills.md) and follow the matching scenario.
 3. **Plan → owner approves** — for anything behavior-/contract-/security-touching, share the
    plan and **wait for explicit owner approval** before implementing. A tiny in-pattern change
    needs only a 2–3 line plan.
@@ -153,11 +153,11 @@ Every task runs through [`WORKFLOW.md`](../WORKFLOW.md). In short:
 5. **Verify** — `make ci` green, then `make bump-patch` (or minor/major). Stage files
    **explicitly** (never `git add -A`).
 6. **PR** — feature branch off `main`, fill in
-   [`.github/PULL_REQUEST_TEMPLATE.md`](../.github/PULL_REQUEST_TEMPLATE.md), confirm GitHub CI is
+   [`.github/PULL_REQUEST_TEMPLATE.md`](../../.github/PULL_REQUEST_TEMPLATE.md), confirm GitHub CI is
    green, then hand back. **The owner merges — never self-merge.**
 
 Definition of Done scales with the change type — see
-[`docs/agent/DEFINITION_OF_DONE.md`](agent/DEFINITION_OF_DONE.md).
+[`docs/agent/DEFINITION_OF_DONE.md`](../agent/DEFINITION_OF_DONE.md).
 
 ---
 
@@ -170,7 +170,7 @@ Definition of Done scales with the change type — see
   `next.config.ts` and that paths resolve under `/kriegerdataforge-portfolio`.
 - **Contact form does nothing locally?** Expected without `.env.local` — see §3.
 - **Version-check red in CI?** `VERSION` and `package.json` diverged — run `make bump-*`.
-- **Security-sensitive change?** Read [`skills.md`](../skills.md) and follow the matching
+- **Security-sensitive change?** Read [`skills.md`](../../skills.md) and follow the matching
   scenario; pause for owner approval before any behavior-changing edit.
-- **Bigger design questions?** [`docs/agent/DESIGN_AND_EPICS.md`](agent/DESIGN_AND_EPICS.md) and
-  [`docs/agent/AGENT_OPERATING_STANDARD.md`](agent/AGENT_OPERATING_STANDARD.md).
+- **Bigger design questions?** [`docs/agent/DESIGN_AND_EPICS.md`](../agent/DESIGN_AND_EPICS.md) and
+  [`docs/agent/AGENT_OPERATING_STANDARD.md`](../agent/AGENT_OPERATING_STANDARD.md).

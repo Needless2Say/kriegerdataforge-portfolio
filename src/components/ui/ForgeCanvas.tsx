@@ -60,10 +60,10 @@ export default function ForgeCanvas() {
 		let phase: HammerPhase = "waiting";
 		let phaseProgress = 0; // 0→1
 		const PHASE_SPEEDS: Record<HammerPhase, number> = {
-			waiting:    0.004,   // slow wait
-			swinging:   0.038,   // fast swing
-			struck:     0.12,    // very brief flash
-			recovering: 0.022,   // moderate rise
+			waiting:    0.06,   // brief hover before the next blow
+			swinging:   0.11,   // quick chop down
+			struck:     0.16,   // sharp impact
+			recovering: 0.09,   // lift back up
 		};
 
 		// ── Particle pools ──────────────────────────────
@@ -229,41 +229,31 @@ export default function ForgeCanvas() {
 		}
 
 		function getHammerTransform(): { x: number; y: number; angle: number } {
-			// Raised: upper-right of anvil
-			const raisedX = anvilX + 40;
-			const raisedY = anvilY - 115;
-			const raisedAngle = -0.45;
-
-			// Struck: hammer head touching anvil face
-			const struckX = anvilX + 5;
-			const struckY = anvilY - 68;
-			const struckAngle = 0.25;
+			// Origin is the hammer's strike face (bottom-centre of the head); it
+			// bobs straight up and down onto the hot data block so the head always
+			// reads point-down. A tiny tilt keeps it feeling alive.
+			const strikeX     = anvilX;
+			const impactY     = anvilY - 44;   // strike face lands exactly on the block top
+			const raisedY     = anvilY - 84;   // lifted for the next blow
+			const raisedAngle = -0.12;
+			const struckAngle =  0.06;
 
 			switch (phase) {
 				case "waiting": {
-					// Slight breathing wobble
-					const wobble = Math.sin(phaseProgress * Math.PI * 8) * 0.015;
-					return { x: raisedX, y: raisedY + Math.sin(phaseProgress * Math.PI * 4) * 3, angle: raisedAngle + wobble };
+					const bob = Math.sin(phaseProgress * Math.PI * 2) * 2;
+					return { x: strikeX, y: raisedY - bob, angle: raisedAngle };
 				}
 				case "swinging": {
 					const t = easeIn(phaseProgress);
-					return {
-						x: lerp(raisedX, struckX, t),
-						y: lerp(raisedY, struckY, t),
-						angle: lerp(raisedAngle, struckAngle, t),
-					};
+					return { x: strikeX, y: lerp(raisedY, impactY, t), angle: lerp(raisedAngle, struckAngle, t) };
 				}
 				case "struck": {
-					const bounce = Math.sin(phaseProgress * Math.PI) * 4;
-					return { x: struckX, y: struckY - bounce, angle: struckAngle };
+					const bounce = Math.sin(phaseProgress * Math.PI) * 3;
+					return { x: strikeX, y: impactY - bounce, angle: struckAngle };
 				}
 				case "recovering": {
 					const t = easeOut(phaseProgress);
-					return {
-						x: lerp(struckX, raisedX, t),
-						y: lerp(struckY, raisedY, t),
-						angle: lerp(struckAngle, raisedAngle, t),
-					};
+					return { x: strikeX, y: lerp(impactY, raisedY, t), angle: lerp(struckAngle, raisedAngle, t) };
 				}
 			}
 		}
@@ -273,37 +263,37 @@ export default function ForgeCanvas() {
 			ctx.translate(hx, hy);
 			ctx.rotate(angle);
 
-			// Handle
+			// Handle — short grip rising up out of the head
 			const handleGrad = ctx.createLinearGradient(-5, 0, 5, 0);
 			handleGrad.addColorStop(0, "#3a2e1a");
 			handleGrad.addColorStop(0.5, "#6b5030");
 			handleGrad.addColorStop(1, "#3a2e1a");
 			ctx.fillStyle = handleGrad;
 			ctx.beginPath();
-			ctx.roundRect(-4, 0, 8, 70, 2);
+			ctx.roundRect(-4, -54, 8, 40, 2);   // from y=-54 up-to-down to y=-14
 			ctx.fill();
 
-			// Head
-			const headGrad = ctx.createLinearGradient(-18, -28, 18, -8);
+			// Head — heavy block sitting above the strike face (origin at bottom)
+			const headGrad = ctx.createLinearGradient(-20, 0, 20, 0);
 			headGrad.addColorStop(0, "#2a2520");
 			headGrad.addColorStop(0.3, "#52463a");
 			headGrad.addColorStop(0.7, "#6a5a48");
 			headGrad.addColorStop(1, "#2a2520");
 			ctx.fillStyle = headGrad;
 			ctx.beginPath();
-			ctx.roundRect(-18, -28, 36, 20, 3);
+			ctx.roundRect(-20, -20, 40, 20, 3);  // y -20..0, strike face at y=0
 			ctx.fill();
 
-			// Head edge (strike face)
+			// Strike face (bottom edge that meets the anvil)
 			ctx.fillStyle = "#8a7a6a";
 			ctx.beginPath();
-			ctx.roundRect(-16, -10, 32, 4, 1);
+			ctx.roundRect(-18, -5, 36, 4, 1);
 			ctx.fill();
 
-			// Metal glint on head
-			ctx.fillStyle = "rgba(255,255,255,0.08)";
+			// Metal glint on the head
+			ctx.fillStyle = "rgba(255,255,255,0.10)";
 			ctx.beginPath();
-			ctx.roundRect(-14, -26, 20, 5, 1);
+			ctx.roundRect(-16, -17, 24, 5, 1);
 			ctx.fill();
 
 			ctx.restore();
@@ -339,9 +329,8 @@ export default function ForgeCanvas() {
 					"waiting";
 
 				if (phase === "swinging") {
-					// Just hit — spawn sparks and flash
-					const { x: hx, y: hy } = getHammerTransform();
-					spawnSparks(hx + 5, hy + 8);
+					// Just hit the anvil — spawn sparks at the impact point and flash
+					spawnSparks(anvilX, anvilY - 44);
 					impactFlash = 1;
 				}
 				phase = next;

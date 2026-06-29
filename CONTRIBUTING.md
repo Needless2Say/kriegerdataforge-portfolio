@@ -9,7 +9,7 @@ Before you start, read the canonical guides — they override anything summarize
 - [`AGENTS.md`](./AGENTS.md) — vision & purpose, tech stack, module map, critical rules, required reading.
 - [`WORKFLOW.md`](./WORKFLOW.md) — the Quick / Standard / Epic lanes and the plan → approve → PR loop.
 - [`skills.md`](./skills.md) — the ecosystem security playbook (read before any security-sensitive work).
-- [`docs/CONTRIBUTOR_ONBOARDING.md`](./docs/CONTRIBUTOR_ONBOARDING.md) — a hands-on setup + run guide.
+- [`docs/CONTRIBUTOR_ONBOARDING.md`](docs/guides/CONTRIBUTOR_ONBOARDING.md) — a hands-on setup + run guide.
 
 ---
 

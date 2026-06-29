@@ -2,20 +2,33 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { NAV_LINKS } from "@/constants/routes";
 import { cn } from "@/utils/cn";
 
 export default function Navbar() {
 	const pathname = usePathname();
 	const [open, setOpen] = useState(false);
+	const [loaderActive, setLoaderActive] = useState(false);
 	const menuKeyRef = useRef(0);
+
+	useEffect(() => {
+		if (!sessionStorage.getItem("kdf_loader_v1")) {
+			setLoaderActive(true);
+			const onDone = () => setLoaderActive(false);
+			window.addEventListener("loader-done", onDone);
+			return () => window.removeEventListener("loader-done", onDone);
+		}
+	}, []);
 
 	const isActive = (path: string) =>
 		path === "/" ? pathname === "/" : pathname.startsWith(path);
 
 	return (
-		<nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4">
+		<nav className={cn(
+			"fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 transition-opacity duration-700",
+			loaderActive ? "opacity-0 pointer-events-none" : "opacity-100"
+		)}>
 			{/* ── Desktop ── */}
 			<div className="hidden sm:flex items-center gap-0.5 rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-amber-900/30 px-2 py-1.5 shadow-xl shadow-black/40">
 				{NAV_LINKS.map((link) => (

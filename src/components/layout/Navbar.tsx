@@ -2,24 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { NAV_LINKS } from "@/constants/routes";
 import { cn } from "@/utils/cn";
+import { useLoaderShouldPlay } from "@/utils/useLoaderSeen";
 
 export default function Navbar() {
 	const pathname = usePathname();
 	const [open, setOpen] = useState(false);
-	const [loaderActive, setLoaderActive] = useState(false);
-	const menuKeyRef = useRef(0);
-
-	useEffect(() => {
-		if (!sessionStorage.getItem("kdf_loader_v1")) {
-			setLoaderActive(true);
-			const onDone = () => setLoaderActive(false);
-			window.addEventListener("loader-done", onDone);
-			return () => window.removeEventListener("loader-done", onDone);
-		}
-	}, []);
+	// Remounts the mobile menu on each open (via `key`) to replay the staggered
+	// item animation. It drives render, so it is state — not a ref read in render.
+	const [menuKey, setMenuKey] = useState(0);
+	// The nav stays hidden while the intro loader is playing, then fades in when
+	// it hands off — external session state (SSR-safe, no `setState` in an effect).
+	const loaderActive = useLoaderShouldPlay();
 
 	const isActive = (path: string) =>
 		path === "/" ? pathname === "/" : pathname.startsWith(path);
@@ -68,7 +64,7 @@ export default function Navbar() {
 					</span>
 					<button
 						onClick={() => {
-							if (!open) menuKeyRef.current += 1;
+							if (!open) setMenuKey((k) => k + 1);
 							setOpen(!open);
 						}}
 						aria-label="Toggle navigation"
@@ -88,7 +84,7 @@ export default function Navbar() {
 						? "mt-1 max-h-96 opacity-100 translate-y-0 border-amber-900/30"
 						: "max-h-0 opacity-0 -translate-y-2 pointer-events-none border-transparent"
 				)}>
-					<div key={menuKeyRef.current} className="py-2">
+					<div key={menuKey} className="py-2">
 						{NAV_LINKS.map((link, i) => (
 							<Link
 								key={link.name}

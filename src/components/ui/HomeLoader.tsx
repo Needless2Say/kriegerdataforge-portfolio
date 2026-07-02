@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ForgeCanvas from "./ForgeCanvas";
+import { useLoaderShouldPlay } from "@/utils/useLoaderSeen";
 
 const STORAGE_KEY = "kdf_loader_v1";
 const DISPLAY_MS  = 2800;
@@ -18,46 +19,63 @@ const EMBERS = [
 	{ top: "88%", left: "46%", delay: "0.4s", dur: "3.1s" },
 ];
 
+/**
+ * Whether the loader should be on screen is external, session-scoped state read
+ * via `useLoaderShouldPlay` (SSR-safe, no `setState` in an effect). While it is
+ * playing, only the fade animation is React-owned local state — and every
+ * `setPhase` runs inside a timer/handler callback, never synchronously in the
+ * effect body.
+ */
 export default function HomeLoader() {
-	const [phase, setPhase] = useState<"hidden" | "visible" | "fading">("hidden");
+	const shouldPlay = useLoaderShouldPlay();
+	// Once playing, the loader fades before it hands off. `false` = fully opaque.
+	const [fading, setFading] = useState(false);
 	const fadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const hideRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	useEffect(() => {
-		if (sessionStorage.getItem(STORAGE_KEY)) return;
-		setPhase("visible");
+	// Reveal the rest of the page (Navbar, content) — used both on the timed
+	// hand-off and on skip-click. Stable across renders so effects can depend on it.
+	const announceDone = useCallback(() => {
+		window.dispatchEvent(new CustomEvent("loader-done"));
+	}, []);
 
-		fadeRef.current = setTimeout(() => setPhase("fading"), DISPLAY_MS);
-		hideRef.current = setTimeout(() => {
-			setPhase("hidden");
-			sessionStorage.setItem(STORAGE_KEY, "1");
-			window.dispatchEvent(new CustomEvent("loader-done"));
-		}, DISPLAY_MS + FADE_MS);
+	// Persist the "seen" flag. Flipping the sessionStorage value re-runs
+	// `useLoaderShouldPlay`/`useLoaderSeen` for every subscriber and unmounts this
+	// loader on the next render.
+	const markSeen = useCallback(() => {
+		sessionStorage.setItem(STORAGE_KEY, "1");
+		announceDone();
+	}, [announceDone]);
+
+	useEffect(() => {
+		if (!shouldPlay) return;
+
+		fadeRef.current = setTimeout(() => setFading(true), DISPLAY_MS);
+		hideRef.current = setTimeout(markSeen, DISPLAY_MS + FADE_MS);
 
 		return () => {
 			if (fadeRef.current) clearTimeout(fadeRef.current);
 			if (hideRef.current) clearTimeout(hideRef.current);
 		};
-	}, []);
+	}, [shouldPlay, markSeen]);
 
 	function dismiss() {
 		if (fadeRef.current) clearTimeout(fadeRef.current);
 		if (hideRef.current) clearTimeout(hideRef.current);
-		setPhase("fading");
-		window.dispatchEvent(new CustomEvent("loader-done"));
-		hideRef.current = setTimeout(() => {
-			setPhase("hidden");
-			sessionStorage.setItem(STORAGE_KEY, "1");
-		}, FADE_MS);
+		setFading(true);
+		// Reveal the page immediately (as before), but only mark the loader seen —
+		// which unmounts it — once the fade-out has finished.
+		announceDone();
+		hideRef.current = setTimeout(markSeen, FADE_MS);
 	}
 
-	if (phase === "hidden") return null;
+	if (!shouldPlay) return null;
 
 	return (
 		<div
 			onClick={dismiss}
 			className={`fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#0a0704] cursor-pointer select-none transition-opacity duration-700 ${
-				phase === "fading" ? "opacity-0" : "opacity-100"
+				fading ? "opacity-0" : "opacity-100"
 			}`}
 		>
 			{/* Top loading bar — dark amber → amber → blue gradient reveal */}

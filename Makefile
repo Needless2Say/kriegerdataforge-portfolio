@@ -103,7 +103,7 @@ serve-static: ## Serve the out/ directory locally (preview the static build)
 
 lint: ## Run ESLint
 	@printf "$(GREEN)Running linter...$(NC)\n"
-	npx next lint
+	npm run lint
 
 typecheck: ## Run TypeScript type checking only
 	@printf "$(GREEN)Running type checker...$(NC)\n"
@@ -115,7 +115,7 @@ check-all: ## Run lint + typecheck
 	@printf "$(BLUE)========================================$(NC)\n"
 	@printf "\n"
 	@printf "$(GREEN)[1/2] Linting...$(NC)\n"
-	npx next lint
+	npm run lint
 	@printf "\n"
 	@printf "$(GREEN)[2/2] Type checking...$(NC)\n"
 	npx tsc --noEmit

@@ -9,6 +9,19 @@ A Next.js **static export** deployed to **GitHub Pages** under
 
 ---
 
+## Documentation & the agentic workflow kit
+
+All documentation lives under [`docs/`](docs/), indexed one line per doc at [**`docs/README.md`**](docs/README.md). Each subdirectory carries its own README explaining what belongs there and how to use it:
+
+| Directory | Purpose |
+| --- | --- |
+| [`docs/agent/`](docs/agent/) | **The agentic-workflow kit** — the shared operating standard synced across every KDF repo (never edit locally) |
+| [`docs/guides/`](docs/guides/README.md) | How-to and operational walkthroughs — currently contributor onboarding (zero → dev server → green `make ci` → first PR) |
+
+**How to work here:** read [`AGENTS.md`](AGENTS.md) (this repo's vision + critical rules) → [`WORKFLOW.md`](WORKFLOW.md) (the three-lane task loop) → [`skills.md`](skills.md) (the security playbook, before any security-sensitive work). Those plus `docs/agent/` are the agentic-workflow kit — centrally synced from `kriegerdataforge-cicd`; never edit the synced copies locally.
+
+---
+
 ## Tech Stack
 
 | Layer      | Technology                                |

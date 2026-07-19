@@ -15,7 +15,7 @@ For the *why* and the deeper rules, read [`AGENTS.md`](../../AGENTS.md) first, t
 
 | Tool | Version | Notes |
 | --- | --- | --- |
-| **Node.js** | 20.x+ (LTS) | Runs Next.js 15.5; `@types/node` is pinned to `^20`. |
+| **Node.js** | 22.x (LTS) recommended | Runs Next.js 16.2, which requires Node 20.9+ (or any 22+). The Pages deploy workflow and the Docker dev image both run Node 22, so match them. `@types/node` is pinned to `^26`. |
 | **npm** | bundled with Node | The lockfile is `package-lock.json` (npm, not pnpm/yarn). |
 | **Make** | any recent GNU Make | Drives the `make ci` / `make bump-*` targets. On Windows use Git Bash / WSL. |
 | **Git** | any recent | — |
@@ -108,7 +108,8 @@ for the full list.
 > must equal `package.json`'s version and be bumped). CodeQL is wired but gated behind
 > `ENABLE_CODEQL`.
 
-After CI is green, bump the version so the two files stay in lockstep:
+After CI is green, bump the version so `VERSION`, `package.json`, and `package-lock.json`
+stay in lockstep:
 
 ```bash
 make bump-patch     # or bump-minor / bump-major, chosen by impact
@@ -128,7 +129,7 @@ make bump-patch     # or bump-minor / bump-major, chosen by impact
 | `src/utils/cn.ts` | `className` merge helper |
 | `src/app/globals.css` | Tailwind layer + theme tokens (the amber/blue forge palette) |
 | `next.config.ts` | Static-export + `basePath`/`assetPrefix` constraints |
-| `scripts/bump_version.py` | Lockstep `VERSION` + `package.json` bumper (driven by `make bump-*`) |
+| `scripts/bump_version.py` | Lockstep `VERSION` + `package.json` + `package-lock.json` bumper (driven by `make bump-*`) |
 | `.github/workflows/` | `ci.yml`, `codeql.yml` (gated), `nextjs.yml` (Pages deploy), `release.yml` |
 
 **Required reading** before you change anything substantive (from [`AGENTS.md`](../../AGENTS.md)):

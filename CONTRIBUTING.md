@@ -9,7 +9,7 @@ Before you start, read the canonical guides — they override anything summarize
 - [`AGENTS.md`](./AGENTS.md) — vision & purpose, tech stack, module map, critical rules, required reading.
 - [`WORKFLOW.md`](./WORKFLOW.md) — the Quick / Standard / Epic lanes and the plan → approve → PR loop.
 - [`skills.md`](./skills.md) — the ecosystem security playbook (read before any security-sensitive work).
-- [`docs/CONTRIBUTOR_ONBOARDING.md`](docs/guides/CONTRIBUTOR_ONBOARDING.md) — a hands-on setup + run guide.
+- [`docs/guides/CONTRIBUTOR_ONBOARDING.md`](docs/guides/CONTRIBUTOR_ONBOARDING.md) — a hands-on setup + run guide.
 
 ---
 
@@ -70,8 +70,8 @@ Run the full local gate and make it **green** before you push:
 make ci      # ci-lint + ci-typecheck (tsc --noEmit) + ci-build (static export) + ci-npm-audit
 ```
 
-Then bump the version so `VERSION` and `package.json` stay in lockstep (CI's version-check
-fails if they diverge):
+Then bump the version so `VERSION`, `package.json`, and `package-lock.json` stay in lockstep
+(CI's version-check fails if `VERSION` and `package.json` diverge):
 
 ```bash
 make bump-patch   # or bump-minor / bump-major, by impact

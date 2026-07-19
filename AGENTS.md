@@ -25,7 +25,7 @@ the wrong instinct.
 
 ## Tech stack
 
-- **Framework:** Next.js 15.5 — App Router, `output: "export"` static export (no server runtime)
+- **Framework:** Next.js 16.2 (`^16.2.9`) — App Router, `output: "export"` static export (no server runtime)
 - **UI:** React 19
 - **Language:** TypeScript (strict; no `any`)
 - **Styling:** TailwindCSS v4 (+ PostCSS)
@@ -44,7 +44,7 @@ the wrong instinct.
 | `src/types/portfolio.ts`     | Shared TS types (e.g. `Project`)                                          |
 | `src/utils/cn.ts`            | `className` merge helper                                                  |
 | `src/app/globals.css`        | Tailwind layer + theme tokens                                            |
-| `scripts/bump_version.py`    | Lockstep `VERSION` + `package.json` version bumper (driven by `make bump-*`) |
+| `scripts/bump_version.py`    | Lockstep `VERSION` + `package.json` + `package-lock.json` version bumper (driven by `make bump-*`) |
 | `.github/workflows/`         | `ci.yml`, `codeql.yml` (gated), `nextjs.yml` (Pages deploy), `release.yml` |
 
 ## Critical rules
@@ -55,7 +55,7 @@ the wrong instinct.
 4. **Content lives in `src/constants/`** — edit copy, project lists, and links there, not hard-coded in components.
 5. **Honor the static-export constraints** — no server-only APIs, no dynamic server rendering; `images.unoptimized`, and asset paths must respect the `/kriegerdataforge-portfolio` `basePath`.
 6. **Stay on theme** — background `#0a0704`, amber `#f59e0b` (forge fire), electric blue `#3b82f6` (data streams), amber↔blue animated gradient text.
-7. **`VERSION` and `package.json` version must match** — bump via the Make targets only; CI fails if they diverge.
+7. **`VERSION` and `package.json` version must match** — bump via the Make targets only (they write all three of `VERSION`, `package.json`, and `package-lock.json` in lockstep); CI's version-check fails if `VERSION` and `package.json` diverge.
 8. **EmailJS keys are public-by-design** but still come from `NEXT_PUBLIC_EMAILJS_*` secrets/env — never hard-code real IDs; `.env.local` is gitignored, `.env.local.example` holds placeholders.
 
 ## Commands
@@ -116,20 +116,24 @@ Don't skip the plan-approval gate; don't self-merge. The supporting kit:
 ## Security — read [`skills.md`](./skills.md)
 
 This repo follows the KriegerDataForge ecosystem **security playbook** in [`skills.md`](./skills.md).
-**Before any security-sensitive work** — auth/OIDC/tokens, BFF/proxy/CSP/cookies, backend authz/endpoints,
-secrets/env/config, Terraform/infra, CI/CD, or dependencies — open `skills.md` and follow the **scenario**
-that matches your task.
+**Before any security-sensitive work** — dependencies/supply-chain, CI/CD or the GitHub Pages deploy
+pipeline, secrets/env/config — open `skills.md` and follow the **scenario** that matches your task.
 
-Non-negotiables (full detail + the scenario rules are in `skills.md`):
+Non-negotiables for this **no-backend static site** (full detail + the scenario rules are in `skills.md`):
 
-- **Fail closed, never open.** The **server is authoritative** — recompute security/$-relevant values
-  (totals, prices, roles, status); never trust client-sent ones.
-- **Never trust client input** for a security decision — IPs (use the edge header, not raw `X-Forwarded-For`),
-  hostnames / `request.url` (the internal bind, not the browser host), `Origin`, ownership (exact check, not a
-  substring/regex).
-- **Secrets never touch git or logs** — real values only in gitignored files; `.example` holds placeholders;
-  never echo a secret; the owner rotates.
-- **Least privilege** — closed request schemas + field allow-lists (no blind `setattr`), distinct per-client
-  OIDC audiences, validated `iss`/`aud`.
+- **Nothing secret ever enters the bundle or the repo** — a static export ships every byte to the
+  browser, and `NEXT_PUBLIC_*` env vars are **public by definition**, so no real secret may ever be
+  an env value here. The only env values used (`NEXT_PUBLIC_EMAILJS_*`) are public-by-design IDs;
+  real values still live only in gitignored `.env.local` / repo secrets, `.example` files hold
+  placeholders, and CI's gitleaks scan covers full history.
+- **Dependency / supply-chain hygiene** — `npm audit` (high+, prod deps) gates every PR; keep
+  `package-lock.json` authoritative and review lockfile diffs; dependency bumps go through CI like
+  any other change.
+- **Deploy-pipeline integrity** — the Pages deploy is manual-dispatch behind a fail-closed
+  deployer-authorization check and Environment reviewer approval; never weaken those gates, and
+  keep the static-export/`basePath` build integrity intact.
 - Found a security issue? **Verify it's real, then flag it** — and **pause for owner approval before any
-  architectural, destructive, or behavior-changing edit** (OIDC protocol changes get a design note first).
+  architectural, destructive, or behavior-changing edit**.
+- The playbook's server-side rules — auth/OIDC/tokens, BFF/proxy/cookies, backend authz,
+  server-authoritative recomputation — are **ecosystem-wide rules that do not apply to this
+  no-backend static site**; see [`skills.md`](./skills.md) if a change ever grows such a surface.

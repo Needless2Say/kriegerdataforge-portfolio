@@ -212,14 +212,15 @@ venv: ## Create Python virtual environment (used by bump-* targets)
 # ========================================
 # Version Bumping
 # ========================================
-# Bumps VERSION + package.json in lockstep (the CI version-check requires they
-# match). On Windows prefix with PYTHONUTF8=1 if the script ever prints non-ASCII.
+# Bumps VERSION + package.json + package-lock.json in lockstep (the CI
+# version-check requires VERSION and package.json to match). On Windows prefix
+# with PYTHONUTF8=1 if the script ever prints non-ASCII.
 
-bump-patch: .ensure-venv ## Bump patch version (0.0.X) — updates VERSION and package.json
+bump-patch: .ensure-venv ## Bump patch version (0.0.X) — updates VERSION, package.json, package-lock.json
 	@$(PYTHON) scripts/bump_version.py patch
 
-bump-minor: .ensure-venv ## Bump minor version (0.X.0) — updates VERSION and package.json
+bump-minor: .ensure-venv ## Bump minor version (0.X.0) — updates VERSION, package.json, package-lock.json
 	@$(PYTHON) scripts/bump_version.py minor
 
-bump-major: .ensure-venv ## Bump major version (X.0.0) — updates VERSION and package.json
+bump-major: .ensure-venv ## Bump major version (X.0.0) — updates VERSION, package.json, package-lock.json
 	@$(PYTHON) scripts/bump_version.py major

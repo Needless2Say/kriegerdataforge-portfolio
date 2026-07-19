@@ -47,6 +47,13 @@ non-public channel and mark the message **SECURITY**.
 - Social engineering, spam, or volumetric DoS
 - Issues in third-party services we integrate but do not control
 
+> **Note on CSP / security headers:** GitHub Pages cannot emit custom response headers, so a
+> Content-Security-Policy could only ship as a `<meta http-equiv>` tag in
+> `src/app/layout.tsx` — and none is currently shipped. That is the deliberate, documented
+> state of this static site (a meta-CSP covers only a subset of directives and this site has
+> no auth or user data); report a *demonstrated* injection impact rather than the missing
+> header itself.
+
 ## Supported Versions
 
 This project ships from `main`; only the latest released version is supported. Security
@@ -55,5 +62,6 @@ fixes land on `main` and are rolled out via the standard deploy pipeline.
 ## Handling Secrets
 
 Secret rotation and git-history hygiene are owner-operated. Contributors must never commit
-secret values; pre-commit `gitleaks` and CI secret-scanning are the backstops. See the
-ecosystem security playbook (`skills.md`) where present.
+secret values; the CI secret-scan (`gitleaks` over the full history, in
+`.github/workflows/ci.yml`) is the backstop — no pre-commit hook is configured in this
+repo. See the ecosystem security playbook (`skills.md`) where present.

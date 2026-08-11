@@ -1,0 +1,15 @@
+name: "kriegerdataforge-portfolio - CodeQL Config"
+
+# Analyze the shipped source only.
+paths:
+  - src
+
+# Exclude tests, vendored, generated and virtualenv paths.
+paths-ignore:
+  - node_modules
+  - dist
+  - coverage
+  - .next
+  - out
+  - tests
+  - __tests__

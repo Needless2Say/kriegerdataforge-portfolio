@@ -15,6 +15,10 @@ quiet_degenerate_sections = true
 
 roots = ["scripts"]
 
+
+# distributed ecosystem scripts are vendored -- their style is governed in kriegerdataforge-cicd
+exclude = ["scripts/kdf_scripts/"]
+
 [rules]
 # no decorative banners and no __all__ policy on a standalone script
 "KDF-105"  = "off"

@@ -1,0 +1,26 @@
+# kdf-fmt configuration - the KDF Python house style (spec: kriegerdataforge-fmt
+# docs/reference/KDF_FMT_SPEC.md; tool pinned in ci.yml `kdf_fmt_ref` + Makefile).
+#
+# This is a TypeScript repo. The only Python in it is scripts/, so that is the whole of what
+# this gate covers - ESLint and tsc own everything else. The scripts here are vendored copies
+# of the shared ecosystem tooling (bump_version.py and friends), and holding them to one style
+# is what keeps those copies from drifting apart repo by repo.
+
+line_length      = 120
+max_module_lines = 1000
+
+# the 404/405/406 degenerate-section nudges (functions with nothing to document) are advisory
+# noise on a handful of CLI scripts; the required sections still ERROR
+quiet_degenerate_sections = true
+
+roots = ["scripts"]
+
+[rules]
+# no decorative banners and no __all__ policy on a standalone script
+"KDF-105"  = "off"
+"KDF-106a" = "off"
+"KDF-604"  = "off"
+
+[rules.overrides]
+# repo scripts are self-documenting CLIs, not a library surface
+"scripts/**" = { "KDF-104" = "off", "KDF-403" = "off", "KDF-404" = "off", "KDF-405" = "off", "KDF-406" = "off", "KDF-602" = "off" }

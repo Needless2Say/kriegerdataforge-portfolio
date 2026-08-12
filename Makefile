@@ -342,24 +342,9 @@ ci-npm-audit: ## CI: npm audit for CVEs
 #
 # Skips (does not fail) when origin/$(BASE_BRANCH) is not fetched locally, because a missing
 # ref is a checkout problem, not a version problem -- CI still enforces it either way.
-ci-version-check: ## CI: VERSION bumped vs the base branch -- mirrors the CI version-check job
-	@printf "$(GREEN)CI [6/6]: version check...$(NC)\n"
-	@cur="$$(tr -d ' \r\n' < VERSION)"; \
-	if [ -z "$$cur" ]; then printf "$(RED)FAIL: VERSION is empty$(NC)\n"; exit 1; fi; \
-	man="$$(node -p "require('./package.json').version" 2>/dev/null || echo "")"; \
-	if [ -n "$$man" ] && [ "$$man" != "$$cur" ]; then \
-		printf "$(RED)FAIL: VERSION=$$cur but package.json=$$man -- run make bump-patch$(NC)\n"; exit 1; \
-	fi; \
-	base="$$(git show origin/$(BASE_BRANCH):VERSION 2>/dev/null | tr -d ' \r\n')"; \
-	if [ -z "$$base" ]; then \
-		printf "$(YELLOW)SKIP: origin/$(BASE_BRANCH) not available locally; CI still enforces this$(NC)\n"; \
-	elif [ "$$cur" = "$$base" ]; then \
-		printf "$(RED)FAIL: VERSION $$cur is unchanged from origin/$(BASE_BRANCH) -- run make bump-patch$(NC)\n"; exit 1; \
-	elif [ "$$(printf '%s\n%s\n' "$$base" "$$cur" | sort -V | tail -1)" != "$$cur" ]; then \
-		printf "$(RED)FAIL: VERSION $$cur is BEHIND origin/$(BASE_BRANCH) ($$base)$(NC)\n"; exit 1; \
-	else \
-		printf "$(GREEN)OK: $$base -> $$cur$(NC)\n"; \
-	fi
+ci-version-check: _ensure-venv ## CI: version consistency + strict +1 increment vs origin/main (vendored scripts/check_version.py)
+	@printf "$(GREEN)CI: version check...$(NC)\n"
+	@PYTHONUTF8=1 $(PYTHON) scripts/check_version.py --base-branch "$(if $(BASE_BRANCH),$(BASE_BRANCH),main)"
 ci: ci-lint ci-style ci-typecheck ci-build ci-npm-audit ci-version-check ## Run all CI checks locally
 	@printf "$(GREEN)========================================$(NC)\n"
 	@printf "$(GREEN)  All CI checks passed!$(NC)\n"

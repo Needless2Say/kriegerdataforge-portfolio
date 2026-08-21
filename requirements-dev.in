@@ -1,0 +1,8 @@
+# Managed by kriegerdataforge-cicd (distribute_scripts.py, ADR D-013).
+# Pins the Python toolchain that operates on the vendored scripts/kdf_scripts/
+# copies. The scripts themselves are stdlib-only and need nothing to RUN.
+#
+# The distributor never rewrites a pin it did not expect: a version here that
+# disagrees with the canonical one fails the sync as NEEDS MANUAL ATTENTION
+# rather than silently moving you to another release.
+kdf-fmt @ git+https://github.com/Needless2Say/kriegerdataforge-fmt.git@v1.1.1

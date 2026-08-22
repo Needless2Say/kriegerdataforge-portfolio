@@ -9,6 +9,10 @@ This guide gets you from zero to a running dev server, a green local CI, and you
 For the *why* and the deeper rules, read [`AGENTS.md`](../../AGENTS.md) first, then
 [`WORKFLOW.md`](../../WORKFLOW.md).
 
+Unfamiliar term or acronym anywhere in these docs? The vocabulary is defined in
+[`docs/reference/GLOSSARY.md`](../reference/GLOSSARY.md), which links to the ecosystem-wide
+canon glossary in the hub.
+
 ---
 
 ## 1. Prerequisites

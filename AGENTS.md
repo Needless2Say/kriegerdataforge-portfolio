@@ -1,140 +1,171 @@
-# kriegerdataforge-portfolio — Agent Guide
+# kriegerdataforge-portfolio, Agent Guide
 
 > **This is the canonical agent guide for this repo.** `CLAUDE.md`, `.cursorrules`, and
 > `.github/copilot-instructions.md` all point here. Read this first, then follow
 > [`WORKFLOW.md`](./WORKFLOW.md) for every task and [`skills.md`](./skills.md) for
-> security-sensitive work. Unfamiliar KDF term, acronym, or ID prefix? Resolve it in
+> security sensitive work. Unfamiliar KDF term, acronym, or ID prefix? Resolve it in
 > [`docs/reference/GLOSSARY.md`](docs/reference/GLOSSARY.md) before acting on it.
 
-## Vision & purpose — what you're building toward
+## Vision & purpose. What you're building toward
 
-This is the **public face of KriegerDataForge (KDF)** — the company portfolio / marketing site that
-tells the world what the platform is and invites people to build on it. KDF is Arthur Krieger's
-personal software platform: a shared FastAPI + PostgreSQL backbone (the `kriegerdataforge` hub is its
-auth/identity service) powering full-stack apps across fitness, gaming, and data-engineering domains,
-with the ambition of becoming a large **data platform ecosystem that others build on**. This repo's job
-is to make that vision legible and credible: it showcases the live apps (KDF Core API, Calorie Tracker,
-Video Game DB, Analytics Pipeline), the tech stack, and the "forge / data-blacksmith" brand —
-*forging raw data into powerful products* — through a dark industrial aesthetic (amber forge-fire +
-electric-blue data-stream accents).
+This is the **public site for KriegerDataForge (KDF)**, a closed personal software platform Arthur
+Krieger designs and builds on his own time, running only his own apps. It explains what the platform is, what is being built on it, and
+what it is built with. An OAuth 2.0 / OIDC identity provider (the `kriegerdataforge` hub), a shared
+Python SDK every app backend installs, a Terraform control plane, and the apps on top of them, across
+18 repositories. The aesthetic is dark industrial, amber forge fire with purple/blue bit accents.
 
-Concretely it is a **Next.js static export, no database, no auth, no backend** — pure presentation and a
-contact form. It serves the ecosystem as the storefront and recruiting/credibility surface: everything
-here exists to communicate the platform's quality and direction, so polish, performance, and brand
-fidelity matter more than feature depth. Keep it simple — over-engineering a static marketing site is
-the wrong instinct.
+**Copy rule, and it is not negotiable.** This site is one person's personal project, built on his
+own time. A site that reads like a business he runs on the side creates a problem that no amount of
+polish is worth. The single most important thing this site says is that **the platform is closed**. Concretely:
+
+- **Always describe the platform as closed.** It is a closed platform for Arthur himself and it runs
+  all of his own personal apps. Every place the platform is described has to leave no room to read it
+  as a product, a service, or something open to others. `KDF_INFO.access` is the short form of this
+- **Do not add disclaimers.** The owner removed "nothing for sale", "nothing to sign up for",
+  "no users but me", and "nobody else has an account". Saying the platform is closed is enough,
+  listing what it is not protests too much. Do not put them back
+- **No location.** No city, no state, no "based in", no `chi-town`. The platform is not based
+  anywhere and the site must not imply it is
+- **"Founder" is allowed**, and is the owner's explicit decision. It is a title on a closed personal
+  platform, which is why the closed framing above has to carry its weight
+- Never "we", "our", "the team", "services", "clients", "inquiries", or a brand-only copyright line
+- **Say "on my own time".** Never "outside of work", "side project", "day job", "in parallel with",
+  or any other phrasing that positions the platform against something else. On this site there is no
+  something else
+- Never reference a job, a role held anywhere, an organisation, a team, or anyone else's internal
+  tooling. This site talks about the platform and nothing outside it. How Arthur spends his days
+  belongs on the personal portfolio, not here
+- **The stated motive is a passion made real.** One ecosystem where he can build any app he wants,
+  every part of it following the same organized system, so everything stays simple to manage and
+  maintain and works together seamlessly instead of taking piles of manual work. `KDF_INFO.why` is
+  the canonical wording of it, do not invent a second one
+- Never claim something is live, in production, or serving users unless it actually is. Statuses come
+  from `ProjectStatus` and mean exactly what they say
+- First person singular throughout. "I build", "my own apps", "my inbox"
+- Prose in commas and periods. Avoid em dashes, colons, and semicolons unless they are necessary
+
+Concretely it is a **Next.js static export, no database, no auth, no backend**. Pure presentation and a
+contact form. Polish, performance, and honesty in the copy matter more than feature depth. Keep it
+simple. Over engineering a static site is the wrong instinct.
 
 ## Tech stack
 
-- **Framework:** Next.js 16.2 (`^16.2.9`) — App Router, `output: "export"` static export (no server runtime)
-- **UI:** React 19
-- **Language:** TypeScript (strict; no `any`)
-- **Styling:** TailwindCSS v4 (+ PostCSS)
-- **Contact form:** EmailJS (`@emailjs/browser`) — client-side send, `NEXT_PUBLIC_EMAILJS_*` env
-- **Deploy:** GitHub Pages under `/kriegerdataforge-portfolio` (`basePath` + `assetPrefix` set)
-- **Tooling:** ESLint 9 (`eslint-config-next`), `tsc --noEmit`, Docker (dev), Make, a tiny Python venv for version bumps only
+- **Framework.** Next.js 16.2 (`^16.2.9`). App Router, `output: "export"` static export (no server runtime)
+- **UI.** React 19
+- **Language.** TypeScript (strict, no `any`)
+- **Styling.** TailwindCSS v4 (+ PostCSS)
+- **Contact form.** EmailJS (`@emailjs/browser`). Client side send, `NEXT_PUBLIC_EMAILJS_*` env
+- **Deploy.** GitHub Pages under `/kriegerdataforge-portfolio` (`basePath` + `assetPrefix` set)
+- **Tooling.** ESLint 9 (`eslint-config-next`), `tsc --noEmit`, Docker (dev), Make, a tiny Python venv for version bumps only
 
 ## Module map
 
 | Path                          | Purpose                                                                 |
 | ----------------------------- | ----------------------------------------------------------------------- |
-| `src/app/`                    | App Router pages — `page.tsx` (home), `about/`, `projects/`, `contact/`, plus `layout.tsx`, `not-found.tsx`, `robots.ts`, `sitemap.ts` |
-| `src/components/layout/`      | Chrome — `Navbar`, `Footer`, `PageTransition` (barrel `index.ts`)        |
-| `src/components/ui/`          | Presentational + effects — `ForgeCanvas`, `EmberField`, `ContactForm`, `Reveal`, `TypewriterText`, `Card`, `TechBadge`, etc. (barrel `index.ts`) |
-| `src/constants/`             | Content as data — `kdf-info.ts`, `projects.ts`, `routes.ts`, `skills.ts` (edit content here, not in JSX) |
+| `src/app/`                    | App Router pages. `page.tsx` (home), `about/`, `projects/`, `contact/`, plus `layout.tsx`, `not-found.tsx`, `robots.ts`, `sitemap.ts` |
+| `src/components/layout/`      | Chrome. `Navbar`, `Footer`, `PageTransition` (barrel `index.ts`)        |
+| `src/components/ui/`          | Presentational + effects, `ForgeCanvas`, `EmberField`, `ContactForm`, `Reveal`, `TypewriterText`, `Card`, `TechBadge`, etc. (barrel `index.ts`) |
+| `src/constants/`             | Content as data. `kdf-info.ts`, `projects.ts`, `routes.ts`, `skills.ts` (edit content here, not in JSX) |
 | `src/types/portfolio.ts`     | Shared TS types (e.g. `Project`)                                          |
 | `src/utils/cn.ts`            | `className` merge helper                                                  |
 | `src/app/globals.css`        | Tailwind layer + theme tokens                                            |
 | `scripts/bump_version.py`    | Lockstep `VERSION` + `package.json` + `package-lock.json` version bumper (driven by `make bump-*`) |
-| `.github/workflows/`         | `ci.yml`, `codeql.yml` (gated), `nextjs.yml` (Pages deploy), `release.yml` |
+| `.github/workflows/`         | `ci.yml`, `codeql.yml` (gated), `cd.yml` (Pages deploy), `release.yml`   |
 
 ## Critical rules
 
-1. **Keep it simple** — this is a static marketing site; do not over-engineer. No DB, no auth, no backend, no server runtime.
-2. **No `any`** — use proper TypeScript types; `tsc --noEmit` must stay clean.
-3. **Named exports preferred** — default exports only for Next.js `page.tsx` / `layout.tsx` (and where a framework demands it).
-4. **Content lives in `src/constants/`** — edit copy, project lists, and links there, not hard-coded in components.
-5. **Honor the static-export constraints** — no server-only APIs, no dynamic server rendering; `images.unoptimized`, and asset paths must respect the `/kriegerdataforge-portfolio` `basePath`.
-6. **Stay on theme** — background `#0a0704`, amber `#f59e0b` (forge fire), electric blue `#3b82f6` (data streams), amber↔blue animated gradient text.
-7. **`VERSION` and `package.json` version must match** — bump via the Make targets only (they write all three of `VERSION`, `package.json`, and `package-lock.json` in lockstep); CI's version-check fails if `VERSION` and `package.json` diverge.
-8. **EmailJS keys are public-by-design** but still come from `NEXT_PUBLIC_EMAILJS_*` secrets/env — never hard-code real IDs; `.env.local` is gitignored, `.env.local.example` holds placeholders.
+1. **Keep it simple.** This is a static presentation site. Do not over-engineer. No DB, no auth, no backend, no server runtime.
+2. **No `any`.** Use proper TypeScript types, `tsc --noEmit` must stay clean.
+3. **Named exports preferred.** Default exports only for Next.js `page.tsx` / `layout.tsx` (and where a framework demands it).
+4. **Content lives in `src/constants/`.** Edit copy, project lists, and links there, not hard coded in components.
+5. **Honor the static export constraints.** No server only APIs, no dynamic server rendering, `images.unoptimized`, and asset paths must respect the `/kriegerdataforge-portfolio` `basePath`.
+6. **Stay on theme.** Background `#0a0704`, amber `#f59e0b` (forge fire), electric blue `#3b82f6` (data streams), amber↔blue animated gradient text.
+7. **`VERSION` and `package.json` version must match.** Bump via the Make targets only (they write all three of `VERSION`, `package.json`, and `package-lock.json` in lockstep), CI's version-check fails if `VERSION` and `package.json` diverge.
+8. **EmailJS keys are public by design** but still come from `NEXT_PUBLIC_EMAILJS_*` secrets/env. Never hard code real IDs, `.env.local` is gitignored, `.env.local.example` holds placeholders.
 
 ## Commands
 
+`make` on its own prints the full grouped list. The reasoning is in
+[`docs/reference/MAKEFILE.md`](docs/reference/MAKEFILE.md).
+
+**Hot reload development is Docker only. There is no `make dev`.** `build` and `serve-static`
+stay on the host on purpose. `out/` is what GitHub Pages actually serves, so previewing the real
+export beats any dev server.
+
 | Task            | Command                                                                 |
 | --------------- | ----------------------------------------------------------------------- |
-| Dev server      | `npm run dev` (or `make dev` — Turbopack)                               |
-| Build (export)  | `npm run build` (or `make build` → `out/`)                             |
-| Preview build   | `make serve-static` (serves `out/` on :4174)                           |
-| Lint            | `npm run lint` (or `make lint`)                                        |
-| Type-check      | `make typecheck` (`tsc --noEmit`)                                      |
-| Full CI (local) | `make ci` — runs `ci-lint`, `ci-typecheck`, `ci-build`, `ci-npm-audit` |
-| Version bump    | `make bump-patch` (or `make bump-minor` / `make bump-major`)          |
-| Docker dev      | `make docker-up` → http://localhost:3003/kriegerdataforge-portfolio   |
+| Dev container   | `make docker-up` -> http://localhost:3003/kriegerdataforge-portfolio    |
+| Build (export)  | `make build` (`npm run build` -> `out/`)                                |
+| Preview build   | `make serve-static` (serves `out/` on :4174)                            |
+| Lint            | `make lint` (`npm run lint` -> `eslint .`)                              |
+| Type check      | `make typecheck` (`tsc --noEmit`)                                       |
+| Full CI (local) | `make ci` (`ci-lint`, `ci-style`, `ci-typecheck`, `ci-build`, `ci-npm-audit`) |
+| CodeQL locally  | `make codeql-db` then `make codeql-scan-all`                            |
+| Version bump    | `make bump-patch` (or `make bump-minor` / `make bump-major`)            |
 
 ## Required reading
 
-1. [`README.md`](./README.md) — what this site is, tech stack, CI/release, and the GitHub Pages deploy gates (PL-072).
-2. [`src/constants/kdf-info.ts`](src/constants/kdf-info.ts) — the canonical KDF brand statement: tagline, mission, founder, and the ecosystem framing this site exists to communicate.
-3. [`src/constants/projects.ts`](src/constants/projects.ts) — the live KDF apps and the platform story (FastAPI/PostgreSQL backbone) you're showcasing.
-4. [`next.config.ts`](./next.config.ts) — static-export + `basePath`/`assetPrefix` constraints that govern every change.
-5. [`skills.md`](./skills.md) — the ecosystem security playbook (read before any security-sensitive work).
+1. [`README.md`](./README.md). What this site is, tech stack, CI/release, and the GitHub Pages deploy gates.
+2. [`src/constants/kdf-info.ts`](src/constants/kdf-info.ts). The canonical KDF brand statement. Tagline, mission, founder, and the ecosystem framing this site exists to communicate.
+3. [`src/constants/projects.ts`](src/constants/projects.ts). The live KDF apps and the platform story (FastAPI/PostgreSQL backbone) you're showcasing.
+4. [`next.config.ts`](./next.config.ts). Static export + `basePath`/`assetPrefix` constraints that govern every change.
+5. [`skills.md`](./skills.md). The ecosystem security playbook (read before any security sensitive work).
 
-Quick lookups: theme tokens → `src/app/globals.css`; content/copy → `src/constants/`; shared types → `src/types/portfolio.ts`; contact-form wiring → `src/components/ui/ContactForm.tsx` + `.env.local.example`.
+Quick lookups. Theme tokens → `src/app/globals.css`. Content/copy → `src/constants/`. Shared types → `src/types/portfolio.ts`. Contact form wiring → `src/components/ui/ContactForm.tsx` + `.env.local.example`.
 
-## How to work in this repo — the agent kit
+## How to work in this repo, the agent kit
 
-**Every task follows the tiered loop in [`WORKFLOW.md`](./WORKFLOW.md)** — pick a lane:
+**Every task follows the tiered loop in [`WORKFLOW.md`](./WORKFLOW.md).** Pick a lane:
 
-- **Quick** — tiny, no-behavior change → implement → `make ci` → PR.
-- **Standard** — a one-repo feature → orient → **plan & owner approves** → implement → `make ci`
+- **Quick.** Tiny, no behavior change → implement → `make ci` → PR.
+- **Standard.** A one repo feature → orient → **plan & owner approves** → implement → `make ci`
   green (+ version bump) → PR → **GitHub CI green** → **owner merges**.
-- **Epic** — complex/novel design or anything that **spans repos** → the design gate + cross-repo
+- **Epic.** Complex/novel design or anything that **spans repos** → the design gate + cross repo
   coordination below.
 
-Don't skip the plan-approval gate; don't self-merge. The supporting kit:
+Don't skip the plan approval gate. Don't self-merge. The supporting kit:
 
-- [`docs/agent/DESIGN_AND_EPICS.md`](docs/agent/DESIGN_AND_EPICS.md) — the **design gate** (design
-  doc + ADR, owner-approved before code) and the **cross-repo epic playbook** (blast-radius,
-  contract-first ordering, flag-gated slices). **Cross-repo epic trackers live in the ecosystem hub
+- [`docs/agent/DESIGN_AND_EPICS.md`](docs/agent/DESIGN_AND_EPICS.md). The **design gate** (design
+  doc + ADR, owner approved before code) and the **cross repo epic playbook** (blast radius,
+  contract first ordering, flag gated slices). **Cross repo epic trackers live in the ecosystem hub
   at `kriegerdataforge/docs/epics/`.**
-- [`docs/agent/DEFINITION_OF_DONE.md`](docs/agent/DEFINITION_OF_DONE.md) — the change-type-scaled
+- [`docs/agent/DEFINITION_OF_DONE.md`](docs/agent/DEFINITION_OF_DONE.md). The change type scaled
   **Definition of Done** (checkbox form in
   [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)).
-- [`docs/agent/templates/`](docs/agent/templates/) — copy-paste **design-spec**, **ADR**, and
-  **epic-tracker** templates. ADRs land in `docs/CHANGELOG_AND_DECISION_LOG.md` (create if absent).
+- [`docs/agent/templates/`](docs/agent/templates/). Copy paste **design-spec**, **ADR**, and
+  **epic tracker** templates. ADRs land in `docs/CHANGELOG_AND_DECISION_LOG.md` (create if absent).
 
 ### Before opening a PR (this repo)
 
-- [ ] `make ci` is green locally — `ci-lint`, `ci-typecheck` (`tsc --noEmit`), `ci-build` (static export), and `ci-npm-audit` all pass.
-- [ ] No `any` types; named exports used (except `page.tsx` / `layout.tsx`); content changes live in `src/constants/`.
-- [ ] Build respects the static-export + `basePath` constraints (asset paths resolve under `/kriegerdataforge-portfolio`); links/sitemap still correct.
+- [ ] `make ci` is green locally, `ci-lint`, `ci-typecheck` (`tsc --noEmit`), `ci-build` (static export), and `ci-npm-audit` all pass.
+- [ ] No `any` types. Named exports used (except `page.tsx` / `layout.tsx`). Content changes live in `src/constants/`.
+- [ ] Build respects the static export + `basePath` constraints (asset paths resolve under `/kriegerdataforge-portfolio`), links/sitemap still correct.
 - [ ] Theme fidelity preserved (amber/blue accents, forge aesthetic).
 - [ ] Version bumped with `make bump-patch` (or `minor`/`major`) so `VERSION` == `package.json` version (the CI version-check requires this).
-- [ ] No secrets committed — real `NEXT_PUBLIC_EMAILJS_*` values stay in gitignored `.env.local` / repo secrets, never in code; gitleaks scans full history.
+- [ ] No secrets committed. Real `NEXT_PUBLIC_EMAILJS_*` values stay in gitignored `.env.local` / repo secrets, never in code. Gitleaks scans full history.
 - [ ] Anything architectural (build pipeline, deploy, framework upgrade) gets an ADR / design note first.
 
-## Security — read [`skills.md`](./skills.md)
+## Security. Read [`skills.md`](./skills.md)
 
 This repo follows the KriegerDataForge ecosystem **security playbook** in [`skills.md`](./skills.md).
-**Before any security-sensitive work** — dependencies/supply-chain, CI/CD or the GitHub Pages deploy
-pipeline, secrets/env/config — open `skills.md` and follow the **scenario** that matches your task.
+**Before any security sensitive work.** Dependencies/supply-chain, CI/CD or the GitHub Pages deploy
+pipeline, secrets/env/config. Open `skills.md` and follow the **scenario** that matches your task.
 
-Non-negotiables for this **no-backend static site** (full detail + the scenario rules are in `skills.md`):
+Non-negotiables for this **no backend static site** (full detail + the scenario rules are in `skills.md`):
 
-- **Nothing secret ever enters the bundle or the repo** — a static export ships every byte to the
+- **Nothing secret ever enters the bundle or the repo.** A static export ships every byte to the
   browser, and `NEXT_PUBLIC_*` env vars are **public by definition**, so no real secret may ever be
-  an env value here. The only env values used (`NEXT_PUBLIC_EMAILJS_*`) are public-by-design IDs;
-  real values still live only in gitignored `.env.local` / repo secrets, `.example` files hold
+  an env value here. The only env values used (`NEXT_PUBLIC_EMAILJS_*`) are public by design IDs.
+  Real values still live only in gitignored `.env.local` / repo secrets, `.example` files hold
   placeholders, and CI's gitleaks scan covers full history.
-- **Dependency / supply-chain hygiene** — `npm audit` (high+, prod deps) gates every PR; keep
-  `package-lock.json` authoritative and review lockfile diffs; dependency bumps go through CI like
+- **Dependency / supply chain hygiene.** `npm audit` (high+, prod deps) gates every PR. Keep
+  `package-lock.json` authoritative and review lockfile diffs. Dependency bumps go through CI like
   any other change.
-- **Deploy-pipeline integrity** — the Pages deploy is manual-dispatch behind a fail-closed
-  deployer-authorization check and Environment reviewer approval; never weaken those gates, and
+- **Deploy pipeline integrity.** The Pages deploy is manual dispatch behind a fail closed
+  deployer authorization check and Environment reviewer approval. Never weaken those gates, and
   keep the static-export/`basePath` build integrity intact.
-- Found a security issue? **Verify it's real, then flag it** — and **pause for owner approval before any
-  architectural, destructive, or behavior-changing edit**.
-- The playbook's server-side rules — auth/OIDC/tokens, BFF/proxy/cookies, backend authz,
-  server-authoritative recomputation — are **ecosystem-wide rules that do not apply to this
-  no-backend static site**; see [`skills.md`](./skills.md) if a change ever grows such a surface.
+- Found a security issue? **Verify it's real, then flag it**, and **pause for owner approval before any
+  architectural, destructive, or behavior changing edit**.
+- The playbook's server side rules. Auth/OIDC/tokens, BFF/proxy/cookies, backend authz,
+  server authoritative recomputation. Are **ecosystem wide rules that do not apply to this
+  no backend static site**. See [`skills.md`](./skills.md) if a change ever grows such a surface.

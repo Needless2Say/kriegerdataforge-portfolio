@@ -27,43 +27,46 @@ const BASE_URL = "https://needless2say.github.io/kriegerdataforge-portfolio";
 export const metadata: Metadata = {
 	metadataBase: new URL(BASE_URL),
 	title: {
-		default: "KriegerDataForge | Data Engineering & Full-Stack Platform",
+		default: "KriegerDataForge | A Closed Personal Platform",
 		template: "%s | KriegerDataForge",
 	},
-	description:
-		"KriegerDataForge — a full-stack data platform built by Arthur Krieger. FastAPI + PostgreSQL backend powering apps in fitness, gaming, and data engineering. Based in Chicago, IL.",
+	description: "KriegerDataForge is a closed personal platform Arthur Krieger designs and builds on his own time, spanning 18 repositories. Its own OAuth 2.0 and OIDC identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them. It runs only his own apps.",
 	keywords: [
 		"KriegerDataForge",
-		"Data Engineering",
+		"personal software platform",
+		"closed platform",
+		"personal project",
+		"OAuth 2.0",
+		"OIDC",
 		"FastAPI",
 		"PostgreSQL",
-		"Full Stack Development",
 		"Next.js",
 		"Python",
-		"Snowflake",
+		"Terraform",
 		"Arthur Krieger",
-		"Chicago",
-		"data pipelines",
-		"fitness app",
 	],
 	authors: [{ name: "Arthur Krieger", url: BASE_URL }],
 	creator: "Arthur Krieger",
-	publisher: "KriegerDataForge",
+	/*
+		No `publisher`. Naming the brand as publisher implies an organisation
+		stands behind the site, and the whole point of this pass is that nothing
+		does. The person is the creator and that is the entire chain.
+	*/
 	robots: { index: true, follow: true },
 	openGraph: {
 		type: "website",
 		locale: "en_US",
 		url: BASE_URL,
 		siteName: "KriegerDataForge",
-		title: "KriegerDataForge | Data Engineering & Full-Stack Platform",
+		title: "KriegerDataForge | A Closed Personal Platform",
 		description:
-			"Forging raw data into powerful products. FastAPI + PostgreSQL backbone. Full-stack apps across fitness, gaming, and data engineering.",
+			"A closed personal platform Arthur Krieger uses to ship his own apps faster. Its own identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them.",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "KriegerDataForge | Data Engineering & Full-Stack Platform",
+		title: "KriegerDataForge | A Closed Personal Platform",
 		description:
-			"Forging raw data into powerful products. Built by Arthur Krieger in Chicago.",
+			"A closed personal platform Arthur Krieger uses to ship his own apps faster. Built on his own time.",
 	},
 	alternates: { canonical: BASE_URL },
 };

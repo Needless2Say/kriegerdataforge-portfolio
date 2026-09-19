@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES, hrefFor } from "@/constants/routes";
 
 export default function NotFound() {
 	return (
@@ -11,12 +10,12 @@ export default function NotFound() {
 			<p className="text-slate-400 text-base mb-8 max-w-md">
 				This page got melted down and recycled. Let&apos;s forge a path back.
 			</p>
-			<Link
-				href={ROUTES.HOME}
-				className="px-6 py-2.5 rounded-full bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,158,11,0.4)]"
+			<a
+				href={hrefFor(ROUTES.HOME)}
+				className="px-6 py-3 rounded-full bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,158,11,0.4)]"
 			>
 				Back to the Forge
-			</Link>
+			</a>
 		</div>
 	);
 }

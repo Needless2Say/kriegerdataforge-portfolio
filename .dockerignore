@@ -1,8 +1,65 @@
-node_modules
-.next
-out
+# .dockerignore -- kriegerdataforge-portfolio (Tier C)
+# Ecosystem skeleton: ../kriegerdataforge/docs/reference/DOCKER_CONVENTIONS.md
+#
+# Trims the build context AND keeps credentials out of image layers. The dev stack
+# bind-mounts the source over /app, so this file governs the IMAGE -- which is what the
+# `runner` production build and the e2e stacks use, with no bind mount.
+
+# ---------- Secrets (never in an image) ----------
+# A credential baked into a layer survives deletion of the file. The negation MUST follow
+# the glob: .dockerignore applies rules in order, last match wins.
+.env
+.env.*
+!.env.example
+!.env.local.example
+*.pem
+*.key
+keys/
+
+# ---------- VCS & CI ----------
 .git
 .gitignore
-README.md
-*.md
-.env*
+.gitleaks.toml
+.github
+
+# ---------- Dependencies (reinstalled in-image) ----------
+# node_modules is installed INSIDE the image by the deps stage. Copying the host's would
+# ship the wrong platform's native binaries.
+node_modules
+.npm
+
+# ---------- Build output & caches ----------
+.next
+out
+dist
+build
+coverage
+.eslintcache
+.turbo
+
+# ---------- Python (the kdf-fmt style gate and bump-* helpers only) ----------
+.venv/
+venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# ---------- Local tooling ----------
+.vscode/
+.idea/
+desktop.ini
+codeql-db/
+*.sarif
+*.csv
+
+# ---------- Vercel (deploys build from source, not this image) ----------
+.vercel/
+.vercelignore
+
+# ---------- Not needed at runtime ----------
+docs/
+__tests__/
+*.test.ts
+*.test.tsx

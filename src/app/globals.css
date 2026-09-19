@@ -75,12 +75,35 @@ body {
 	text-shadow: 0 0 30px rgba(249, 115, 22, 0.55), 0 0 60px rgba(245, 158, 11, 0.25);
 }
 
-/* ─── Forge brand gradient (static amber→blue) ──────── */
-.forge-gradient-text {
-	background: linear-gradient(to right, #92400e 25%, #f59e0b 75%);
+/* ─── Brand wordmark ─────────────────────────────────── */
+/*
+	One gradient across the whole word, so "KriegerDataForge" reads as a single
+	continuous name rather than two halves in two colours.
+
+	Every stop sits between light amber and orange, never darker, because the
+	sweep moves the visible window across the word and a dark stop would drag
+	part of the name down to unreadable as it passed through.
+
+	`filter: drop-shadow` rather than `text-shadow`, because the fill is
+	transparent here and a text-shadow would paint a solid silhouette behind the
+	clipped gradient instead of a glow around the visible letters.
+*/
+.brand-wordmark {
+	background: linear-gradient(100deg,
+		#fde68a 0%,
+		#f59e0b 18%,
+		#ea580c 34%,
+		#fbbf24 52%,
+		#fde68a 68%,
+		#f59e0b 86%,
+		#ea580c 100%
+	);
+	background-size: 220% auto;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
+	animation: gradient-shift 20s linear infinite;
+	filter: drop-shadow(0 0 26px rgba(245, 158, 11, 0.32));
 }
 
 /* ─── Animations ─────────────────────────────────────── */
@@ -226,6 +249,33 @@ body {
 	animation: gradient-shift 16s linear infinite;
 }
 
+/* ─── Touch targets ──────────────────────────────────── */
+/*
+	A standalone text link is only as tall as its text, around 20px, which is
+	fiddly to hit with a thumb. This grows the hit area to 44px vertically
+	without moving a single pixel on screen, so the design is untouched.
+
+	Vertical only, deliberately. Expanding sideways would let neighbouring links
+	in a row steal each other's taps, which is worse than a small target.
+
+	Scoped to coarse pointers so a mouse is unaffected.
+*/
+@media (pointer: coarse) {
+	.tap-pad {
+		position: relative;
+	}
+
+	.tap-pad::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 50%;
+		height: 44px;
+		transform: translateY(-50%);
+	}
+}
+
 /* ─── Reduced motion ─────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
 	.animate-fade-in-up,
@@ -239,6 +289,7 @@ body {
 	.animate-ember,
 	.animate-hammer,
 	.animate-gradient-line,
+	.brand-wordmark,
 	.gradient-text,
 	[style*="fire-rise"] {
 		animation: none;
@@ -252,5 +303,9 @@ body {
 		color: #f97316;
 		background-clip: unset;
 		-webkit-background-clip: unset;
+	}
+	/* The sweep stops but the gradient stays, so the wordmark keeps its look. */
+	.brand-wordmark {
+		background-position: 0% center;
 	}
 }

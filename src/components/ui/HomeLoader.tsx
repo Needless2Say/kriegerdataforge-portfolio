@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import ForgeCanvas from "./ForgeCanvas";
+import ForgeFire from "./ForgeFire";
 import { useLoaderShouldPlay } from "@/utils/useLoaderSeen";
 
 const STORAGE_KEY = "kdf_loader_v1";
@@ -108,8 +108,8 @@ export default function HomeLoader() {
 				</p>
 
 				{/* Forge animation */}
-				<div className="mb-5 w-52 h-44">
-					<ForgeCanvas />
+				<div className="mb-5 w-72 h-64 sm:w-96 sm:h-72">
+					<ForgeFire />
 				</div>
 
 				<p className="mt-3 font-mono text-[10px] tracking-[0.35em] uppercase text-amber-500/50 animate-pulse">

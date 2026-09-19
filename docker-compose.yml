@@ -1,5 +1,33 @@
+# docker-compose.yml -- kriegerdataforge-portfolio
+# Hot-reload dev container for the static portfolio. This is the whole stack: no
+# backend, no database, nothing below it -- so `make docker-up` starts this and
+# nothing else, and there is no `docker-up-full`.
+#
+# It deliberately does NOT join the shared kdf-net. That network exists so KDF
+# services can reach each other by name; a standalone static site has nobody to
+# call, and joining would add a dependency for no benefit.
+#
+# Host port 3003 (container 3000). Keep it unique across the ecosystem:
+#   3000 fitness-app-frontend  3001 tiffanys-space  3002 auth-ui
+#   3003 here                  3004 template-nextjs  3005 arthurs-portfolio
+# It is mirrored by DEV_PORT in the Makefile -- change both together.
+#
+# No env_file: Next loads .env.local itself through the bind mount below, and
+# declaring one here would make compose fail outright on a fresh clone.
+#
+# Usage:
+#   make docker-up      # build + start (background)
+#   make docker-logs    # follow logs
+#   make docker-down    # stop and remove
+#
+# Full target reference: docs/reference/MAKEFILE.md
+# Ecosystem canon:       ../kriegerdataforge/docs/reference/DOCKER_CONVENTIONS.md
+
+name: kriegerdataforge-portfolio
+
 services:
   kdf-portfolio:
+    container_name: kdf-portfolio
     build:
       context: .
       target: dev
@@ -14,7 +42,14 @@ services:
       - NODE_ENV=development
       # Enables filesystem polling so hot-reload works on Docker for Windows
       - WATCHPACK_POLLING=true
+    # The healthcheck is declared in the Dockerfile; repeated nowhere. `make docker-up`
+    # passes --wait, so the target returns only when Next is actually serving.
+    restart: unless-stopped
 
 volumes:
+  # Named explicitly and repo-scoped. Volumes are global to the Docker host, so a bare
+  # `node_modules` would be shared with every other stack that used the same name.
   kdf_portfolio_node_modules:
+    name: kdf_portfolio_node_modules
   kdf_portfolio_next:
+    name: kdf_portfolio_next

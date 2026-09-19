@@ -1,56 +1,98 @@
 import type { Project } from "@/types/portfolio";
 
+/*
+	The pieces that actually exist in the repositories, described the way they are
+	described on the personal portfolio. The previous list included an analytics
+	pipeline that does not exist here, and gave everything a live-sounding status.
+*/
 export const KDF_PROJECTS: Project[] = [
 	{
-		id: "kdf-backend",
-		title: "KDF Core API",
+		id: "kdf-identity-provider",
+		title: "KDF Identity Provider",
+		description: "The identity service every app on the platform delegates to, plus the hosted login and consent UI in front of it. One account, one sign in, everywhere.",
+		longDescription: "The identity service every app on the platform delegates to, plus the hosted login and consent UI that sits in front of it. It implements the authorization code flow with PKCE, rotating refresh tokens, per client audience isolation, argon2id password hashing, account lockout, signing key rotation, and a login audit log. The UI is a backend for frontend that holds the service key server side, so the identity service itself is never reachable from a browser and a cloned login page cannot authenticate anyone.",
+		tech: ["FastAPI", "Python", "OAuth 2.0 / OIDC", "JWT", "argon2id", "PostgreSQL", "Next.js", "TypeScript"],
+		status: "security review",
+		category: "Identity",
+		color: "system",
+		links: { github: "https://github.com/Needless2Say" },
+	},
+	{
+		id: "kdf-sdk",
+		title: "kdf-sdk",
 		description:
-			"Shared FastAPI + PostgreSQL backend powering every KDF application. Handles auth, data models, and RESTful endpoints for all downstream frontends.",
+			"The shared Python library every app backend installs, so building on the platform is one dependency line rather than a rewrite.",
 		longDescription:
-			"The backbone of the entire KriegerDataForge platform. A production-grade FastAPI service with PostgreSQL persistence, Docker containerization, and a modular router structure that makes adding new apps frictionless.",
-		tech: ["FastAPI", "PostgreSQL", "Docker", "Python", "SQLAlchemy", "Pydantic"],
-		status: "active",
-		category: "Infrastructure",
-		color: "infra",
+			"The shared Python library every app backend installs, so building on the platform is one dependency line rather than a rewrite. Its core job is stateless RS256 token verification against the identity provider's JWKS with no database round trip. On top of that it ships a FastAPI application factory, auth dependencies, ownership checks, pagination, rate limiting, observability, SQLModel database infrastructure, blob storage, email, and log injection sanitization. It runs inside every app on the platform, so a weakness here would ship everywhere at once, which is why it carries the heaviest test suite in the ecosystem.",
+		tech: ["Python", "FastAPI", "SQLModel", "Pydantic", "JWT", "pytest"],
+		status: "in development",
+		category: "Platform Library",
+		color: "forge",
+		links: { github: "https://github.com/Needless2Say" },
+	},
+	{
+		id: "tiffanys-space",
+		title: "Tiffany's Space",
+		description:
+			"A boutique storefront I am building for my sister, where she will sell curated clothing, books, handmade crafts, art, and accessories.",
+		longDescription:
+			"A boutique storefront I am building for my sister, where she will sell curated clothing, books, handmade crafts, art, and accessories. Customers browse and search the catalog, keep a persistent cart, and move through a two step reserve then pay checkout with order history. A dedicated admin dashboard lets her manage products and orders directly. The server stays authoritative on every price, total, and inventory count, and the checkout is transactional, idempotent, and concurrency safe. Stripe is wired and deliberately inert until it is switched on at launch.",
+		tech: ["Next.js", "React", "TypeScript", "TailwindCSS", "FastAPI", "PostgreSQL", "SQLModel", "Stripe"],
+		status: "pre-launch",
+		category: "Storefront",
+		color: "data",
 		links: { github: "https://github.com/Needless2Say" },
 	},
 	{
 		id: "calorie-tracker",
 		title: "Calorie Tracker",
 		description:
-			"Macro and calorie tracking app with custom food entries, daily logs, and progress analytics — built on the KDF backend.",
+			"A free forever food and nutrition tracker built for casual users and beginners, the people who bounce off a paywall or find the dense trackers too much.",
 		longDescription:
-			"A full-stack fitness app that lets users log meals, track macros, and visualize progress over time. Barcode scanning for packaged foods, custom food creation, and daily calorie targets.",
-		tech: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "TailwindCSS"],
-		status: "active",
+			"A free forever food and nutrition tracker built for casual users and beginners, the people who bounce off a paywall or find the dense trackers too much. Log meals, track calories and macros against personal goals, and review trends over time, on top of a 41 field food database with a guided food and meal creation wizard and a daily tracker that saves as you type. Nutrition totals are recomputed server side, so numbers submitted by the client are never trusted. This was the first app built on the platform and the one I come back to once the identity layer and the storefront are finished.",
+		tech: ["Next.js", "React", "TypeScript", "FastAPI", "Python", "PostgreSQL", "SQLModel"],
+		status: "in development",
 		category: "Health & Fitness",
 		color: "forge",
+		links: { github: "https://github.com/Needless2Say" },
+	},
+	{
+		id: "kdf-terraform",
+		title: "Control Plane & CI/CD",
+		description:
+			"One Terraform configuration declaring every environment, and a centralized CI/CD library every repository on the platform inherits.",
+		longDescription:
+			"The only place environments are declared. Terraform describes sandbox, dev, and production, which share no keys, databases, or service keys between them, and it is the single repository allowed to write to any of them. Alongside it sits a centralized CI/CD library where deploy behavior, security gates, and version discipline are defined once and inherited by every repository, so a change to how things ship is one edit rather than eighteen. Every deploy is a manual dispatch behind an environment approval gate.",
+		tech: ["Terraform", "GitHub Actions", "Docker", "GCP", "Vercel"],
+		status: "in development",
+		category: "Infrastructure",
+		color: "infra",
+		links: { github: "https://github.com/Needless2Say" },
+	},
+	{
+		id: "kdf-fmt",
+		title: "kdf-fmt",
+		description:
+			"A Python formatter and linter written from scratch with zero runtime dependencies, built directly on the standard library.",
+		longDescription:
+			"A Python formatter and linter written from scratch with zero runtime dependencies, built directly on the standard library's ast and tokenize modules. It enforces the parts of my house style that off the shelf tools do not cover, including sectioned module preambles, aligned assignment runs, Google docstring contracts, and 120 column canonical wrapping. Rules run in three tiers, auto fixed, blocking, and advisory, and every rule is remappable per project through TOML. It is the style gate across the platform's Python repositories and works on any Python codebase.",
+		tech: ["Python", "ast", "tokenize", "pytest"],
+		status: "in development",
+		category: "Developer Tooling",
+		color: "system",
 		links: { github: "https://github.com/Needless2Say" },
 	},
 	{
 		id: "video-game-db",
 		title: "Video Game Database",
 		description:
-			"Personal gaming library manager with IGDB integration, backlog tracking, ratings, and play-time logging.",
+			"A searchable game catalog queued up as a future app on the platform, browsing and filtering titles by genre, platform, and rating.",
 		longDescription:
-			"Connects to the IGDB API to pull rich game metadata. Users can manage their backlog, log hours played, rate games, and track completion status across platforms.",
-		tech: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "IGDB API"],
-		status: "active",
+			"A searchable game catalog queued up as a future app on the platform, browsing and filtering titles by genre, platform, and rating. Like every other app on the platform it will own no identity of its own, delegating sign in to the identity provider and standing up its own service behind the shared SDK.",
+		tech: ["Next.js", "React", "FastAPI", "PostgreSQL"],
+		status: "planned",
 		category: "Entertainment",
-		color: "data",
-		links: { github: "https://github.com/Needless2Say" },
-	},
-	{
-		id: "data-pipeline",
-		title: "KDF Analytics Pipeline",
-		description:
-			"Internal analytics pipeline ingesting app telemetry into a Snowflake data warehouse with dbt transformations and dashboard reporting.",
-		longDescription:
-			"Aggregates usage metrics from all KDF applications into Snowflake. dbt models transform raw events into clean analytical tables. Dashboards track active users, feature adoption, and performance metrics.",
-		tech: ["Python", "Snowflake", "dbt", "Apache Airflow", "SQL"],
-		status: "beta",
-		category: "Data Engineering",
-		color: "system",
+		color: "gray",
 		links: { github: "https://github.com/Needless2Say" },
 	},
 ];

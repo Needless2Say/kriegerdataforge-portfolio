@@ -42,3 +42,17 @@ next-env.d.ts
 .venv/
 __pycache__/
 *.pyc
+
+# -- Python (managed: keep these together) ----------------------------------
+# Virtual environments. `python -m venv` self-ignores from 3.11 (it writes
+# a .gitignore containing `*`); virtualenv and older interpreters do not.
+# /env/ is ROOT-ANCHORED on purpose -- a bare env/ also matches tracked
+# application source such as src/core/config/env/.
+venv/
+/env/
+
+# Python tool caches
+.kdf-fmt-cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

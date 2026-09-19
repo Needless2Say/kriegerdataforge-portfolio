@@ -5,7 +5,7 @@ import emailjs from "@emailjs/browser";
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
-// ─── Fill these in once your KDF business email is ready ─────────────────────
+// ─── Fill these in once the KDF contact address is ready ─────────────────────
 // Copy .env.local.example → .env.local and set the three values.
 // ─────────────────────────────────────────────────────────────────────────────
 const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
@@ -55,7 +55,7 @@ export default function ContactForm() {
 						type="text"
 						required
 						placeholder="Your name"
-						className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200"
+						className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200"
 					/>
 				</div>
 				<div>
@@ -68,7 +68,7 @@ export default function ContactForm() {
 						type="email"
 						required
 						placeholder="your@email.com"
-						className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200"
+						className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200"
 					/>
 				</div>
 			</div>
@@ -84,7 +84,7 @@ export default function ContactForm() {
 					type="text"
 					required
 					placeholder="What's this about?"
-					className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200"
+					className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200"
 				/>
 			</div>
 
@@ -98,8 +98,8 @@ export default function ContactForm() {
 					name="message"
 					required
 					rows={5}
-					placeholder="Tell us what you're building..."
-					className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200 resize-none"
+					placeholder="What would you like to ask?"
+					className="w-full bg-white/5 border border-white/8 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-600/50 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-all duration-200 resize-none"
 				/>
 			</div>
 
@@ -109,7 +109,7 @@ export default function ContactForm() {
 					<svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
 						<path d="m5 13 4 4L19 7" />
 					</svg>
-					Transmission received — we&apos;ll be in touch.
+					Transmission received. I&apos;ll get back to you.
 				</div>
 			)}
 			{status === "error" && (

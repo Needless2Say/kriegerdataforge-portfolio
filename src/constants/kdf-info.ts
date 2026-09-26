@@ -11,6 +11,7 @@ export const KDF_INFO = {
 		github:   "https://github.com/Needless2Say",
 		linkedin: "https://www.linkedin.com/in/arthur-krieger-3b986220a/",
 		email:    "kriegear@umich.edu",
+		portfolio: "https://needless2say.github.io/arthurs-portfolio",
 	},
 } as const;
 

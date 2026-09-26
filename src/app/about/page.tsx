@@ -8,6 +8,7 @@ import Card from "@/components/ui/Card";
 import Reveal from "@/components/ui/Reveal";
 import ForgedHeading from "@/components/ui/ForgedHeading";
 import PourTimeline from "@/components/ui/PourTimeline";
+import SpaceLink from "@/components/ui/SpaceLink";
 
 export const metadata: Metadata = {
 	title: "About",
@@ -98,7 +99,7 @@ export default function About() {
 									<p className="text-slate-300 text-sm leading-relaxed mb-4">
 										Computer Science and Data Science graduate of the University of Michigan, 2025. KriegerDataForge is a personal project I design and build on my own hardware. Every repository, environment, and key on it is mine. It is a personal platform, and I use it for all of my own apps.
 									</p>
-									<div className="flex flex-wrap gap-2">
+									<div className="flex flex-wrap items-center gap-3 mb-4">
 										<Link
 											href={KDF_INFO.links.github}
 											target="_blank"
@@ -117,6 +118,9 @@ export default function About() {
 											LinkedIn →
 										</Link>
 									</div>
+									<SpaceLink href={KDF_INFO.links.portfolio}>
+										Visit My Personal Portfolio
+									</SpaceLink>
 								</div>
 							</div>
 						</Card>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { KDF_INFO } from "@/constants/kdf-info";
 import EmailModal from "@/components/ui/EmailModal";
+import SpaceLink from "@/components/ui/SpaceLink";
 
 export default function Footer() {
 	return (
@@ -58,6 +59,9 @@ export default function Footer() {
 					>
 						Email
 					</EmailModal>
+					<SpaceLink href={KDF_INFO.links.portfolio} size="sm">
+						Portfolio
+					</SpaceLink>
 				</div>
 			</div>
 		</footer>

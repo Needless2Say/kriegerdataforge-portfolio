@@ -21,7 +21,7 @@ export const KDF_INFO = {
 */
 export const STATS = [
 	{ value: "18",        label: "Repositories" },
-	{ value: "Closed",    label: "Access" },
+	{ value: "Personal",  label: "Platform" },
 	{ value: "OIDC",      label: "Identity Provider" },
 	{ value: "Terraform", label: "Control Plane" },
 ] as const;

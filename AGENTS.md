@@ -8,30 +8,31 @@
 
 ## Vision & purpose. What you're building toward
 
-This is the **public site for KriegerDataForge (KDF)**, a closed personal software platform Arthur
-Krieger designs and builds on his own time, running only his own apps. It explains what the platform is, what is being built on it, and
+This is the **public site for KriegerDataForge (KDF)**, a personal software platform Arthur
+Krieger designs and builds himself, running only his own apps. It explains what the platform is, what is being built on it, and
 what it is built with. An OAuth 2.0 / OIDC identity provider (the `kriegerdataforge` hub), a shared
 Python SDK every app backend installs, a Terraform control plane, and the apps on top of them, across
 18 repositories. The aesthetic is dark industrial, amber forge fire with purple/blue bit accents.
 
-**Copy rule, and it is not negotiable.** This site is one person's personal project, built on his
-own time. A site that reads like a business he runs on the side creates a problem that no amount of
-polish is worth. The single most important thing this site says is that **the platform is closed**. Concretely:
+**Copy rule, and it is not negotiable.** This site is one person's personal project, built by
+himself. A site that reads like a business he runs on the side creates a problem that no amount of
+polish is worth. The single most important thing this site says is that **it is a personal platform**. Concretely:
 
-- **Always describe the platform as closed.** It is a closed platform for Arthur himself and it runs
+- **Call it a personal platform, never a closed one.** It is a platform for Arthur himself and it runs
   all of his own personal apps. Every place the platform is described has to leave no room to read it
-  as a product, a service, or something open to others. `KDF_INFO.access` is the short form of this
+  as a product, a service, or something open to others. `KDF_INFO.access` is the short form of this.
+  The owner dropped "closed platform" on 2026-09-25, do not bring it back
 - **Do not add disclaimers.** The owner removed "nothing for sale", "nothing to sign up for",
-  "no users but me", and "nobody else has an account". Saying the platform is closed is enough,
+  "no users but me", and "nobody else has an account". Saying it is a personal platform is enough,
   listing what it is not protests too much. Do not put them back
 - **No location.** No city, no state, no "based in", no `chi-town`. The platform is not based
   anywhere and the site must not imply it is
-- **"Founder" is allowed**, and is the owner's explicit decision. It is a title on a closed personal
-  platform, which is why the closed framing above has to carry its weight
+- **"Founder" is allowed**, and is the owner's explicit decision. It is a title on a personal
+  platform, which is why the personal framing above has to carry its weight
 - Never "we", "our", "the team", "services", "clients", "inquiries", or a brand-only copyright line
-- **Say "on my own time".** Never "outside of work", "side project", "day job", "in parallel with",
-  or any other phrasing that positions the platform against something else. On this site there is no
-  something else
+- **"Built by myself", or nothing.** The owner dropped "on my own time" on 2026-09-25. Never
+  "outside of work", "side project", "day job", "in parallel with", or any other phrasing that
+  positions the platform against something else. On this site there is no something else
 - Never reference a job, a role held anywhere, an organisation, a team, or anyone else's internal
   tooling. This site talks about the platform and nothing outside it. How Arthur spends his days
   belongs on the personal portfolio, not here

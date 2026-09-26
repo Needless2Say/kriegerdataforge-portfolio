@@ -47,7 +47,7 @@ Every service defines one, and `docker-up` passes `--wait`, so the target return
 when the stack actually serves traffic.
 
 ```
-wget -q -S --spider http://127.0.0.1:3000/kriegerdataforge-portfolio/ 2>&1 | grep -q 'HTTP/'
+wget -q -S --spider http://127.0.0.1:3000/ 2>&1 | grep -q 'HTTP/'
 interval 10s | timeout 10s | retries 20 | start_period 45s
 ```
 
@@ -64,9 +64,8 @@ Three details, each of which broke a check during this pass:
 
 `wget`, not `curl`. `node:alpine` ships no curl.
 
-> **The healthcheck probes the `basePath`, not `/`.** This site is served
-> under `/kriegerdataforge-portfolio` and `/` returns 404, so a root path check reports a
-> perfectly healthy container as unhealthy forever.
+The site deploys at the domain root (`kriegerdataforge.com`, no `basePath`), so the
+healthcheck probes `/` directly.
 
 ---
 

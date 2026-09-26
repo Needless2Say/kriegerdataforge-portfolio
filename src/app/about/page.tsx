@@ -12,7 +12,7 @@ import PourTimeline from "@/components/ui/PourTimeline";
 export const metadata: Metadata = {
 	title: "About",
 	description: "What KriegerDataForge is. A personal platform Arthur Krieger designs and builds, running only his own apps.",
-	alternates: { canonical: "https://needless2say.github.io/kriegerdataforge-portfolio/about" },
+	alternates: { canonical: "https://kriegerdataforge.com/about" },
 };
 
 /*

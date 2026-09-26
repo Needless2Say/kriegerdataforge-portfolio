@@ -9,7 +9,7 @@ KriegerDataForge portfolio / marketing site.
 How to and operational walkthroughs.
 
 - [Contributor Onboarding, kriegerdataforge-portfolio](guides/CONTRIBUTOR_ONBOARDING.md)
-- [Google Analytics self exclusion](guides/ANALYTICS_OPT_OUT.md). The `ga-opt-out` flag that keeps the owner's own browsers out of the numbers, shared with the personal portfolio
+- [Google Analytics self exclusion](guides/ANALYTICS_OPT_OUT.md). The `ga-opt-out` flag that keeps the owner's own browsers out of the numbers, shared with the personal portfolio when the two share an origin
 
 ## Reference
 

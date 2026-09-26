@@ -23,7 +23,7 @@ Hot reload still belongs in the container. There is no `make dev`.
 | --- | --- | --- |
 | `docker-up` | container | Hot reload, pinned Node version. |
 | `build` | host | Produces `out/`, the deployed artifact. |
-| `serve-static` | host | Serves `out/` exactly as GitHub Pages will, `basePath` and all. |
+| `serve-static` | host | Serves `out/` exactly as GitHub Pages will. |
 
 ### 2. It does not join `kdf-net`
 
@@ -99,8 +99,8 @@ other KDF stack with it.
 
 ### Build & Preview
 
-`build` → `out/`. `serve-static` → <http://localhost:4174>, serving `out/` with `basePath`
-intact. See the note at the top for why these are not containerized.
+`build` → `out/`. `serve-static` → <http://localhost:4174>, serving `out/` as-is.
+See the note at the top for why these are not containerized.
 
 ### Testing
 

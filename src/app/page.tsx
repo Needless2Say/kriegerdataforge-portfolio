@@ -16,7 +16,7 @@ import BinaryStat from "@/components/ui/BinaryStat";
 export const metadata: Metadata = {
 	title: "KriegerDataForge | A Personal Platform",
 	description: KDF_INFO.description,
-	alternates: { canonical: "https://needless2say.github.io/kriegerdataforge-portfolio" },
+	alternates: { canonical: "https://kriegerdataforge.com" },
 };
 
 export default function Home() {

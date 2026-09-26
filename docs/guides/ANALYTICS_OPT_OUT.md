@@ -8,7 +8,7 @@ out of the numbers. It is the same switch the personal portfolio uses, under the
 
 ## Opt yourself out
 
-Open the live site, <https://needless2say.github.io/kriegerdataforge-portfolio>, open
+Open the live site, <https://kriegerdataforge.com>, open
 DevTools, go to the **Console** tab, and run
 
 ```js
@@ -28,15 +28,17 @@ Reload the page and analytics resumes.
 
 ---
 
-## One switch covers both sites
+## One switch, if both sites share an origin
 
-`localStorage` belongs to an origin, the scheme and host, not to a path. This site and the
-personal portfolio are both served from `https://needless2say.github.io`, so they share one
-`localStorage`, and both read the same `ga-opt-out` key. Setting it on either site opts that
-browser out of both, and removing it opts back in to both. A browser that is already opted
-out on the personal portfolio is already opted out here.
+`localStorage` belongs to an origin, the scheme and host, not to a path, so the flag only
+carries over to the personal portfolio while the two sites are served from the same origin.
+This site now deploys at `https://kriegerdataforge.com`. If the personal portfolio is still
+served from `https://needless2say.github.io` (or any other origin), the two no longer share
+`localStorage`, and the flag has to be set separately on each site until they are unified
+under one origin again.
 
-Keep the key the same in both repos. Renaming it in one of them quietly splits the switch in two.
+Keep the key itself (`ga-opt-out`) the same in both repos regardless, so reunifying the
+origins later doesn't also require renaming the flag.
 
 ## Notes
 

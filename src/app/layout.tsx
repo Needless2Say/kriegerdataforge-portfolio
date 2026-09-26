@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 	maximumScale: 5,
 };
 
-const BASE_URL = "https://needless2say.github.io/kriegerdataforge-portfolio";
+const BASE_URL = "https://kriegerdataforge.com";
 
 /** Google Analytics for this site. The personal portfolio has its own, separate ID. */
 const GA_MEASUREMENT_ID = "G-50SJBQ5MV2";
@@ -76,10 +76,11 @@ export const metadata: Metadata = {
 	},
 	alternates: { canonical: BASE_URL },
 	/*
-		The anvil favicon, served from public/. It is listed by hand because
-		Next 16 leaves an app/favicon.ico off the home page whenever the site
-		has a basePath. Its favicon check only matches a bare "/favicon.ico".
-		Next adds no basePath to icon URLs written here, so each carries its own.
+		The anvil favicon, served from public/. Listed by hand rather than relying
+		on Next's automatic app/favicon.ico detection, which broke outright the last
+		time this site had a `basePath` set. `BASE_PATH` is currently empty (custom
+		domain root deploy), but every icon URL still goes through it so a future
+		sub-path deploy can't silently drop the icons again.
 	*/
 	icons: {
 		icon: [

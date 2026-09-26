@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export const dynamic = "force-static";
 
-const BASE = "https://needless2say.github.io/kriegerdataforge-portfolio";
+const BASE = "https://kriegerdataforge.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	return [

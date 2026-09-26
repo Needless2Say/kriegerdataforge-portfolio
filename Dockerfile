@@ -47,9 +47,9 @@ COPY --from=deps /app/node_modules ./node_modules
 EXPOSE 3000
 
 # 45s grace and 20 retries -- in dev the FIRST request compiles the route. busybox wget: alpine has no curl.
-# Probe the basePath -- this site serves under /kriegerdataforge-portfolio and "/" 404s (unhealthy forever).
+# Site deploys at the domain root (no basePath), so "/" is the live route to probe.
 HEALTHCHECK --interval=10s --timeout=10s --retries=20 --start-period=45s \
-    CMD wget -q -S --spider http://127.0.0.1:3000/kriegerdataforge-portfolio/ 2>&1 | grep -q 'HTTP/' || exit 1
+    CMD wget -q -S --spider http://127.0.0.1:3000/ 2>&1 | grep -q 'HTTP/' || exit 1
 
 # run the dev server with webpack -- Turbopack's file watcher is unreliable over Docker volumes on
 # Windows (paired with WATCHPACK_POLLING=true in compose)

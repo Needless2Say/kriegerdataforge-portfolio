@@ -50,8 +50,9 @@ The ones you'll hit most:
 **Static export constraints**
 
 - No server only APIs or dynamic server rendering (`output: "export"`). Images are `unoptimized`.
-- Asset and link paths must resolve under the `/kriegerdataforge-portfolio` `basePath`
-  (`next.config.ts`). Check `sitemap.ts` / `robots.ts` stay correct.
+- Asset and link paths must resolve under `BASE_PATH` (`src/constants/routes.ts`, currently
+  empty since the site deploys at the `kriegerdataforge.com` domain root). Check `sitemap.ts` /
+  `robots.ts` stay correct.
 
 **Environment / secrets**
 

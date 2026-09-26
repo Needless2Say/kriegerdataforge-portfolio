@@ -20,7 +20,7 @@ All documentation lives under [`docs/`](docs/), indexed one line per doc at [**`
 | Directory | Purpose |
 | --- | --- |
 | [`docs/agent/`](docs/agent/) | **The agentic workflow kit.** The shared operating standard synced across every KDF repo (never edit locally) |
-| [`docs/guides/`](docs/guides/README.md) | How to and operational walkthroughs, currently contributor onboarding (zero → dev server → green `make ci` → first PR) |
+| [`docs/guides/`](docs/guides/README.md) | How to and operational walkthroughs, currently contributor onboarding (zero → dev server → green `make ci` → first PR) and the analytics opt out |
 | [`docs/reference/GLOSSARY.md`](docs/reference/GLOSSARY.md) | The repo glossary. Repo specific terms plus the pointer to the ecosystem canon vocabulary |
 
 ### How to work here
@@ -37,6 +37,7 @@ Read [`AGENTS.md`](AGENTS.md) (this repo's vision + critical rules) → [`WORKFL
 | UI         | React 19                                  |
 | Language   | TypeScript                                |
 | Styling    | TailwindCSS v4                            |
+| Analytics  | Google Analytics 4, owner opt out         |
 | Deployment | GitHub Pages                              |
 
 ---

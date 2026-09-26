@@ -56,6 +56,7 @@ simple. Over engineering a static site is the wrong instinct.
 - **Language.** TypeScript (strict, no `any`)
 - **Styling.** TailwindCSS v4 (+ PostCSS)
 - **Contact form.** EmailJS (`@emailjs/browser`). Client side send, `NEXT_PUBLIC_EMAILJS_*` env
+- **Analytics.** Google Analytics 4 (`G-50SJBQ5MV2`), off in any browser that sets the `ga-opt-out` flag, see [`docs/guides/ANALYTICS_OPT_OUT.md`](docs/guides/ANALYTICS_OPT_OUT.md). The personal portfolio reads the same key from the same origin, so keep the two in step
 - **Deploy.** GitHub Pages under `/kriegerdataforge-portfolio` (`basePath` + `assetPrefix` set)
 - **Tooling.** ESLint 9 (`eslint-config-next`), `tsc --noEmit`, Docker (dev), Make, a tiny Python venv for version bumps only
 
@@ -64,6 +65,7 @@ simple. Over engineering a static site is the wrong instinct.
 | Path                          | Purpose                                                                 |
 | ----------------------------- | ----------------------------------------------------------------------- |
 | `src/app/`                    | App Router pages. `page.tsx` (home), `about/`, `projects/`, `contact/`, plus `layout.tsx`, `not-found.tsx`, `robots.ts`, `sitemap.ts` |
+| `public/`                     | The anvil favicon. `icon.svg` is the source, `favicon.ico` (16, 32 and 48px) and `apple-touch-icon.png` (180px, square corners because iOS rounds its own) are renders of it, so re-export both whenever the SVG changes. `layout.tsx` lists all three by hand, because Next 16 drops an `app/favicon.ico` from the home page under a `basePath` |
 | `src/components/layout/`      | Chrome. `Navbar`, `Footer`, `PageTransition` (barrel `index.ts`)        |
 | `src/components/ui/`          | Presentational + effects. `ForgeFire` (the full screen loader fire), `EmberField` (background), `StruckWordmark`, `ForgedHeading`, `BinaryStat`, `PourTimeline`, `HeatTracker`, `EmailModal` + `BurnAway`, `ContactForm` + `Transmission`, `Reveal`, `Card`, `TechBadge`, etc. (barrel `index.ts`) |
 | `src/constants/`             | Content as data. `kdf-info.ts`, `projects.ts`, `routes.ts`, `skills.ts` (edit content here, not in JSX) |

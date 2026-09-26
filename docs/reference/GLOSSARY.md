@@ -20,6 +20,7 @@ Written 2026-08-22, for humans and AI agents alike.
 | **Forge fire amber / data stream blue** | The two accent colors of the brand, amber for the forge, electric blue for the data streams. |
 | **Showcased apps** | The portfolio's featured projects, KDF Core API, Calorie Tracker, Video Game Database, and KDF Analytics Pipeline. |
 | **Static export** | The site builds with Next.js `output: "export"`, plain static files for GitHub Pages. |
+| **Analytics opt out** | Google Analytics 4 runs unless the browser carries the `ga-opt-out` flag in `localStorage`, documented in `docs/guides/ANALYTICS_OPT_OUT.md`. The personal portfolio reads the same key from the same origin, so one flag opts a browser out of both sites. |
 | **`basePath` / `assetPrefix`** | The Next config needed so assets resolve under the GH Pages sub-path. |
 | **Not on kdf-net** | This repo deliberately does not join the shared local Docker network, it is a standalone site. |
 | **First deploy pending** | The site has not had its first production deploy yet, deploys are manual and owner-gated. |

@@ -8,6 +8,7 @@ import ScrollProgress from "@/components/ui/ScrollProgress";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import HeatTracker from "@/components/ui/HeatTracker";
 import { PAGE_VISIT_SCRIPT } from "@/utils/playOnce";
+import { BASE_PATH } from "@/constants/routes";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -74,6 +75,19 @@ export const metadata: Metadata = {
 			"A personal platform Arthur Krieger uses to ship his own apps faster. Built by himself.",
 	},
 	alternates: { canonical: BASE_URL },
+	/*
+		The anvil favicon, served from public/. It is listed by hand because
+		Next 16 leaves an app/favicon.ico off the home page whenever the site
+		has a basePath. Its favicon check only matches a bare "/favicon.ico".
+		Next adds no basePath to icon URLs written here, so each carries its own.
+	*/
+	icons: {
+		icon: [
+			{ url: `${BASE_PATH}/favicon.ico`, sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+			{ url: `${BASE_PATH}/icon.svg`, sizes: "any", type: "image/svg+xml" },
+		],
+		apple: { url: `${BASE_PATH}/apple-touch-icon.png`, sizes: "180x180", type: "image/png" },
+	},
 };
 
 export default function RootLayout({

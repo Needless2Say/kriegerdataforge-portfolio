@@ -8,8 +8,8 @@ amber forge fire + purple/blue bit accents).
 It is a **personal platform** for Arthur himself, running all of his own personal apps.
 See the copy rule in [`AGENTS.md`](AGENTS.md) before editing any wording.
 
-A Next.js **static export** deployed to **GitHub Pages** under
-`/kriegerdataforge-portfolio`. No database, no auth, no backend.
+A Next.js **static export** deployed to **GitHub Pages**, served from the custom domain
+`kriegerdataforge.com`. No database, no auth, no backend.
 
 ---
 
@@ -88,16 +88,17 @@ live contact form silently no ops). See the PL-072 delivery checklist.
 
 #### Live URL
 
-The canonical URL is
-<https://needless2say.github.io/kriegerdataforge-portfolio>, GitHub *project* pages,
-no custom domain/CNAME. It is hardcoded as the metadata base in `src/app/layout.tsx`,
-`src/app/robots.ts`, and `src/app/sitemap.ts`. Keep all three in sync if it ever changes.
+The canonical URL is <https://kriegerdataforge.com>, a custom domain in front of GitHub
+Pages (`public/CNAME`, DNS pointed at `needless2say.github.io`). It is hardcoded as the
+metadata base in `src/app/layout.tsx`, `src/app/robots.ts`, and `src/app/sitemap.ts`. Keep
+all three in sync if it ever changes. The site deploys at the domain root, no `basePath`
+(`src/constants/routes.ts`).
 
 #### Deployment status
 
-The first deploy is triggered manually (the workflow has no
-automatic trigger) and has not happened yet. Until the owner completes the
-prerequisites above and dispatches it, the live URL 404s.
+Live at the custom domain above. Every future deploy still goes through the manual
+dispatch + reviewer approval gates described above, and `public/CNAME` must ship with
+the static export or GitHub Pages drops the custom domain on the next deploy.
 
 Bump the version in the PR that ships a change with **`make bump-patch`** (or
 `make bump-minor` / `make bump-major`). It updates `VERSION`, `package.json`, and

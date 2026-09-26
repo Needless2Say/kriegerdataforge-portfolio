@@ -56,8 +56,8 @@ simple. Over engineering a static site is the wrong instinct.
 - **Language.** TypeScript (strict, no `any`)
 - **Styling.** TailwindCSS v4 (+ PostCSS)
 - **Contact form.** EmailJS (`@emailjs/browser`). Client side send, `NEXT_PUBLIC_EMAILJS_*` env
-- **Analytics.** Google Analytics 4 (`G-50SJBQ5MV2`), off in any browser that sets the `ga-opt-out` flag, see [`docs/guides/ANALYTICS_OPT_OUT.md`](docs/guides/ANALYTICS_OPT_OUT.md). The personal portfolio reads the same key from the same origin, so keep the two in step
-- **Deploy.** GitHub Pages under `/kriegerdataforge-portfolio` (`basePath` + `assetPrefix` set)
+- **Analytics.** Google Analytics 4 (`G-50SJBQ5MV2`), off in any browser that sets the `ga-opt-out` flag, see [`docs/guides/ANALYTICS_OPT_OUT.md`](docs/guides/ANALYTICS_OPT_OUT.md). The personal portfolio reads the same key, and the two share the opt-out only while they share an origin
+- **Deploy.** GitHub Pages, custom domain `kriegerdataforge.com` (`public/CNAME`), deployed at the domain root, no `basePath`
 - **Tooling.** ESLint 9 (`eslint-config-next`), `tsc --noEmit`, Docker (dev), Make, a tiny Python venv for version bumps only
 
 ## Module map
@@ -65,7 +65,7 @@ simple. Over engineering a static site is the wrong instinct.
 | Path                          | Purpose                                                                 |
 | ----------------------------- | ----------------------------------------------------------------------- |
 | `src/app/`                    | App Router pages. `page.tsx` (home), `about/`, `projects/`, `contact/`, plus `layout.tsx`, `not-found.tsx`, `robots.ts`, `sitemap.ts` |
-| `public/`                     | The anvil favicon. `icon.svg` is the source, `favicon.ico` (16, 32 and 48px) and `apple-touch-icon.png` (180px, square corners because iOS rounds its own) are renders of it, so re-export both whenever the SVG changes. `layout.tsx` lists all three by hand, because Next 16 drops an `app/favicon.ico` from the home page under a `basePath` |
+| `public/`                     | The anvil favicon. `icon.svg` is the source, `favicon.ico` (16, 32 and 48px) and `apple-touch-icon.png` (180px, square corners because iOS rounds its own) are renders of it, so re-export both whenever the SVG changes. `layout.tsx` lists all three by hand rather than relying on Next's automatic favicon detection. Also holds `CNAME` (`kriegerdataforge.com`), which must ship in every deploy or GitHub Pages drops the custom domain |
 | `src/components/layout/`      | Chrome. `Navbar`, `Footer`, `PageTransition` (barrel `index.ts`)        |
 | `src/components/ui/`          | Presentational + effects. `ForgeFire` (the full screen loader fire), `EmberField` (background), `StruckWordmark`, `ForgedHeading`, `BinaryStat`, `PourTimeline`, `HeatTracker`, `EmailModal` + `BurnAway`, `ContactForm` + `Transmission`, `Reveal`, `Card`, `TechBadge`, etc. (barrel `index.ts`) |
 | `src/constants/`             | Content as data. `kdf-info.ts`, `projects.ts`, `routes.ts`, `skills.ts` (edit content here, not in JSX) |
@@ -81,7 +81,7 @@ simple. Over engineering a static site is the wrong instinct.
 2. **No `any`.** Use proper TypeScript types, `tsc --noEmit` must stay clean.
 3. **Named exports preferred.** Default exports only for Next.js `page.tsx` / `layout.tsx` (and where a framework demands it).
 4. **Content lives in `src/constants/`.** Edit copy, project lists, and links there, not hard coded in components.
-5. **Honor the static export constraints.** No server only APIs, no dynamic server rendering, `images.unoptimized`, and asset paths must respect the `/kriegerdataforge-portfolio` `basePath`.
+5. **Honor the static export constraints.** No server only APIs, no dynamic server rendering, `images.unoptimized`, and asset paths must respect `BASE_PATH` in `src/constants/routes.ts` (currently empty, domain-root deploy).
 6. **Stay on theme.** Background `#0a0704`, amber `#f59e0b` (forge fire), electric blue `#3b82f6` (data streams), amber↔blue animated gradient text.
 7. **`VERSION` and `package.json` version must match.** Bump via the Make targets only (they write all three of `VERSION`, `package.json`, and `package-lock.json` in lockstep), CI's version-check fails if `VERSION` and `package.json` diverge.
 8. **EmailJS keys are public by design** but still come from `NEXT_PUBLIC_EMAILJS_*` secrets/env. Never hard code real IDs, `.env.local` is gitignored, `.env.local.example` holds placeholders.
@@ -116,7 +116,7 @@ export beats any dev server.
 1. [`README.md`](./README.md). What this site is, tech stack, CI/release, and the GitHub Pages deploy gates.
 2. [`src/constants/kdf-info.ts`](src/constants/kdf-info.ts). The canonical KDF brand statement. Tagline, mission, founder, and the ecosystem framing this site exists to communicate.
 3. [`src/constants/projects.ts`](src/constants/projects.ts). The live KDF apps and the platform story (FastAPI/PostgreSQL backbone) you're showcasing.
-4. [`next.config.ts`](./next.config.ts). Static export + `basePath`/`assetPrefix` constraints that govern every change.
+4. [`next.config.ts`](./next.config.ts). Static export + `basePath`/`assetPrefix` constraints (sourced from `src/constants/routes.ts`) that govern every change.
 5. [`skills.md`](./skills.md). The ecosystem security playbook (read before any security sensitive work).
 
 Quick lookups. Theme tokens → `src/app/globals.css`. Content/copy → `src/constants/`. Shared types → `src/types/portfolio.ts`. Contact form wiring → `src/components/ui/ContactForm.tsx` + `.env.local.example`.
@@ -147,7 +147,7 @@ Don't skip the plan approval gate. Don't self-merge. The supporting kit:
 
 - [ ] `make ci` is green locally, `ci-lint`, `ci-typecheck` (`tsc --noEmit`), `ci-build` (static export), and `ci-npm-audit` all pass.
 - [ ] No `any` types. Named exports used (except `page.tsx` / `layout.tsx`). Content changes live in `src/constants/`.
-- [ ] Build respects the static export + `basePath` constraints (asset paths resolve under `/kriegerdataforge-portfolio`), links/sitemap still correct.
+- [ ] Build respects the static export + `basePath` constraints (asset paths resolve under `BASE_PATH` in `src/constants/routes.ts`), links/sitemap still correct.
 - [ ] Theme fidelity preserved (amber/blue accents, forge aesthetic).
 - [ ] Version bumped with `make bump-patch` (or `minor`/`major`) so `VERSION` == `package.json` version (the CI version-check requires this).
 - [ ] No secrets committed. Real `NEXT_PUBLIC_EMAILJS_*` values stay in gitignored `.env.local` / repo secrets, never in code. Gitleaks scans full history.

@@ -10,7 +10,7 @@
 #  server. See docs/reference/MAKEFILE.md for why that exception exists.
 #
 #  Fresh clone:
-#    make setup && make docker-up      # http://localhost:3003/kriegerdataforge-portfolio
+#    make setup && make docker-up      # http://localhost:3003
 #    make ci                           # the PR gate -- must be green before you push
 #
 #  Conventions (details in docs/reference/MAKEFILE.md):
@@ -56,7 +56,7 @@ NC     := \033[0m
 # DEV_PORT also appears in docker-compose.yml's port mapping; change both together.
 DEV_PORT     ?= 3003
 PREVIEW_PORT ?= 4174
-BASE_PATH    := /kriegerdataforge-portfolio
+BASE_PATH    :=
 
 # ---------- Python (bump-* and the kdf-fmt style gate only) ----------
 

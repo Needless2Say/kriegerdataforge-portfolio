@@ -12,7 +12,7 @@ import ForgedHeading from "@/components/ui/ForgedHeading";
 export const metadata: Metadata = {
 	title: "Contact",
 	description: "Get in touch with Arthur Krieger about KriegerDataForge. Questions about the platform, the stack, or anything you saw here.",
-	alternates: { canonical: "https://needless2say.github.io/kriegerdataforge-portfolio/contact" },
+	alternates: { canonical: "https://kriegerdataforge.com/contact" },
 };
 
 interface Channel {

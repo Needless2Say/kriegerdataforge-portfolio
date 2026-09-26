@@ -2,10 +2,13 @@
 	The deploy prefix. `next.config.ts` imports this, so there is exactly one copy
 	of the value and the two can never drift apart.
 
-	It has to be exported at all because internal navigation uses plain anchors
-	rather than `next/link`, and a plain anchor has to carry the prefix itself.
+	Empty because the site deploys to the `kriegerdataforge.com` custom domain root,
+	not a GitHub Pages project sub-path. It stays exported (rather than deleted) so a
+	future move back to a sub-path is a one line change, and because internal
+	navigation uses plain anchors rather than `next/link`, and a plain anchor has to
+	carry any prefix itself.
 */
-export const BASE_PATH = "/kriegerdataforge-portfolio";
+export const BASE_PATH = "";
 
 export const ROUTES = {
 	HOME:     "/",

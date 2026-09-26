@@ -79,9 +79,9 @@ make docker-stop    # stop (container kept)
 make docker-down    # stop AND remove
 ```
 
-Open the app. Note the `/kriegerdataforge-portfolio` base path is applied:
+Open the app:
 
-- **http://localhost:3003/kriegerdataforge-portfolio**
+- **http://localhost:3003**
 
 The container is the whole stack. No backend, no database, and it deliberately does not join
 the shared `kdf-net`, because a standalone static site has no sibling service to call. There is
@@ -145,7 +145,7 @@ make bump-patch     # or bump-minor / bump-major, chosen by impact
 | `src/types/portfolio.ts` | Shared TS types (e.g. `Project`) |
 | `src/utils/cn.ts` | `className` merge helper |
 | `src/app/globals.css` | Tailwind layer + theme tokens (the amber/blue forge palette) |
-| `next.config.ts` | Static export + `basePath`/`assetPrefix` constraints |
+| `next.config.ts` | Static export + `basePath`/`assetPrefix` (sourced from `src/constants/routes.ts`, currently empty) |
 | `scripts/bump_version.py` | Lockstep `VERSION` + `package.json` + `package-lock.json` bumper (driven by `make bump-*`) |
 | `.github/workflows/` | `ci.yml`, `codeql.yml` (gated), `cd.yml` (Pages deploy), `release.yml` |
 
@@ -185,7 +185,8 @@ Definition of Done scales with the change type. See
   the workflow, not a failure.
 - **Lint/type errors?** `make typecheck` and `make lint` isolate them, remember **no `any`**.
 - **Build fails on asset/link paths?** You probably broke a `basePath` assumption. Check
-  `next.config.ts` and that paths resolve under `/kriegerdataforge-portfolio`.
+  `next.config.ts` and `src/constants/routes.ts` (`BASE_PATH`, currently empty since the
+  site deploys at the `kriegerdataforge.com` domain root).
 - **Contact form does nothing locally?** Expected without `.env.local`. See §3.
 - **Version-check red in CI?** `VERSION` and `package.json` diverged. Run `make bump-*`.
 - **Security sensitive change?** Read [`skills.md`](../../skills.md) and follow the matching

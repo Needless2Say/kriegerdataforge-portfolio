@@ -2,12 +2,17 @@
 
 import { useEffect, useState } from "react";
 
+/*
+	What the platform is, in the words used on the personal portfolio. The old
+	set read like a product pitch, "App Factory" and all, which is the voice this
+	site is deliberately moving away from.
+*/
 const PHRASES = [
-	"Data Engineering Platform",
-	"FastAPI + PostgreSQL Backend",
-	"Full-Stack App Factory",
-	"Forging Data into Products",
-	"Built in Chicago, IL",
+	"A Personal Platform",
+	"One Sign In Across Every App",
+	"18 Repositories, One Stack",
+	"Built On My Own Time",
+	"Any App I Want, One System",
 ];
 
 export default function TypewriterText() {

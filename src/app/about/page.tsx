@@ -6,33 +6,41 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import TechBadge from "@/components/ui/TechBadge";
 import Card from "@/components/ui/Card";
 import Reveal from "@/components/ui/Reveal";
+import ForgedHeading from "@/components/ui/ForgedHeading";
+import PourTimeline from "@/components/ui/PourTimeline";
 
 export const metadata: Metadata = {
 	title: "About",
-	description: "The story behind KriegerDataForge — a personal data platform built by Arthur Krieger.",
+	description: "What KriegerDataForge is. A personal platform Arthur Krieger designs and builds, running only his own apps.",
 	alternates: { canonical: "https://needless2say.github.io/kriegerdataforge-portfolio/about" },
 };
 
+/*
+	The history of the platform, not a career timeline. Nothing here reaches
+	outside the platform itself. No roles, no organisations, and nothing about
+	how the owner spends his days, all of which belongs on the personal
+	portfolio rather than on this site.
+*/
 const MILESTONES = [
 	{
-		year: "2021",
-		title: "University of Michigan",
-		desc: "B.S. Computer Science + Data Science — built the foundation in data systems and software engineering.",
-	},
-	{
-		year: "2021–2024",
-		title: "Field Testing",
-		desc: "Internships at Charles Schwab, Revantage (Blackstone), and Wayne State University — forged skills in production data pipelines and platform engineering.",
+		year: "2024",
+		title: "The first app",
+		desc: "Started a nutrition tracker and immediately hit the problem every app after it would have. Its own sign in, its own database setup, its own deploy pipeline, all written again from scratch.",
 	},
 	{
 		year: "2024",
-		title: "KDF Ignited",
-		desc: "Founded KriegerDataForge — a shared FastAPI + PostgreSQL platform to power personal projects and explore full-stack data engineering.",
+		title: "One identity for everything",
+		desc: "Built an OAuth 2.0 and OIDC identity provider so every app shares one account and one sign in, instead of each one growing its own.",
 	},
 	{
-		year: "2025 →",
-		title: "Active Deployment",
-		desc: "Software/Platform Engineer at Charles Schwab · Chicago, IL · Building on KDF in parallel.",
+		year: "2025",
+		title: "Shared foundations",
+		desc: "Pulled the repeated parts out into a shared Python SDK every backend installs, a Terraform control plane that declares every environment, and a CI/CD library every repository inherits.",
+	},
+	{
+		year: "2026 →",
+		title: "Apps on top",
+		desc: "18 repositories. A boutique storefront for my sister and the nutrition tracker are the two apps being built on it now, with a game catalog queued behind them.",
 	},
 ];
 
@@ -47,21 +55,21 @@ export default function About() {
 						<p className="text-amber-500/60 font-mono text-[10px] tracking-[0.4em] uppercase mb-3">
 							◈ the forge origin ◈
 						</p>
-						<h1 className="text-4xl sm:text-5xl font-bold gradient-text glow-text pb-2 mb-4">
+						<ForgedHeading as="h1" className="text-4xl sm:text-5xl font-bold gradient-text glow-text pb-2 mb-4">
 							What is KDF?
-						</h1>
+						</ForgedHeading>
 						<p className="text-slate-300 text-base leading-relaxed">
 							{KDF_INFO.description}
 						</p>
 					</div>
 				</Reveal>
 
-				{/* ── Mission ── */}
+				{/* ── Why it exists ── */}
 				<Reveal className="mb-16">
 					<div className="glass-card border-amber-700/20 p-7 text-center">
-						<p className="text-amber-500/60 font-mono text-[10px] tracking-[0.4em] uppercase mb-3">◈ mission ◈</p>
-						<p className="text-slate-200 text-base leading-relaxed italic max-w-2xl mx-auto">
-							&ldquo;{KDF_INFO.mission}&rdquo;
+						<p className="text-amber-500/60 font-mono text-[10px] tracking-[0.4em] uppercase mb-3">◈ why it exists ◈</p>
+						<p className="text-slate-200 text-base leading-relaxed max-w-2xl mx-auto">
+							{KDF_INFO.why}
 						</p>
 					</div>
 				</Reveal>
@@ -85,17 +93,17 @@ export default function About() {
 									</div>
 								</div>
 								<div className="flex-grow">
-									<h3 className="text-white font-bold text-lg mb-0.5">Arthur Krieger</h3>
-									<p className="text-amber-400 text-sm font-mono mb-3">Founder · Software/Platform Engineer</p>
+									<h3 className="text-white font-bold text-lg mb-0.5">{KDF_INFO.founder}</h3>
+									<p className="text-amber-400 text-sm font-mono mb-3">Founder · Builds and maintains every part of it</p>
 									<p className="text-slate-300 text-sm leading-relaxed mb-4">
-										CS + Data Science graduate from the University of Michigan (2025, GPA 3.77). Currently a Software/Platform Engineer on the Wealth Asset Management data team at Charles Schwab in Chicago. KriegerDataForge is the personal lab where ideas get forged into running products.
+										Computer Science and Data Science graduate of the University of Michigan, 2025. KriegerDataForge is a personal project I design and build on my own hardware. Every repository, environment, and key on it is mine. It is a personal platform, and I use it for all of my own apps.
 									</p>
 									<div className="flex flex-wrap gap-2">
 										<Link
 											href={KDF_INFO.links.github}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="text-slate-400 hover:text-amber-300 font-mono text-xs transition-colors duration-200"
+											className="tap-pad text-slate-400 hover:text-amber-300 font-mono text-xs transition-colors duration-200"
 										>
 											GitHub →
 										</Link>
@@ -104,7 +112,7 @@ export default function About() {
 											href={KDF_INFO.links.linkedin}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="text-slate-400 hover:text-amber-300 font-mono text-xs transition-colors duration-200"
+											className="tap-pad text-slate-400 hover:text-amber-300 font-mono text-xs transition-colors duration-200"
 										>
 											LinkedIn →
 										</Link>
@@ -121,19 +129,16 @@ export default function About() {
 						<SectionHeader
 							title="Forge History"
 							eyebrow="timeline"
-							subtitle="// how it was built"
+							subtitle="// how the platform got here"
 						/>
 					</Reveal>
 
-					<div className="relative">
-						<div className="absolute left-3 top-2 bottom-2 w-px"
-							style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.5) 0%, rgba(59,130,246,0.4) 70%, rgba(100,116,139,0.15) 100%)" }}
-						/>
+					<PourTimeline>
 						<div className="space-y-4">
 							{MILESTONES.map((m, i) => (
 								<Reveal key={i} className="relative pl-12" delay={i * 80}>
-									<div className="absolute left-3 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[#0a0704] border-2 border-amber-500 flex items-center justify-center">
-										<div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+									<div data-pour-dot className="pour-dot absolute left-3 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full flex items-center justify-center">
+										<div className="pour-dot-core w-1.5 h-1.5 rounded-full" />
 									</div>
 									<Card glow="amber">
 										<div className="flex flex-wrap items-start justify-between gap-2 mb-1">
@@ -145,7 +150,7 @@ export default function About() {
 								</Reveal>
 							))}
 						</div>
-					</div>
+					</PourTimeline>
 				</section>
 
 				{/* ── Tech Stack ── */}
@@ -154,7 +159,7 @@ export default function About() {
 						<SectionHeader
 							title="The Toolbox"
 							eyebrow="tech stack"
-							subtitle="// tools used to forge products"
+							subtitle="// what the platform is built with"
 						/>
 					</Reveal>
 

@@ -19,7 +19,7 @@ const colorMap: Record<BadgeColor, string> = {
 export default function TechBadge({ label, color = "default", size = "sm" }: TechBadgeProps) {
 	return (
 		<span className={cn(
-			"inline-flex items-center border rounded-full font-mono font-medium",
+			"temper inline-flex items-center border rounded-full font-mono font-medium",
 			size === "sm" ? "px-2.5 py-0.5 text-xs" : "px-3 py-1 text-sm",
 			colorMap[color]
 		)}>

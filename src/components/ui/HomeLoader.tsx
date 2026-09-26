@@ -1,23 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import ForgeCanvas from "./ForgeCanvas";
-import { useLoaderShouldPlay } from "@/utils/useLoaderSeen";
+import ForgeFire from "./ForgeFire";
+import { LOADER_COVERING, useLoaderShouldPlay } from "@/utils/useLoaderSeen";
 
 const STORAGE_KEY = "kdf_loader_v1";
 const DISPLAY_MS  = 2800;
 const FADE_MS     = 700;
-
-const EMBERS = [
-	{ top: "12%", left: "8%",  delay: "0s",   dur: "2.2s" },
-	{ top: "20%", left: "80%", delay: "0.5s", dur: "1.8s" },
-	{ top: "70%", left: "6%",  delay: "1.0s", dur: "2.5s" },
-	{ top: "78%", left: "84%", delay: "0.3s", dur: "2.0s" },
-	{ top: "38%", left: "90%", delay: "1.3s", dur: "2.9s" },
-	{ top: "55%", left: "4%",  delay: "0.7s", dur: "2.3s" },
-	{ top: "6%",  left: "50%", delay: "1.5s", dur: "1.7s" },
-	{ top: "88%", left: "46%", delay: "0.4s", dur: "3.1s" },
-];
 
 /**
  * Whether the loader should be on screen is external, session-scoped state read
@@ -25,6 +14,9 @@ const EMBERS = [
  * playing, only the fade animation is React-owned local state — and every
  * `setPhase` runs inside a timer/handler callback, never synchronously in the
  * effect body.
+ *
+ * The fire fills the whole screen, and the words sit over it at the top and the
+ * bottom edge.
  */
 export default function HomeLoader() {
 	const shouldPlay = useLoaderShouldPlay();
@@ -59,6 +51,19 @@ export default function HomeLoader() {
 		};
 	}, [shouldPlay, markSeen]);
 
+	/*
+		While the loader is fully up, nothing behind it can be seen, so the page
+		background idles rather than drawing a second screen of fire underneath
+		this one. The mark lifts the moment the fade starts, on the timer or on a
+		skip, so the background is drawing again before any of it shows.
+	*/
+	useEffect(() => {
+		if (!shouldPlay || fading) return;
+		const root = document.documentElement;
+		root.setAttribute(LOADER_COVERING, "");
+		return () => root.removeAttribute(LOADER_COVERING);
+	}, [shouldPlay, fading]);
+
 	function dismiss() {
 		if (fadeRef.current) clearTimeout(fadeRef.current);
 		if (hideRef.current) clearTimeout(hideRef.current);
@@ -74,13 +79,18 @@ export default function HomeLoader() {
 	return (
 		<div
 			onClick={dismiss}
-			className={`fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#0a0704] cursor-pointer select-none transition-opacity duration-700 ${
+			className={`fixed inset-0 z-[200] overflow-hidden bg-[#0a0704] cursor-pointer select-none transition-opacity duration-700 ${
 				fading ? "opacity-0" : "opacity-100"
 			}`}
 		>
+			{/* The fire, across the whole screen */}
+			<div className="absolute inset-0">
+				<ForgeFire />
+			</div>
+
 			{/* Top loading bar — dark amber → amber → blue gradient reveal */}
 			<div
-				className="absolute top-0 left-0 right-0 h-1.5 z-[210] overflow-hidden"
+				className="absolute top-0 left-0 right-0 h-1.5 z-10 overflow-hidden"
 				style={{ background: "linear-gradient(90deg, #92400e 0%, #f59e0b 60%, #3b82f6 100%)" }}
 			>
 				<div
@@ -89,37 +99,18 @@ export default function HomeLoader() {
 				/>
 			</div>
 
-			{/* Scattered background embers */}
-			{EMBERS.map((e, i) => (
-				<span
-					key={i}
-					className="absolute w-0.5 h-0.5 rounded-full bg-amber-400"
-					style={{
-						top: e.top, left: e.left,
-						animation: `star-blink ${e.dur} ease-in-out ${e.delay} infinite`,
-					}}
-				/>
-			))}
+			<p className="loader-text absolute top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap font-mono text-[10px] sm:text-xs tracking-[0.45em] uppercase text-amber-300/85">
+				◈ igniting the forge ◈
+			</p>
 
-			{/* Centered content */}
-			<div className="relative flex flex-col items-center">
-				<p className="font-mono text-[9px] tracking-[0.45em] uppercase text-amber-500/60 mb-5">
-					◈ igniting the forge ◈
-				</p>
-
-				{/* Forge animation */}
-				<div className="mb-5 w-52 h-44">
-					<ForgeCanvas />
-				</div>
-
-				<p className="mt-3 font-mono text-[10px] tracking-[0.35em] uppercase text-amber-500/50 animate-pulse">
+			<div className="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3 whitespace-nowrap text-center">
+				<p className="loader-text font-mono text-[10px] tracking-[0.35em] uppercase text-amber-100/90 animate-pulse">
 					FORGING DATA...
 				</p>
+				<p className="loader-text font-mono text-[10px] tracking-widest uppercase text-amber-50/60">
+					tap anywhere to skip
+				</p>
 			</div>
-
-			<p className="mt-8 text-slate-700 font-mono text-[10px] tracking-widest uppercase">
-				tap anywhere to skip
-			</p>
 		</div>
 	);
 }

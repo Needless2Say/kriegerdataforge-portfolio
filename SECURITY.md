@@ -1,8 +1,8 @@
 # Security Policy
 
-> Part of the **KriegerDataForge (KDF)** ecosystem — a centralized SSO/OIDC auth platform
-> and the apps built on it. We take security seriously; this repo (`kriegerdataforge-portfolio`) follows the
-> ecosystem-wide disclosure process below.
+> Part of the **KriegerDataForge (KDF)** ecosystem. A centralized SSO/OIDC auth platform
+> and the apps built on it. We take security seriously. This repo (`kriegerdataforge-portfolio`) follows the
+> ecosystem wide disclosure process below.
 
 ## Reporting a Vulnerability
 
@@ -19,8 +19,8 @@ non-public channel and mark the message **SECURITY**.
 ### What to include
 
 - A clear description of the vulnerability and its impact
-- Step-by-step reproduction (PoC, request/response, or affected endpoint/route)
-- Affected version/commit and configuration (no secret **values** — reference names only)
+- Step by step reproduction (PoC, request/response, or affected endpoint/route)
+- Affected version/commit and configuration (no secret **values**, reference names only)
 - Any suggested remediation, if you have one
 
 > ⚠️ Never include live secret values, private keys, or real user data in a report. Reference
@@ -28,40 +28,40 @@ non-public channel and mark the message **SECURITY**.
 
 ## Our Commitment
 
-- **Acknowledgement:** within **3 business days**.
-- **Triage & severity:** within **7 business days**, using a P0–P3 model
+- **Acknowledgement.** Within **3 business days**.
+- **Triage & severity.** Within **7 business days**, using a P0–P3 model
   (P0 = active exposure / launch blocker → P3 = hardening).
-- **Fix & disclosure:** we aim to remediate P0/P1 issues before any public disclosure and
+- **Fix & disclosure.** We aim to remediate P0/P1 issues before any public disclosure and
   will coordinate a disclosure timeline with you. We credit reporters who wish to be named.
 
 ## Scope
 
-**In scope for `kriegerdataforge-portfolio`:** This is a static Next.js marketing/portfolio site (static export to GitHub Pages) with no database, no auth, and no backend. Security-relevant surface is standard web hardening only — the static-export/`basePath` build integrity, the client-side EmailJS contact form (`NEXT_PUBLIC_EMAILJS_*` keys are public-by-design), dependency/supply-chain (npm) integrity, and the CI/CD + GitHub Pages deploy pipeline. There are no auth flows, payments, or secrets of consequence.
+**In scope for `kriegerdataforge-portfolio`:** This is a static Next.js marketing/portfolio site (static export to GitHub Pages) with no database, no auth, and no backend. Security relevant surface is standard web hardening only. The static-export/`basePath` build integrity, the client side EmailJS contact form (`NEXT_PUBLIC_EMAILJS_*` keys are public by design), dependency/supply-chain (npm) integrity, and the CI/CD + GitHub Pages deploy pipeline. There are no auth flows, payments, or secrets of consequence.
 
 **Generally out of scope** (across the ecosystem):
 
 - Findings that require a compromised host, a malicious dependency you introduced, or
   physical access
 - Automated scanner output without a demonstrated, exploitable impact
-- Missing best-practice headers/flags with no concrete exploit
+- Missing best practice headers/flags with no concrete exploit
 - Social engineering, spam, or volumetric DoS
-- Issues in third-party services we integrate but do not control
+- Issues in third party services we integrate but do not control
 
-> **Note on CSP / security headers:** GitHub Pages cannot emit custom response headers, so a
+> **Note on CSP / security headers.** GitHub Pages cannot emit custom response headers, so a
 > Content-Security-Policy could only ship as a `<meta http-equiv>` tag in
-> `src/app/layout.tsx` — and none is currently shipped. That is the deliberate, documented
+> `src/app/layout.tsx`. And none is currently shipped. That is the deliberate, documented
 > state of this static site (a meta-CSP covers only a subset of directives and this site has
-> no auth or user data); report a *demonstrated* injection impact rather than the missing
+> no auth or user data). Report a *demonstrated* injection impact rather than the missing
 > header itself.
 
 ## Supported Versions
 
-This project ships from `main`; only the latest released version is supported. Security
+This project ships from `main`, only the latest released version is supported. Security
 fixes land on `main` and are rolled out via the standard deploy pipeline.
 
 ## Handling Secrets
 
-Secret rotation and git-history hygiene are owner-operated. Contributors must never commit
-secret values; the CI secret-scan (`gitleaks` over the full history, in
-`.github/workflows/ci.yml`) is the backstop — no pre-commit hook is configured in this
+Secret rotation and git history hygiene are owner-operated. Contributors must never commit
+secret values. The CI secret-scan (`gitleaks` over the full history, in
+`.github/workflows/ci.yml`) is the backstop. No pre-commit hook is configured in this
 repo. See the ecosystem security playbook (`skills.md`) where present.

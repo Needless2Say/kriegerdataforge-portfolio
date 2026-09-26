@@ -12,6 +12,7 @@ import Reveal from "@/components/ui/Reveal";
 import SectionHeader from "@/components/ui/SectionHeader";
 import StruckWordmark from "@/components/ui/StruckWordmark";
 import BinaryStat from "@/components/ui/BinaryStat";
+import SpaceLink from "@/components/ui/SpaceLink";
 
 export const metadata: Metadata = {
 	title: "KriegerDataForge | A Personal Platform",
@@ -186,6 +187,11 @@ export default function Home() {
 						<p className="mt-4 text-slate-500 font-mono text-xs">
 							— {KDF_INFO.founder}, Founder
 						</p>
+						<div className="mt-4 flex justify-center">
+							<SpaceLink href={KDF_INFO.links.portfolio} size="sm">
+								My Personal Portfolio
+							</SpaceLink>
+						</div>
 					</div>
 				</Reveal>
 			</div>

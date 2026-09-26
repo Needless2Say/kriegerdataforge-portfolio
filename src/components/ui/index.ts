@@ -12,6 +12,7 @@ export { default as Reveal }             from "./Reveal";
 export { default as ScrollProgress }     from "./ScrollProgress";
 export { default as ScrollToTop }        from "./ScrollToTop";
 export { default as SectionHeader }      from "./SectionHeader";
+export { default as SpaceLink }          from "./SpaceLink";
 export { default as StatusPill }         from "./StatusPill";
 export { default as StruckWordmark }     from "./StruckWordmark";
 export { default as TechBadge }          from "./TechBadge";

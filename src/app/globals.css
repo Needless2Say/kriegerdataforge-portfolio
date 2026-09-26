@@ -248,6 +248,18 @@ body {
 .animate-ember  { animation: ember-drift 1.8s ease-in-out infinite; }
 .animate-hammer { animation: hammer-pulse 1.4s ease-in-out infinite; }
 
+/* ─── Space glow (personal portfolio outbound links) ────── */
+/* The amber forge glow's counterpart, in the personal portfolio's own blue.
+   Idle on purpose, not just on :hover, same reasoning as the forge glow. */
+@keyframes star-glow {
+	0%, 100% { box-shadow: 0 0 8px rgba(59, 130, 246, 0.25), 0 0 0px rgba(96, 165, 250, 0); }
+	50%      { box-shadow: 0 0 22px rgba(59, 130, 246, 0.55), 0 0 44px rgba(96, 165, 250, 0.22); }
+}
+
+.animate-star-glow {
+	animation: star-glow 2.6s ease-in-out infinite;
+}
+
 /* ─── Animated gradient divider line ────────────────── */
 .animate-gradient-line {
 	background: linear-gradient(90deg, #7c2d12 0%, #ea580c 20%, #f97316 38%, #fbbf24 50%, #f97316 62%, #ea580c 80%, #7c2d12 100%);
@@ -607,6 +619,7 @@ html[data-revisit] .home-content-reveal {
 	.animate-ping,
 	.animate-ember,
 	.animate-hammer,
+	.animate-star-glow,
 	.animate-gradient-line,
 	.brand-wordmark,
 	.brand-wordmark.animate-fade-in-up,
@@ -627,6 +640,9 @@ html[data-revisit] .home-content-reveal {
 	.temper:hover,
 	.binary-stat[data-show]::after {
 		animation: none;
+	}
+	.animate-star-glow {
+		box-shadow: 0 0 10px rgba(59, 130, 246, 0.25);
 	}
 	.gradient-text {
 		background: #f97316;

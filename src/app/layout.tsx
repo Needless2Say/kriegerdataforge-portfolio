@@ -28,7 +28,7 @@ export const viewport: Viewport = {
 const BASE_URL = "https://needless2say.github.io/kriegerdataforge-portfolio";
 
 /** Google Analytics for this site. The personal portfolio has its own, separate ID. */
-const GA_MEASUREMENT_ID = "G-62L2LXBRFM";
+const GA_MEASUREMENT_ID = "G-50SJBQ5MV2";
 
 export const metadata: Metadata = {
 	metadataBase: new URL(BASE_URL),

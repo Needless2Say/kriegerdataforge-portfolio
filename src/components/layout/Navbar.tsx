@@ -28,9 +28,14 @@ export default function Navbar() {
 		path === "/" ? pathname === "/" : pathname.startsWith(path);
 
 	return (
+		/*
+			Gone the instant the loader takes the screen, and faded back in when it
+			hands off. The nav sits above the loader, so fading it out as well left
+			it lying across the loader's own words for most of a second.
+		*/
 		<nav className={cn(
-			"fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 transition-opacity duration-700",
-			loaderActive ? "opacity-0 pointer-events-none" : "opacity-100"
+			"vt-nav fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4",
+			loaderActive ? "opacity-0 pointer-events-none" : "opacity-100 transition-opacity duration-700"
 		)}>
 			{/* ── Desktop ── */}
 			<div className="hidden sm:flex items-center gap-0.5 rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-amber-900/30 px-2 py-1.5 shadow-xl shadow-black/40">

@@ -10,6 +10,8 @@ import StatusPill from "@/components/ui/StatusPill";
 import Card from "@/components/ui/Card";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeader from "@/components/ui/SectionHeader";
+import StruckWordmark from "@/components/ui/StruckWordmark";
+import BinaryStat from "@/components/ui/BinaryStat";
 
 export const metadata: Metadata = {
 	title: "KriegerDataForge | A Closed Personal Platform",
@@ -31,7 +33,7 @@ export default function Home() {
 					className="text-amber-500/70 font-mono text-xs tracking-[0.3em] uppercase mb-6 animate-fade-in"
 					style={{ animationDelay: "0s" }}
 				>
-					◈ a closed personal platform · built on my own time ◈
+					◈ built with a fiery passion and strong will ◈
 				</p>
 
 				{/*
@@ -41,12 +43,12 @@ export default function Home() {
 					overflows somewhere between two breakpoints. The upper bound is set
 					by the 768px container it sits in, not by taste.
 				*/}
-				<h1
+				<StruckWordmark
 					className="brand-wordmark font-bold leading-[1.08] tracking-tight whitespace-nowrap mb-5 pb-2 animate-fade-in-up"
 					style={{ animationDelay: "0.1s", fontSize: "clamp(1.85rem, 8.2vw, 4.6rem)" }}
 				>
 					KriegerDataForge
-				</h1>
+				</StruckWordmark>
 
 				{/* Typewriter */}
 				<p
@@ -71,7 +73,7 @@ export default function Home() {
 				>
 					{STATS.map((stat) => (
 						<div key={stat.label} className="glass-card px-4 py-1.5 border-white/5 flex items-center gap-1.5">
-							<span className="text-amber-300 font-bold text-sm font-mono">{stat.value}</span>
+							<BinaryStat value={stat.value} className="text-amber-300 font-bold text-sm font-mono" />
 							<span className="text-slate-500 text-xs">{stat.label}</span>
 						</div>
 					))}

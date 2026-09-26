@@ -3,6 +3,7 @@
 import { useEffect, useRef, type RefObject } from "react";
 
 import { bitGradient, bitMix, drawGlyph } from "@/utils/binaryGlyph";
+import { FLAME_RGB, makeBlob } from "@/utils/blobSprite";
 
 /*
 	An element catching fire and burning away.
@@ -44,9 +45,6 @@ const FRONT_END = 0.72;
 const PAD_X      = 56;
 const PAD_TOP    = 156;
 const PAD_BOTTOM = 36;
-
-/** Hottest first, coolest last, same ladder the loader's fire uses. */
-const FLAME_RGB = ["255,246,214", "251,191,36", "249,115,22", "185,28,28"];
 
 const MAX_FLAMES = 68;
 const MAX_BITS   = 34;
@@ -97,23 +95,6 @@ interface Ember {
 	phase: number;
 	life: number;
 	lifeSpeed: number;
-}
-
-function makeBlob(rgb: string): HTMLCanvasElement {
-	const size = 64;
-	const c = document.createElement("canvas");
-	c.width = size;
-	c.height = size;
-	const g = c.getContext("2d");
-	if (!g) return c;
-
-	const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-	grad.addColorStop(0, "rgba(" + rgb + ",1)");
-	grad.addColorStop(0.35, "rgba(" + rgb + ",0.5)");
-	grad.addColorStop(1, "rgba(" + rgb + ",0)");
-	g.fillStyle = grad;
-	g.fillRect(0, 0, size, size);
-	return c;
 }
 
 interface BurnAwayProps {

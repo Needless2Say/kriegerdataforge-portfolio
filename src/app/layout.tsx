@@ -5,6 +5,8 @@ import { Navbar, Footer, PageTransition } from "@/components/layout";
 import EmberField from "@/components/ui/EmberField";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import HeatTracker from "@/components/ui/HeatTracker";
+import { PAGE_VISIT_SCRIPT } from "@/utils/playOnce";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -77,7 +79,16 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		/*
+			`suppressHydrationWarning` because the head script can add
+			`data-revisit` to this element before React loads. It covers this
+			element's own attributes only, nothing inside it.
+		*/
+		<html lang="en" suppressHydrationWarning>
+			<head>
+				{/* Has to run before the first paint. playOnce.ts explains why. */}
+				<script dangerouslySetInnerHTML={{ __html: PAGE_VISIT_SCRIPT }} />
+			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<a href="#main-content" className="skip-to-content">
 					Skip to content
@@ -93,6 +104,7 @@ export default function RootLayout({
 
 				<Footer />
 				<ScrollToTop />
+				<HeatTracker />
 			</body>
 		</html>
 	);

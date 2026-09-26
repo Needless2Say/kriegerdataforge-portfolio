@@ -222,6 +222,17 @@ body {
 	to   { width: 0%; }
 }
 
+/*
+	The words over the loader's fire. A dark halo around each letter keeps them
+	readable where they sit over the brightest flames.
+*/
+.loader-text {
+	text-shadow:
+		0 0 3px rgba(10, 7, 4, 0.95),
+		0 0 10px rgba(10, 7, 4, 0.9),
+		0 0 22px rgba(10, 7, 4, 0.8);
+}
+
 @keyframes ember-drift {
 	0%   { transform: translateY(0) translateX(0); opacity: 0; }
 	10%  { opacity: 0.8; }
@@ -234,11 +245,6 @@ body {
 	50%       { transform: rotate(-12deg) scale(1.03); }
 }
 
-@keyframes star-blink {
-	0%, 100% { opacity: 0.15; }
-	50%       { opacity: 0.8; }
-}
-
 .animate-ember  { animation: ember-drift 1.8s ease-in-out infinite; }
 .animate-hammer { animation: hammer-pulse 1.4s ease-in-out infinite; }
 
@@ -247,6 +253,319 @@ body {
 	background: linear-gradient(90deg, #7c2d12 0%, #ea580c 20%, #f97316 38%, #fbbf24 50%, #f97316 62%, #ea580c 80%, #7c2d12 100%);
 	background-size: 300% auto;
 	animation: gradient-shift 16s linear infinite;
+}
+
+/* ─── Hammer strike on the wordmark ─────────────────── */
+/*
+	The wordmark's colour sweep and its entrance are both `animation`, and the
+	entrance class is declared later in this file, so it used to win outright
+	and the sweep never ran at all. Listing both here keeps both.
+*/
+.brand-wordmark.animate-fade-in-up {
+	animation:
+		fade-in-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) both,
+		gradient-shift 20s linear infinite;
+}
+
+/*
+	Struck iron. White hot at the blow, cooling through yellow and orange into
+	the amber the name rests at. Carried by a wrapper around the heading, so the
+	heading's own animations are never interrupted.
+*/
+@keyframes wordmark-heat {
+	0%   { filter: brightness(2.7) saturate(0) drop-shadow(0 0 30px rgba(255, 244, 214, 0.85)); }
+	10%  { filter: brightness(2.35) saturate(0.15) drop-shadow(0 0 30px rgba(255, 240, 200, 0.8)); }
+	32%  { filter: brightness(1.7) saturate(0.6) drop-shadow(0 0 26px rgba(253, 224, 71, 0.55)); }
+	60%  { filter: brightness(1.25) saturate(1.05) drop-shadow(0 0 22px rgba(249, 115, 22, 0.35)); }
+	100% { filter: brightness(1) saturate(1) drop-shadow(0 0 0 rgba(249, 115, 22, 0)); }
+}
+
+/* The metal giving under the blow and springing back. */
+@keyframes strike-jolt {
+	0%   { transform: translateY(0) scale(1, 1); }
+	7%   { transform: translateY(4px) scale(1.012, 0.965); }
+	20%  { transform: translateY(-2px) scale(0.996, 1.01); }
+	36%  { transform: translateY(1px) scale(1, 1); }
+	100% { transform: translateY(0) scale(1, 1); }
+}
+
+.wordmark-strike {
+	animation:
+		wordmark-heat 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) both,
+		strike-jolt 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+/* ─── Headings forged from bits ─────────────────────── */
+/*
+	While a heading is masked its glow is switched off, and it fades back in
+	once the letters are showing. ForgedHeading explains why.
+*/
+.forge-heading {
+	transition: text-shadow 0.7s ease;
+}
+
+.glow-text.forge-pending {
+	text-shadow: none;
+}
+
+/* ─── A number that arrives in binary ───────────────── */
+/*
+	The digits on screen during the decode are painted from a data attribute,
+	never written into the page, so the page's text stays the real number.
+*/
+.binary-stat {
+	position: relative;
+	display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	transition: width 0.09s ease-out;
+}
+
+.binary-stat[data-show] .binary-stat-value {
+	opacity: 0;
+}
+
+.binary-stat[data-show]::after {
+	content: attr(data-show);
+	position: absolute;
+	inset: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+
+/* 10010, in the colours every bit on the site is drawn in. */
+.binary-stat[data-phase="binary"]::after {
+	background: linear-gradient(90deg, #3b82f6, #a855f7, #3b82f6);
+	background-size: 200% auto;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.55));
+	animation: gradient-shift 2.4s linear infinite;
+}
+
+/* The scramble, torn by the same colour split the glitching bits use. */
+.binary-stat[data-phase="scramble"]::after {
+	color: #fcd34d;
+	text-shadow: -1px 0 rgba(255, 0, 110, 0.75), 1px 0 rgba(0, 225, 255, 0.75);
+}
+
+/* ─── Heat under the cursor ─────────────────────────── */
+/*
+	Cards warm up where the pointer is. HeatTracker keeps --mx and --my set on
+	the card under the pointer. The glow sits between the card's glass and its
+	content, and the stretch of rim nearest the pointer runs hotter than the
+	rest of the edge.
+
+	Hover capable fine pointers only. On a phone there is nothing to follow.
+*/
+@media (hover: hover) and (pointer: fine) {
+	.heat-card {
+		position: relative;
+		isolation: isolate;
+	}
+
+	.heat-card::before,
+	.heat-card::after {
+		content: "";
+		position: absolute;
+		border-radius: inherit;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.35s ease;
+	}
+
+	.heat-card::before {
+		inset: 0;
+		z-index: -1;
+		background: radial-gradient(
+			320px circle at var(--mx, 50%) var(--my, 50%),
+			rgba(251, 146, 60, 0.14),
+			rgba(245, 158, 11, 0.05) 42%,
+			transparent 72%
+		);
+	}
+
+	.heat-card::after {
+		inset: -1px;
+		padding: 1px;
+		background: radial-gradient(
+			220px circle at var(--mx, 50%) var(--my, 50%),
+			rgba(254, 240, 138, 0.8),
+			rgba(249, 115, 22, 0.35) 42%,
+			transparent 72%
+		);
+		-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+		-webkit-mask-composite: xor;
+		mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+	}
+
+	.heat-card:hover::before,
+	.heat-card:hover::after {
+		opacity: 1;
+	}
+}
+
+/* ─── Temper colours ─────────────────────────────────── */
+/*
+	Polished steel heated past about 200°C runs through a fixed sequence of
+	oxide colours, pale straw, straw, bronze, purple, then blue. That is the
+	site's own amber into blue, and it is what a badge runs through under the
+	pointer, holding at blue for as long as the pointer stays.
+*/
+@keyframes temper {
+	0%   { color: #fef3c7; border-color: rgba(253, 230, 138, 0.7);  background-color: rgba(120, 90, 20, 0.35); box-shadow: 0 0 10px rgba(253, 230, 138, 0.25); }
+	26%  { color: #fcd34d; border-color: rgba(217, 164, 65, 0.8);   background-color: rgba(110, 70, 15, 0.4);  box-shadow: 0 0 10px rgba(217, 164, 65, 0.3); }
+	50%  { color: #f0a868; border-color: rgba(184, 115, 51, 0.85);  background-color: rgba(90, 45, 15, 0.45);  box-shadow: 0 0 10px rgba(184, 115, 51, 0.32); }
+	74%  { color: #d8b4fe; border-color: rgba(147, 76, 196, 0.85);  background-color: rgba(60, 20, 90, 0.45);  box-shadow: 0 0 12px rgba(168, 85, 247, 0.35); }
+	100% { color: #bfdbfe; border-color: rgba(59, 130, 246, 0.85);  background-color: rgba(23, 37, 84, 0.55);  box-shadow: 0 0 12px rgba(59, 130, 246, 0.38); }
+}
+
+@media (hover: hover) {
+	.temper:hover {
+		animation: temper 0.9s ease-out forwards;
+	}
+}
+
+/* ─── The timeline pour ─────────────────────────────── */
+.pour-track {
+	background: linear-gradient(to bottom, rgba(146, 64, 14, 0.45), rgba(100, 116, 139, 0.16));
+}
+
+/* Hottest at the leading edge, where it was poured last. */
+.pour-fill {
+	left: 11px;
+	width: 3px;
+	border-radius: 3px;
+	transform: scaleY(0);
+	transform-origin: top;
+	background: linear-gradient(to bottom, #9a3412, #ea580c 35%, #f59e0b 72%, #fde68a);
+	box-shadow: 0 0 6px rgba(245, 158, 11, 0.55), 0 0 16px rgba(234, 88, 12, 0.3);
+}
+
+.pour-head {
+	left: 7.5px;
+	top: 3px;
+	width: 10px;
+	height: 10px;
+	border-radius: 9999px;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	background: radial-gradient(circle, #fffbeb 0%, #fde68a 38%, rgba(245, 158, 11, 0.55) 62%, transparent 74%);
+	box-shadow: 0 0 14px 5px rgba(253, 186, 116, 0.5);
+}
+
+/*
+	Cold until the metal reaches it, lit while the metal is past it, and cold
+	again if the metal drains back above it. The change is a short fade either
+	way, the metal cooling rather than switching off.
+*/
+.pour-dot {
+	background: #0a0704;
+	border: 2px solid rgba(146, 64, 14, 0.6);
+	transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.pour-dot-core {
+	background: rgba(120, 53, 15, 0.9);
+	transition: background-color 0.5s ease;
+}
+
+.pour-dot[data-lit] {
+	border-color: #f59e0b;
+	box-shadow: 0 0 10px 1px rgba(245, 158, 11, 0.35);
+}
+
+.pour-dot[data-lit] .pour-dot-core {
+	background: #fbbf24;
+}
+
+/*
+	The hammer blow, the first time the metal reaches a marker in a tab. The
+	marker punches out white hot, gives under the blow, springs back and cools
+	to its lit glow, while PourTimeline draws the flash and the sparks around
+	it. `scale` rather than `transform`, because the dot is centred with
+	Tailwind's `translate`, and a transform here would fight it for the same
+	property.
+*/
+.pour-dot[data-struck] {
+	animation: dot-strike 0.95s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.pour-dot[data-struck] .pour-dot-core {
+	animation: dot-core-strike 0.95s ease-out;
+}
+
+@keyframes dot-strike {
+	0%   { scale: 1;    border-color: #fffbeb; box-shadow: 0 0 0 0 rgba(255, 251, 235, 0), 0 0 0 0 rgba(253, 230, 138, 0); }
+	9%   { scale: 1.9;  border-color: #fffbeb; box-shadow: 0 0 0 5px rgba(255, 251, 235, 0.55), 0 0 30px 10px rgba(253, 230, 138, 0.9); }
+	24%  { scale: 0.86; border-color: #fef3c7; box-shadow: 0 0 0 3px rgba(255, 251, 235, 0.35), 0 0 22px 6px rgba(253, 186, 116, 0.7); }
+	42%  { scale: 1.16; border-color: #fbbf24; box-shadow: 0 0 0 2px rgba(253, 186, 116, 0.25), 0 0 16px 4px rgba(249, 115, 22, 0.5); }
+	100% { scale: 1;    border-color: #f59e0b; box-shadow: 0 0 0 0 rgba(245, 158, 11, 0), 0 0 10px 1px rgba(245, 158, 11, 0.35); }
+}
+
+@keyframes dot-core-strike {
+	0%, 30% { background: #fffbeb; }
+	100%    { background: #fbbf24; }
+}
+
+/* ─── Page to page ───────────────────────────────────── */
+/*
+	Internal links are plain anchors, because client side navigation 404s on
+	this static export, so every click is a full page load. A cross document
+	view transition turns that hard cut into a crossfade. Browsers without it
+	navigate exactly as they did before.
+
+	The nav is named so it holds still while the page under it changes. The
+	ember canvas is deliberately left unnamed. A named element is lifted into
+	its own layer above the page for the length of the transition, and the
+	background would cover the content while it lasted.
+*/
+@media (prefers-reduced-motion: no-preference) {
+	@view-transition {
+		navigation: auto;
+	}
+}
+
+::view-transition-group(root) {
+	animation-duration: 0.32s;
+}
+
+.vt-nav {
+	view-transition-name: site-nav;
+}
+
+/* ─── Once per tab ───────────────────────────────────── */
+/*
+	A page's entrance plays the first time the page loads in a tab, and not
+	again until the tab is closed. The head script in the root layout puts
+	`data-revisit` on <html> before the first paint when this page was already
+	loaded in this tab, and these rules draw it finished from its very first
+	frame. playOnce.ts has the whole rule.
+
+	Scoped to the page content. The email card uses the same entrance class
+	for a click, and that still answers every time.
+
+	Reveal and the home page fade hold content transparent with inline styles
+	until React loads, which is why those two need `!important`.
+*/
+html[data-revisit] #main-content .animate-fade-in,
+html[data-revisit] #main-content .animate-fade-in-up {
+	animation: none;
+}
+
+html[data-revisit] [data-reveal],
+html[data-revisit] .home-content-reveal {
+	opacity: 1 !important;
+	animation: none !important;
+	transition: none !important;
+}
+
+/* The wordmark's colour sweep is not an entrance, so it keeps running. */
+@media (prefers-reduced-motion: no-preference) {
+	html[data-revisit] #main-content .brand-wordmark.animate-fade-in-up {
+		animation: gradient-shift 20s linear infinite;
+	}
 }
 
 /* ─── Touch targets ──────────────────────────────────── */
@@ -290,12 +609,24 @@ body {
 	.animate-hammer,
 	.animate-gradient-line,
 	.brand-wordmark,
+	.brand-wordmark.animate-fade-in-up,
+	.wordmark-strike,
 	.gradient-text,
 	[style*="fire-rise"] {
 		animation: none;
 		opacity: 1;
 		transform: none;
 		filter: none;
+	}
+	/*
+		The components already skip themselves under reduced motion. These are
+		the backstop, so a struck marker or a hovered badge never animates either.
+	*/
+	.pour-dot[data-struck],
+	.pour-dot[data-struck] .pour-dot-core,
+	.temper:hover,
+	.binary-stat[data-show]::after {
+		animation: none;
 	}
 	.gradient-text {
 		background: #f97316;

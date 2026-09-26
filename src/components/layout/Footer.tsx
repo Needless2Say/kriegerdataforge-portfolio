@@ -13,7 +13,7 @@ export default function Footer() {
 							<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
 							<span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500" />
 						</span>
-						<span>forge · closed</span>
+						<span>forge · personal</span>
 					</div>
 					<span className="hidden sm:inline">repos · 18</span>
 					<span className="hidden sm:inline">stack · fastapi + next.js</span>
@@ -32,7 +32,7 @@ export default function Footer() {
 						© {new Date().getFullYear()} {KDF_INFO.founder}
 					</p>
 					<p className="text-slate-700 text-xs font-mono mt-1">
-						A closed platform for myself, running all of my own personal apps.
+						A platform for myself, running all of my own personal apps.
 					</p>
 				</div>
 				<div className="flex items-center gap-6">

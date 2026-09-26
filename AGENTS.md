@@ -64,10 +64,10 @@ simple. Over engineering a static site is the wrong instinct.
 | ----------------------------- | ----------------------------------------------------------------------- |
 | `src/app/`                    | App Router pages. `page.tsx` (home), `about/`, `projects/`, `contact/`, plus `layout.tsx`, `not-found.tsx`, `robots.ts`, `sitemap.ts` |
 | `src/components/layout/`      | Chrome. `Navbar`, `Footer`, `PageTransition` (barrel `index.ts`)        |
-| `src/components/ui/`          | Presentational + effects, `ForgeCanvas`, `EmberField`, `ContactForm`, `Reveal`, `TypewriterText`, `Card`, `TechBadge`, etc. (barrel `index.ts`) |
+| `src/components/ui/`          | Presentational + effects. `ForgeFire` (the full screen loader fire), `EmberField` (background), `StruckWordmark`, `ForgedHeading`, `BinaryStat`, `PourTimeline`, `HeatTracker`, `EmailModal` + `BurnAway`, `ContactForm` + `Transmission`, `Reveal`, `Card`, `TechBadge`, etc. (barrel `index.ts`) |
 | `src/constants/`             | Content as data. `kdf-info.ts`, `projects.ts`, `routes.ts`, `skills.ts` (edit content here, not in JSX) |
 | `src/types/portfolio.ts`     | Shared TS types (e.g. `Project`)                                          |
-| `src/utils/cn.ts`            | `className` merge helper                                                  |
+| `src/utils/`                 | `cn.ts` (`className` merge), `binaryGlyph.ts` (every 0 and 1 on the site), `blobSprite.ts` (glow sprites, canvas sizing, reduced motion check), `playOnce.ts` + `useRevisit.ts` (what has already played in this tab), `useLoaderSeen.ts` |
 | `src/app/globals.css`        | Tailwind layer + theme tokens                                            |
 | `scripts/bump_version.py`    | Lockstep `VERSION` + `package.json` + `package-lock.json` version bumper (driven by `make bump-*`) |
 | `.github/workflows/`         | `ci.yml`, `codeql.yml` (gated), `cd.yml` (Pages deploy), `release.yml`   |
@@ -82,6 +82,11 @@ simple. Over engineering a static site is the wrong instinct.
 6. **Stay on theme.** Background `#0a0704`, amber `#f59e0b` (forge fire), electric blue `#3b82f6` (data streams), amber↔blue animated gradient text.
 7. **`VERSION` and `package.json` version must match.** Bump via the Make targets only (they write all three of `VERSION`, `package.json`, and `package-lock.json` in lockstep), CI's version-check fails if `VERSION` and `package.json` diverge.
 8. **EmailJS keys are public by design** but still come from `NEXT_PUBLIC_EMAILJS_*` secrets/env. Never hard code real IDs, `.env.local` is gitignored, `.env.local.example` holds placeholders.
+9. **Motion runs because something happened, then stops.** Arrival, a scroll, a hover, a click. Nothing new runs continuously, because the ember background already takes most of the frame budget. Every animation checks `prefersReducedMotion()` and shows its finished state instead, with a backstop in the reduced motion block of `globals.css`. The home loader covers the whole screen, so while it is fully opaque it sets `LOADER_COVERING` (from `useLoaderSeen.ts`) on `<html>` and `EmberField` idles under it, lifting the mark as the fade starts. Measured at 1280x900, the loader holds 60fps at 63% of the main thread with the background idling and saturates at 99% without, so anything else that covers the page should do the same.
+10. **Digits go through `drawGlyph`, and nothing uses canvas `shadowBlur`.** A shadowed draw costs in proportion to the whole canvas, measured at 494ms a frame for 140 digits on a full screen canvas against 2ms with the stamped glow `drawGlyph` uses now.
+11. **A canvas that overlays a masked element is its sibling, never its child**, or the mask cuts the canvas away too. A `position: fixed` canvas is portalled to `document.body`, because pages sit inside `Reveal` and the page transition, both of which leave a transform on an ancestor and make `fixed` relative to it.
+12. **Page text never changes for an effect.** Search engines and screen readers get the real words. Scrambles are painted on a canvas or from a data attribute, and the real text is masked or hidden with opacity, never replaced.
+13. **What plays on arrival plays once per tab.** A page's entrance, the wordmark strike, the binary stat, a forged heading, and each timeline marker's strike play the first time, a reload or a return to the page shows them finished, and only a new tab plays them again. The owner asked for this to cut animation fatigue. A page's entrance is decided before the first paint by the head script in `layout.tsx`, which sets `data-revisit` on `<html>`, because deciding it after React loads shows the entrance start and then get cut off. Everything else records itself with `hasPlayed` and `markPlayed` from `src/utils/playOnce.ts` at the moment it actually plays. The ember background and anything answering the visitor's own hover or click are exempt.
 
 ## Commands
 

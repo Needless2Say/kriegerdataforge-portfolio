@@ -62,7 +62,7 @@ export const KDF_PROJECTS: Project[] = [
 		description:
 			"One Terraform configuration declaring every environment, and a centralized CI/CD library every repository on the platform inherits.",
 		longDescription:
-			"The only place environments are declared. Terraform describes sandbox, dev, and production, which share no keys, databases, or service keys between them, and it is the single repository allowed to write to any of them. Alongside it sits a centralized CI/CD library where deploy behavior, security gates, and version discipline are defined once and inherited by every repository, so a change to how things ship is one edit rather than eighteen. Every deploy is a manual dispatch behind an environment approval gate.",
+			"The only place environments are declared. Terraform describes dev and production, which share no keys, databases, or service keys between them, and it is the single repository allowed to write to either of them. Alongside it sits a centralized CI/CD library where deploy behavior, security gates, and version discipline are defined once and inherited by every repository, so a change to how things ship is one edit rather than eighteen. Every deploy is a manual dispatch behind an environment approval gate.",
 		tech: ["Terraform", "GitHub Actions", "Docker", "GCP", "Vercel"],
 		status: "in development",
 		category: "Infrastructure",

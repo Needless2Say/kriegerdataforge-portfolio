@@ -3,6 +3,9 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
+import { prefersReducedMotion } from "@/utils/blobSprite";
+import Transmission, { charPoints, type TransmitPoint } from "./Transmission";
+
 type FormStatus = "idle" | "sending" | "success" | "error";
 
 // ─── Fill these in once the KDF contact address is ready ─────────────────────
@@ -16,6 +19,7 @@ export default function ContactForm() {
 	const formRef = useRef<HTMLFormElement>(null);
 	const [status, setStatus] = useState<FormStatus>("idle");
 	const [errorMsg, setErrorMsg] = useState("");
+	const [burst, setBurst] = useState<TransmitPoint[] | null>(null);
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
@@ -32,6 +36,15 @@ export default function ContactForm() {
 
 		try {
 			await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, { publicKey: PUBLIC_KEY });
+			/*
+				Read before the reset, which empties the fields. The bits appear
+				where the text was in the same frame the text goes, so the message
+				reads as turning into them rather than simply vanishing.
+			*/
+			if (!prefersReducedMotion()) {
+				const fields = formRef.current.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea");
+				setBurst(charPoints(Array.from(fields)));
+			}
 			setStatus("success");
 			formRef.current.reset();
 		} catch (err) {
@@ -145,6 +158,7 @@ export default function ContactForm() {
 					"Send Message"
 				)}
 			</button>
+			{burst && <Transmission points={burst} onDone={() => setBurst(null)} />}
 		</form>
 	);
 }

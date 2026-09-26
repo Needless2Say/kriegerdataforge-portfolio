@@ -6,10 +6,12 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import TechBadge from "@/components/ui/TechBadge";
 import Card from "@/components/ui/Card";
 import Reveal from "@/components/ui/Reveal";
+import ForgedHeading from "@/components/ui/ForgedHeading";
+import PourTimeline from "@/components/ui/PourTimeline";
 
 export const metadata: Metadata = {
 	title: "About",
-	description: "What KriegerDataForge is. A closed personal platform Arthur Krieger designs and builds on his own time, running only his own apps.",
+	description: "What KriegerDataForge is. A personal platform Arthur Krieger designs and builds, running only his own apps.",
 	alternates: { canonical: "https://needless2say.github.io/kriegerdataforge-portfolio/about" },
 };
 
@@ -53,9 +55,9 @@ export default function About() {
 						<p className="text-amber-500/60 font-mono text-[10px] tracking-[0.4em] uppercase mb-3">
 							◈ the forge origin ◈
 						</p>
-						<h1 className="text-4xl sm:text-5xl font-bold gradient-text glow-text pb-2 mb-4">
+						<ForgedHeading as="h1" className="text-4xl sm:text-5xl font-bold gradient-text glow-text pb-2 mb-4">
 							What is KDF?
-						</h1>
+						</ForgedHeading>
 						<p className="text-slate-300 text-base leading-relaxed">
 							{KDF_INFO.description}
 						</p>
@@ -94,7 +96,7 @@ export default function About() {
 									<h3 className="text-white font-bold text-lg mb-0.5">{KDF_INFO.founder}</h3>
 									<p className="text-amber-400 text-sm font-mono mb-3">Founder · Builds and maintains every part of it</p>
 									<p className="text-slate-300 text-sm leading-relaxed mb-4">
-										Computer Science and Data Science graduate of the University of Michigan, 2025. KriegerDataForge is a personal project I design and build on my own time, on my own hardware. Every repository, environment, and key on it is mine. It is a closed platform for myself, and I use it for all of my own personal apps.
+										Computer Science and Data Science graduate of the University of Michigan, 2025. KriegerDataForge is a personal project I design and build on my own hardware. Every repository, environment, and key on it is mine. It is a personal platform, and I use it for all of my own apps.
 									</p>
 									<div className="flex flex-wrap gap-2">
 										<Link
@@ -131,15 +133,12 @@ export default function About() {
 						/>
 					</Reveal>
 
-					<div className="relative">
-						<div className="absolute left-3 top-2 bottom-2 w-px"
-							style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.5) 0%, rgba(168,85,247,0.4) 70%, rgba(100,116,139,0.15) 100%)" }}
-						/>
+					<PourTimeline>
 						<div className="space-y-4">
 							{MILESTONES.map((m, i) => (
 								<Reveal key={i} className="relative pl-12" delay={i * 80}>
-									<div className="absolute left-3 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[#0a0704] border-2 border-amber-500 flex items-center justify-center">
-										<div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+									<div data-pour-dot className="pour-dot absolute left-3 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full flex items-center justify-center">
+										<div className="pour-dot-core w-1.5 h-1.5 rounded-full" />
 									</div>
 									<Card glow="amber">
 										<div className="flex flex-wrap items-start justify-between gap-2 mb-1">
@@ -151,7 +150,7 @@ export default function About() {
 								</Reveal>
 							))}
 						</div>
-					</div>
+					</PourTimeline>
 				</section>
 
 				{/* ── Tech Stack ── */}

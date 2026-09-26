@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { bitGradient, bitMix, drawGlyph } from "@/utils/binaryGlyph";
+import { LOADER_COVERING } from "@/utils/useLoaderSeen";
 
 /*
 	The background on every page. Same idea as before, embers drifting up through
@@ -394,6 +395,18 @@ export default function EmberField() {
 		}
 
 		function frame(now: number) {
+			/*
+				While the home page's loader covers the screen, none of this can be
+				seen, so the loop idles rather than drawing a full screen of fire
+				behind it. The loader lifts the mark as it starts to fade, so this is
+				drawing again before any of it shows.
+			*/
+			if (document.documentElement.hasAttribute(LOADER_COVERING)) {
+				last = 0;
+				raf = requestAnimationFrame(frame);
+				return;
+			}
+
 			// Normalised against 60fps so nothing runs at double speed on a 120Hz
 			// screen, which is what the previous fixed-step loop did.
 			const step = last === 0 ? 1 : Math.min((now - last) / 16.67, 3);

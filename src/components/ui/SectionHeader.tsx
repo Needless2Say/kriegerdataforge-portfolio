@@ -1,3 +1,5 @@
+import ForgedHeading from "./ForgedHeading";
+
 interface SectionHeaderProps {
 	title: string;
 	eyebrow?: string;
@@ -11,8 +13,6 @@ interface SectionHeaderProps {
 }
 
 export default function SectionHeader({ title, eyebrow, subtitle, as = "h2" }: SectionHeaderProps) {
-	const Heading = as;
-
 	return (
 		<div className="mb-10">
 			{eyebrow && (
@@ -20,9 +20,9 @@ export default function SectionHeader({ title, eyebrow, subtitle, as = "h2" }: S
 					◈ {eyebrow} ◈
 				</p>
 			)}
-			<Heading className="text-3xl sm:text-4xl font-bold gradient-text glow-text pb-2 mb-2">
+			<ForgedHeading as={as} className="text-3xl sm:text-4xl font-bold gradient-text glow-text pb-2 mb-2">
 				{title}
-			</Heading>
+			</ForgedHeading>
 			{subtitle && (
 				<p className="text-slate-500 text-sm font-mono">{subtitle}</p>
 			)}

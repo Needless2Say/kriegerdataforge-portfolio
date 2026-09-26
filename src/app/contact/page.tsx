@@ -7,6 +7,7 @@ import Card from "@/components/ui/Card";
 import Reveal from "@/components/ui/Reveal";
 import ContactForm from "@/components/ui/ContactForm";
 import EmailModal from "@/components/ui/EmailModal";
+import ForgedHeading from "@/components/ui/ForgedHeading";
 
 export const metadata: Metadata = {
 	title: "Contact",
@@ -123,15 +124,15 @@ export default function Contact() {
 				</div>
 
 				{/* ── Direct message form ── */}
-				<Reveal delay={300}>
+				{/* <Reveal delay={300}>
 					<div>
 						<div className="mb-6">
 							<p className="text-amber-500/60 font-mono text-[10px] tracking-[0.4em] uppercase mb-2">
 								◈ send a transmission ◈
 							</p>
-							<h2 className="text-2xl font-bold gradient-text glow-text pb-2">
+							<ForgedHeading className="text-2xl font-bold gradient-text glow-text pb-2">
 								Write to the Forge
-							</h2>
+							</ForgedHeading>
 							<p className="text-slate-500 text-sm mt-1">
 								Fill out the form and it lands straight in my inbox.
 							</p>
@@ -139,7 +140,7 @@ export default function Contact() {
 						</div>
 						<ContactForm />
 					</div>
-				</Reveal>
+				</Reveal> */}
 
 			</div>
 		</div>

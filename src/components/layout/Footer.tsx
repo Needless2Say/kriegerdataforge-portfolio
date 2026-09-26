@@ -25,7 +25,7 @@ export default function Footer() {
 				{/*
 					The copyright sits on the person rather than on the brand. A
 					brand-only copyright line reads like an entity, and the second line
-					is the one that matters, the platform is closed.
+					is the one that matters, a platform for myself.
 				*/}
 				<div className="text-center sm:text-left">
 					<p className="text-slate-600 text-sm font-mono">

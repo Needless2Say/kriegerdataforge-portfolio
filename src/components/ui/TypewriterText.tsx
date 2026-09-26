@@ -11,7 +11,7 @@ const PHRASES = [
 	"A Personal Platform",
 	"One Sign In Across Every App",
 	"18 Repositories, One Stack",
-	"Built On My Own Time",
+	"Built By Myself",
 	"Any App I Want, One System",
 ];
 

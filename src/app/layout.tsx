@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 import { Navbar, Footer, PageTransition } from "@/components/layout";
 import EmberField from "@/components/ui/EmberField";
 import ScrollProgress from "@/components/ui/ScrollProgress";
@@ -26,17 +27,19 @@ export const viewport: Viewport = {
 
 const BASE_URL = "https://needless2say.github.io/kriegerdataforge-portfolio";
 
+/** Google Analytics for this site. The personal portfolio has its own, separate ID. */
+const GA_MEASUREMENT_ID = "G-62L2LXBRFM";
+
 export const metadata: Metadata = {
 	metadataBase: new URL(BASE_URL),
 	title: {
-		default: "KriegerDataForge | A Closed Personal Platform",
+		default: "KriegerDataForge | A Personal Platform",
 		template: "%s | KriegerDataForge",
 	},
-	description: "KriegerDataForge is a closed personal platform Arthur Krieger designs and builds on his own time, spanning 18 repositories. Its own OAuth 2.0 and OIDC identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them. It runs only his own apps.",
+	description: "KriegerDataForge is a personal platform Arthur Krieger designs and builds himself, spanning 18 repositories. Its own OAuth 2.0 and OIDC identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them. It runs only his own apps.",
 	keywords: [
 		"KriegerDataForge",
 		"personal software platform",
-		"closed platform",
 		"personal project",
 		"OAuth 2.0",
 		"OIDC",
@@ -60,15 +63,15 @@ export const metadata: Metadata = {
 		locale: "en_US",
 		url: BASE_URL,
 		siteName: "KriegerDataForge",
-		title: "KriegerDataForge | A Closed Personal Platform",
+		title: "KriegerDataForge | A Personal Platform",
 		description:
-			"A closed personal platform Arthur Krieger uses to ship his own apps faster. Its own identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them.",
+			"A personal platform Arthur Krieger uses to ship his own apps faster. Its own identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them.",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "KriegerDataForge | A Closed Personal Platform",
+		title: "KriegerDataForge | A Personal Platform",
 		description:
-			"A closed personal platform Arthur Krieger uses to ship his own apps faster. Built on his own time.",
+			"A personal platform Arthur Krieger uses to ship his own apps faster. Built by himself.",
 	},
 	alternates: { canonical: BASE_URL },
 };
@@ -88,6 +91,26 @@ export default function RootLayout({
 			<head>
 				{/* Has to run before the first paint. playOnce.ts explains why. */}
 				<script dangerouslySetInnerHTML={{ __html: PAGE_VISIT_SCRIPT }} />
+
+				{/*
+					Google Analytics. Loaded after the page is interactive, so it never
+					holds up the first paint. Setting `ga-opt-out` to "1" in this
+					browser's localStorage turns it off, the same switch the personal
+					portfolio uses, so the owner's own visits stay out of the numbers.
+				*/}
+				<Script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+				<Script id="google-analytics">
+					{`
+						if (localStorage.getItem('ga-opt-out') === '1') {
+							window['ga-disable-${GA_MEASUREMENT_ID}'] = true;
+						} else {
+							window.dataLayer = window.dataLayer || [];
+							function gtag(){dataLayer.push(arguments);}
+							gtag('js', new Date());
+							gtag('config', '${GA_MEASUREMENT_ID}');
+						}
+					`}
+				</Script>
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<a href="#main-content" className="skip-to-content">

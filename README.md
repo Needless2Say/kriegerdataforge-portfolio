@@ -1,12 +1,11 @@
 # KriegerDataForge, Portfolio
 
 The public site for KriegerDataForge, Arthur Krieger's personal software platform,
-built on his own time. It shows what the platform is, what is being built on it,
+built by himself. It shows what the platform is, what is being built on it,
 and what it is built with, using a forge / data blacksmith theme (dark industrial,
 amber forge fire + purple/blue bit accents).
 
-The platform is **closed**, and the copy on this site is written to say so plainly.
-It is a closed platform for Arthur himself, running all of his own personal apps.
+It is a **personal platform** for Arthur himself, running all of his own personal apps.
 See the copy rule in [`AGENTS.md`](AGENTS.md) before editing any wording.
 
 A Next.js **static export** deployed to **GitHub Pages** under

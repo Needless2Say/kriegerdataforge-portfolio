@@ -12,7 +12,7 @@ import SpaceLink from "@/components/ui/SpaceLink";
 
 export const metadata: Metadata = {
 	title: "About",
-	description: "What KriegerDataForge is. A personal platform Arthur Krieger designs and builds, running only his own apps.",
+	description: "What KriegerDataForge is. A personal platform Arthur Krieger builds and uses for his own apps.",
 	alternates: { canonical: "https://kriegerdataforge.com/about" },
 };
 
@@ -26,22 +26,22 @@ const MILESTONES = [
 	{
 		year: "2024",
 		title: "The first app",
-		desc: "Started a nutrition tracker and immediately hit the problem every app after it would have. Its own sign in, its own database setup, its own deploy pipeline, all written again from scratch.",
+		desc: "Started a nutrition tracker and noticed a problem every later app would have too. Each one would need its own sign in, database setup, and deploy pipeline, written from scratch every time.",
 	},
 	{
 		year: "2024",
-		title: "One identity for everything",
+		title: "One sign in for every app",
 		desc: "Built an OAuth 2.0 and OIDC identity provider so every app shares one account and one sign in, instead of each one growing its own.",
 	},
 	{
 		year: "2025",
 		title: "Shared foundations",
-		desc: "Pulled the repeated parts out into a shared Python SDK every backend installs, a Terraform control plane that declares every environment, and a CI/CD library every repository inherits.",
+		desc: "Pulled the repeated parts out into a shared Python SDK every backend installs, a Terraform setup that declares every environment, and a CI/CD library every repository inherits.",
 	},
 	{
 		year: "2026 →",
 		title: "Apps on top",
-		desc: "18 repositories. A boutique storefront for my sister and the nutrition tracker are the two apps being built on it now, with a game catalog queued behind them.",
+		desc: "It spans 18 repositories now. A boutique storefront for my sister and the nutrition tracker are the two apps being built on it, with a game catalog planned after them.",
 	},
 ];
 
@@ -95,9 +95,9 @@ export default function About() {
 								</div>
 								<div className="flex-grow">
 									<h3 className="text-white font-bold text-lg mb-0.5">{KDF_INFO.founder}</h3>
-									<p className="text-amber-400 text-sm font-mono mb-3">Founder · Builds and maintains every part of it</p>
+									<p className="text-amber-400 text-sm font-mono mb-3">Founder · Builds and maintains it</p>
 									<p className="text-slate-300 text-sm leading-relaxed mb-4">
-										Computer Science and Data Science graduate of the University of Michigan, 2025. KriegerDataForge is a personal project I design and build on my own hardware. Every repository, environment, and key on it is mine. It is a personal platform, and I use it for all of my own apps.
+										I studied Computer Science and Data Science at the University of Michigan and graduated in 2025. KriegerDataForge is a personal project I design and build, and I use it for all of my apps.
 									</p>
 									<div className="flex flex-wrap items-center gap-3 mb-4">
 										<Link

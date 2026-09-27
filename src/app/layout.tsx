@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 		default: "KriegerDataForge | A Personal Platform",
 		template: "%s | KriegerDataForge",
 	},
-	description: "KriegerDataForge is a personal platform Arthur Krieger designs and builds himself, spanning 18 repositories. Its own OAuth 2.0 and OIDC identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them. It runs only his own apps.",
+	description: "KriegerDataForge is a personal platform Arthur Krieger builds and uses for his own apps. It includes an OAuth 2.0 and OIDC identity provider, shared Python and npm packages, Terraform infrastructure, and the apps built on top of them, across 18 repositories.",
 	keywords: [
 		"KriegerDataForge",
 		"personal software platform",
@@ -66,13 +66,13 @@ export const metadata: Metadata = {
 		siteName: "KriegerDataForge",
 		title: "KriegerDataForge | A Personal Platform",
 		description:
-			"A personal platform Arthur Krieger uses to ship his own apps faster. Its own identity provider, a shared Python SDK, a Terraform control plane, and the apps built on top of them.",
+			"A personal platform Arthur Krieger builds and uses for his own apps, with one identity provider, shared Python and npm packages, and the apps built on top of them.",
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: "KriegerDataForge | A Personal Platform",
 		description:
-			"A personal platform Arthur Krieger uses to ship his own apps faster. Built by himself.",
+			"A personal platform Arthur Krieger builds and uses for his own apps.",
 	},
 	alternates: { canonical: BASE_URL },
 	/*

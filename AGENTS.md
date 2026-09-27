@@ -10,9 +10,9 @@
 
 This is the **public site for KriegerDataForge (KDF)**, a personal software platform Arthur
 Krieger designs and builds himself, running only his own apps. It explains what the platform is, what is being built on it, and
-what it is built with. An OAuth 2.0 / OIDC identity provider (the `kriegerdataforge` hub), a shared
-Python SDK every app backend installs, a Terraform control plane, and the apps on top of them, across
-18 repositories. The aesthetic is dark industrial, amber forge fire with purple/blue bit accents.
+what it is built with. An OAuth 2.0 / OIDC identity provider (the `kriegerdataforge` hub), shared
+Python and npm packages (the Python SDK is the one every app backend installs), a Terraform control
+plane, and the apps on top of them, across 18 repositories. The aesthetic is dark industrial, amber forge fire with purple/blue bit accents.
 
 **Copy rule, and it is not negotiable.** This site is one person's personal project, built by
 himself. A site that reads like a business he runs on the side creates a problem that no amount of
@@ -22,6 +22,12 @@ polish is worth. The single most important thing this site says is that **it is 
   all of his own personal apps. Every place the platform is described has to leave no room to read it
   as a product, a service, or something open to others. `KDF_INFO.access` is the short form of this.
   The owner dropped "closed platform" on 2026-09-25, do not bring it back
+- **Humble and plain, never a pitch.** Say what each piece is and what it does, in ordinary words.
+  No hype, slogans, superlatives, or boasts, so no "fiery passion", "seamlessly", "free forever",
+  "everywhere", or "heaviest", and no absolute security claims like "cannot authenticate anyone".
+  Use "I" and "my" where a sentence needs them, never stacked for emphasis ("my own personal",
+  "every key on it is mine"). In public copy the Terraform repository is "infrastructure", not a
+  "control plane". The owner asked for this tone on 2026-09-27
 - **Do not add disclaimers.** The owner removed "nothing for sale", "nothing to sign up for",
   "no users but me", and "nobody else has an account". Saying it is a personal platform is enough,
   listing what it is not protests too much. Do not put them back
@@ -36,10 +42,10 @@ polish is worth. The single most important thing this site says is that **it is 
 - Never reference a job, a role held anywhere, an organisation, a team, or anyone else's internal
   tooling. This site talks about the platform and nothing outside it. How Arthur spends his days
   belongs on the personal portfolio, not here
-- **The stated motive is a passion made real.** One ecosystem where he can build any app he wants,
-  every part of it following the same organized system, so everything stays simple to manage and
-  maintain and works together seamlessly instead of taking piles of manual work. `KDF_INFO.why` is
-  the canonical wording of it, do not invent a second one
+- **The stated motive is a passion for building apps.** He wanted to stop starting each one from
+  scratch, so they all sit on one organized system that keeps them simple to manage and maintain and
+  lets them work together without piles of manual work. `KDF_INFO.why` is the canonical wording of
+  it, do not invent a second one
 - Never claim something is live, in production, or serving users unless it actually is. Statuses come
   from `ProjectStatus` and mean exactly what they say
 - First person singular throughout. "I build", "my own apps", "my inbox"

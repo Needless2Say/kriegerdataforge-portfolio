@@ -3,16 +3,15 @@
 import { useEffect, useState } from "react";
 
 /*
-	What the platform is, in the words used on the personal portfolio. The old
-	set read like a product pitch, "App Factory" and all, which is the voice this
-	site is deliberately moving away from.
+	What the platform is, said plainly. The old set read like a product pitch,
+	"App Factory" and all, which is the voice this site is deliberately moving
+	away from.
 */
 const PHRASES = [
 	"A Personal Platform",
 	"One Sign In Across Every App",
-	"18 Repositories, One Stack",
-	"Built By Myself",
-	"Any App I Want, One System",
+	"Shared Python + npm Packages",
+	"One System For All My Apps",
 ];
 
 export default function TypewriterText() {

@@ -1,10 +1,10 @@
 export const KDF_INFO = {
 	name: "KriegerDataForge",
 	shortName: "KDF",
-	tagline: "A personal platform where I can build any app I want, with everything running on one organized system.",
-	description: "KriegerDataForge is a personal project I design and build. It has its own OAuth 2.0 and OIDC identity provider, a shared Python SDK every app backend installs, a Terraform control plane, and the apps built on top of it.",
-	why: "I work on this to make a passion of mine real. One ecosystem where I can build any app I want, where every part of it follows the same organized system, so everything stays simple to manage and maintain and works together seamlessly instead of taking piles of manual work.",
-	access: "For all of my own personal apps",
+	tagline: "A personal platform where my apps use one sign in, shared packages, and the same build and deploy setup.",
+	description: "KriegerDataForge is a personal platform I build and use for my own apps. They all share one sign in, handled by an identity provider built on OAuth 2.0 and OIDC. Code the apps have in common lives in shared packages, so it only has to be written once. Those are in Python and npm for now, with room for other languages as I need them. Terraform and one CI/CD library keep every repository built and deployed the same way.",
+	why: "Building apps is a passion of mine, and I wanted to stop starting each one from scratch. Keeping them all on one organized system makes them simpler to manage and maintain, and lets them work together without piles of manual work.",
+	access: "For my own apps",
 	founder: "Arthur Krieger",
 	since: "2024",
 	links: {
@@ -21,8 +21,8 @@ export const KDF_INFO = {
 	exactly the kind of thing that makes a personal project read like a company.
 */
 export const STATS = [
-	{ value: "18",        label: "Repositories" },
-	{ value: "Personal",  label: "Platform" },
-	{ value: "OIDC",      label: "Identity Provider" },
-	{ value: "Terraform", label: "Control Plane" },
+	{ value: "18",           label: "Repositories" },
+	{ value: "Personal",     label: "Platform" },
+	{ value: "OIDC",         label: "Identity Provider" },
+	{ value: "Python + npm", label: "Shared Packages" },
 ] as const;

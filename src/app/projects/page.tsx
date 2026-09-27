@@ -10,7 +10,7 @@ import Reveal from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
 	title: "Projects",
-	description: "Everything on the KriegerDataForge platform. The identity provider, the shared SDK, the control plane, and the apps built on top of them. A personal platform running its founder's own apps.",
+	description: "The projects that make up KriegerDataForge, Arthur Krieger's personal platform. The identity provider, the shared packages, the infrastructure, and the apps built on top of them.",
 	alternates: { canonical: "https://kriegerdataforge.com/projects" },
 };
 

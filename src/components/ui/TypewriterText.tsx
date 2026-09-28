@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 */
 const PHRASES = [
 	"A Personal Platform",
-	"One Sign In Across Every App",
+	"Single Sign On Across My Apps",
 	"Shared Python + npm Packages",
 	"One System For All My Apps",
 ];

@@ -24,24 +24,29 @@ export const metadata: Metadata = {
 */
 const MILESTONES = [
 	{
-		year: "2024",
+		year: "2022",
 		title: "The first app",
-		desc: "Started a nutrition tracker and noticed a problem every later app would have too. Each one would need its own sign in, database setup, and deploy pipeline, written from scratch every time.",
-	},
-	{
-		year: "2024",
-		title: "One sign in for every app",
-		desc: "Built an OAuth 2.0 and OIDC identity provider so every app shares one account and one sign in, instead of each one growing its own.",
+		desc: "Started a nutrition tracker and restarted it six times over the next few years. Along the way I noticed a problem every later app would have too. Each one would need its own sign in, database setup, and deploy pipeline, written from scratch every time.",
 	},
 	{
 		year: "2025",
+		title: "KriegerDataForge begins",
+		desc: "The sixth restart, in May, became KriegerDataForge. It started as three repositories around one large shared backend, for the nutrition tracker and the apps that would come after it.",
+	},
+	{
+		year: "2026",
 		title: "Shared foundations",
-		desc: "Pulled the repeated parts out into a shared Python SDK every backend installs, a Terraform setup that declares every environment, and a CI/CD library every repository inherits.",
+		desc: "Gave each app its own backend, and pulled the repeated parts out into a shared Python SDK every backend installs, a Terraform setup that declares every environment, and a CI/CD library every repository inherits.",
+	},
+	{
+		year: "2026",
+		title: "Single sign on for my apps",
+		desc: "Turned the shared backend into an OAuth 2.0 and OIDC identity provider with a hosted login page, so every app gets single sign on instead of each one growing its own.",
 	},
 	{
 		year: "2026 →",
 		title: "Apps on top",
-		desc: "It spans 18 repositories now. A boutique storefront for my sister and the nutrition tracker are the two apps being built on it, with a game catalog planned after them.",
+		desc: "It spans 18 repositories now. The nutrition tracker and a boutique storefront for my sister are the two apps being built on it, and the tracker is deployed and in use. A game catalog is planned after them.",
 	},
 ];
 

@@ -25,6 +25,8 @@ polish is worth. The single most important thing this site says is that **it is 
 - **Humble and plain, never a pitch.** Say what each piece is and what it does, in ordinary words.
   No hype, slogans, superlatives, or boasts, so no "fiery passion", "seamlessly", "free forever",
   "everywhere", or "heaviest", and no absolute security claims like "cannot authenticate anyone".
+  The one exception is the home page eyebrow, "the forge behind my apps". The owner chose it on
+  2026-09-27, keep it and do not add a second slogan anywhere else.
   Use "I" and "my" where a sentence needs them, never stacked for emphasis ("my own personal",
   "every key on it is mine"). In public copy the Terraform repository is "infrastructure", not a
   "control plane". The owner asked for this tone on 2026-09-27

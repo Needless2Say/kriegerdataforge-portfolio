@@ -12,7 +12,7 @@ export interface SkillGroup {
 	Nothing on the platform is in front of anyone yet, and saying otherwise on a
 	public site is a claim that cannot be backed up.
 */
-export type ProjectStatus = "in development" | "security review" | "pre-launch" | "planned";
+export type ProjectStatus = "live · in development" | "in development" | "pre-launch" | "planned";
 
 export interface Project {
 	id: string;

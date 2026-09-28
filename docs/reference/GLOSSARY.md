@@ -16,7 +16,7 @@ Written 2026-08-22, for humans and AI agents alike.
 
 | Term | Definition |
 | --- | --- |
-| **The forge / data blacksmith brand** | The site's identity, forging raw data into powerful products, rendered as a dark industrial aesthetic. |
+| **The forge / data blacksmith brand** | The site's visual theme, a data blacksmith at a forge, rendered as a dark industrial aesthetic. |
 | **Forge fire amber / data stream blue** | The two accent colors of the brand, amber for the forge, electric blue for the data streams. |
 | **Showcased apps** | The portfolio's featured projects, KDF Core API, Calorie Tracker, Video Game Database, and KDF Analytics Pipeline. |
 | **Static export** | The site builds with Next.js `output: "export"`, plain static files for GitHub Pages. |

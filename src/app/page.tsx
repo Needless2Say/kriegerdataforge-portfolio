@@ -34,7 +34,7 @@ export default function Home() {
 					className="text-amber-500/70 font-mono text-xs tracking-[0.3em] uppercase mb-6 animate-fade-in"
 					style={{ animationDelay: "0s" }}
 				>
-					◈ built with a fiery passion and strong will ◈
+					◈ the forge behind my apps ◈
 				</p>
 
 				{/*

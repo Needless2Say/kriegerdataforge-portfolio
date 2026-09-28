@@ -26,14 +26,14 @@ export default function Footer() {
 				{/*
 					The copyright sits on the person rather than on the brand. A
 					brand-only copyright line reads like an entity, and the second line
-					is the one that matters, a platform for myself.
+					is the one that matters, that this is a personal platform.
 				*/}
 				<div className="text-center sm:text-left">
 					<p className="text-slate-600 text-sm font-mono">
 						© {new Date().getFullYear()} {KDF_INFO.founder}
 					</p>
 					<p className="text-slate-700 text-xs font-mono mt-1">
-						A platform for myself, running all of my own personal apps.
+						A personal platform for my own apps.
 					</p>
 				</div>
 				<div className="flex items-center gap-6">

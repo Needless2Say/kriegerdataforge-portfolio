@@ -25,7 +25,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
 	{
 		label: "Platform",
 		color: "infra",
-		skills: ["Terraform", "GitHub Actions", "Docker", "Vercel", "GCP"],
+		skills: ["Terraform", "GitHub Actions", "Docker", "Vercel"],
 	},
 	{
 		label: "Quality Gates",

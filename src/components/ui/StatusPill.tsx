@@ -10,10 +10,10 @@ interface StatusPillProps {
 	quietly fall through to the neutral style on one page and not the other.
 */
 const STATUS_STYLES: Record<ProjectStatus, string> = {
-	"in development":  "text-amber-300  border-amber-600/40  bg-amber-950/40",
-	"security review": "text-violet-300 border-violet-600/40 bg-violet-950/40",
-	"pre-launch":      "text-blue-300   border-blue-600/40   bg-blue-950/40",
-	"planned":         "text-slate-400  border-slate-600/40  bg-slate-900/40",
+	"live · in development": "text-emerald-300 border-emerald-600/40 bg-emerald-950/40",
+	"in development":        "text-amber-300   border-amber-600/40   bg-amber-950/40",
+	"pre-launch":            "text-blue-300    border-blue-600/40    bg-blue-950/40",
+	"planned":               "text-slate-400   border-slate-600/40   bg-slate-900/40",
 };
 
 export default function StatusPill({ status }: StatusPillProps) {

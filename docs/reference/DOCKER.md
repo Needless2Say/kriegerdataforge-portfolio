@@ -96,8 +96,9 @@ when the Dockerfile changes. It builds only when the image is missing, so pullin
 branch that edits the Dockerfile silently starts the stale image. Observed during this
 pass. `tini` was in the Dockerfile while PID 1 was still `sh`.
 
-`docker-validate` is **not** part of `make ci`. It reads the gitignored `.env.local`, so a
-CI job could not run it, and a local only lane would make `make ci` stricter than GitHub CI.
+`docker-validate` is **not** part of `make ci`. It reads the gitignored `.env.local`, and
+`.env.kdf` when present, so a CI job could not run it, and a local only lane would make `make ci`
+stricter than GitHub CI.
 
 ---
 

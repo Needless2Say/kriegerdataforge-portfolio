@@ -70,13 +70,15 @@ below a standalone static site.
 
 ### Setup & Dependencies
 
-`setup` (creates `.env.local` from the example, then installs), `install`, `clean-install`,
-`venv`.
+`setup` (creates `.env.local` and `.env.kdf` from their examples, then installs), `install`,
+`clean-install`, `venv`.
 
-`_ensure-env-local` matters here. `.env.local` carries the `NEXT_PUBLIC_EMAILJS_*` keys the
-contact form needs. Next reads that file directly, including inside the container, via the
-bind mount, so compose needs no `env_file` entry. Adding one would make compose **fail** on a
-fresh clone that hasn't created the file yet.
+`_ensure-env-local` matters here. It copies each example once and never overwrites. `.env.kdf`
+carries the `NEXT_PUBLIC_EMAILJS_*` keys the contact form needs and `GH_PACKAGES_PAT`, the env
+standard of cicd ADR D-030. Next reads `.env.local` directly, including inside the container via
+the bind mount, but never `.env.kdf`. So make exports the keys for `make build`, read like the
+token below, and compose hands `.env.kdf` to the container through an `env_file` entry marked
+`required: false`, so a fresh clone that hasn't created the file still starts.
 
 ### Docker — Stack
 
@@ -175,7 +177,8 @@ purpose. An npm dependency problem is usually only reproducible after removing i
 `kdf-fmt` from its private git repo. There is no private npm scope here, so no `.npmrc` and no
 `GH_NPM_TOKEN` (unlike the app frontends, which need both).
 
-It is read from `.env.local` only when not already exported, so CI can inject its own, and it is
+It is read from `.env.kdf` only when not already exported, so CI can inject its own. A `.env.local`
+that still holds it is read after, with a warning, until it moves (cicd ADR D-030). It is
 never expanded into recipe text, `$$GH_PACKAGES_PAT` resolves in the recipe's shell, so
 `make -n` prints the variable name, not the secret.
 

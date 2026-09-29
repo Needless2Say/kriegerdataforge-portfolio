@@ -28,8 +28,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
+# env files. The two examples are tracked, they hold no value (cicd ADR D-030)
 .env*
+!.env.local.example
+!.env.kdf.example
 
 # vercel
 .vercel

@@ -119,8 +119,11 @@ Non-negotiables for this **no backend static site** (full detail + the scenario 
 - **Nothing secret ever enters the bundle or the repo.** A static export ships every byte to the
   browser, and `NEXT_PUBLIC_*` env vars are **public by definition**, so no real secret may ever be
   an env value here. The only env values used (`NEXT_PUBLIC_EMAILJS_*`) are public by design IDs.
-  Real values still live only in gitignored `.env.local` / repo secrets, `.example` files hold
-  placeholders, and CI's gitleaks scan covers full history.
+  Real values still live only in the gitignored `.env.kdf` / repo secrets, `.example` files hold
+  placeholders, and CI's gitleaks scan covers full history. `.env.kdf` holds every credential and
+  `.env.local` only values that work on this machine, the env standard of cicd ADR D-030. Next.js
+  reads `.env.local` and never `.env.kdf`, so the Makefile exports the EmailJS keys for
+  `make build` and compose hands `.env.kdf` to the dev container.
 - **Dependency / supply chain hygiene.** `npm audit` (high+, prod deps) gates every PR. Keep
   `package-lock.json` authoritative and review lockfile diffs. Dependency bumps go through CI like
   any other change.

@@ -42,29 +42,32 @@ make setup      # checks Node, then runs `npm install`
 
 ---
 
-## 3. Environment / `.env.local` setup
+## 3. Environment / `.env.kdf` and `.env.local` setup
 
 The site runs **without any env vars**. The only configurable surface is the EmailJS contact
 form. Without it, the form silently no ops (fine for local UI work).
 
-To wire the contact form locally, copy the example and fill in the three values:
+Local settings live in two gitignored files, the ecosystem's env standard (cicd ADR D-030).
+`.env.kdf` holds every credential and no AI session reads it. `.env.local` holds only values
+that work on this machine, and this site needs none. `make setup` creates both from their
+examples, never overwriting. Every line of the `.env.kdf` example starts commented out, so a
+fresh copy overrides nothing. To wire the contact form, uncomment and fill in the three values
+in `.env.kdf`:
 
 ```bash
-cp .env.local.example .env.local
-```
-
-```bash
-# .env.local  (gitignored — never commit real values)
+# .env.kdf  (gitignored, never commit real values)
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=...
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=...
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=...
+GH_PACKAGES_PAT=...        # only for make ci-style, see the file
 ```
 
 These keys are **public by design** (they ship in the client bundle), but still treat
-`.env.local` as gitignored and keep placeholders only in `.env.local.example`. The setup steps
+`.env.kdf` as gitignored and keep placeholders only in `.env.kdf.example`. The setup steps
 to obtain each ID are documented inline in
-[`.env.local.example`](../../.env.local.example). For deploys, the same three are set as repo
-secrets (`NEXT_PUBLIC_EMAILJS_*`).
+[`.env.kdf.example`](../../.env.kdf.example). Next.js reads `.env.local` and never `.env.kdf`,
+so the Makefile exports the keys for `make build` and compose hands `.env.kdf` to the dev
+container. For deploys, the same three are set as repo secrets (`NEXT_PUBLIC_EMAILJS_*`).
 
 ---
 
@@ -187,7 +190,7 @@ Definition of Done scales with the change type. See
 - **Build fails on asset/link paths?** You probably broke a `basePath` assumption. Check
   `next.config.ts` and `src/constants/routes.ts` (`BASE_PATH`, currently empty since the
   site deploys at the `kriegerdataforge.com` domain root).
-- **Contact form does nothing locally?** Expected without `.env.local`. See §3.
+- **Contact form does nothing locally?** Expected without the EmailJS keys in `.env.kdf`. See §3.
 - **Version-check red in CI?** `VERSION` and `package.json` diverged. Run `make bump-*`.
 - **Security sensitive change?** Read [`skills.md`](../../skills.md) and follow the matching
   scenario. Pause for owner approval before any behavior changing edit.

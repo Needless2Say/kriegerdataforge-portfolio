@@ -12,8 +12,9 @@
 #   3003 here                  3004 template-nextjs  3005 arthurs-portfolio
 # It is mirrored by DEV_PORT in the Makefile -- change both together.
 #
-# No env_file: Next loads .env.local itself through the bind mount below, and
-# declaring one here would make compose fail outright on a fresh clone.
+# Next loads .env.local itself through the bind mount below, so .env.local needs no
+# env_file. .env.kdf does, since Next never reads it (cicd ADR D-030), and its entry is
+# optional, so a fresh clone without one still starts.
 #
 # Usage:
 #   make docker-up      # build + start (background)
@@ -38,10 +39,16 @@ services:
       - .:/app
       - kdf_portfolio_node_modules:/app/node_modules
       - kdf_portfolio_next:/app/.next
+    # the contact form's NEXT_PUBLIC_EMAILJS_* keys live in .env.kdf (cicd ADR D-030)
+    env_file:
+      - path: ${APP_KDF_FILE:-.env.kdf}
+        required: false
     environment:
       - NODE_ENV=development
       # Enables filesystem polling so hot-reload works on Docker for Windows
       - WATCHPACK_POLLING=true
+      # no running container holds a package token (cicd ADR D-030)
+      - GH_PACKAGES_PAT=
     # The healthcheck is declared in the Dockerfile; repeated nowhere. `make docker-up`
     # passes --wait, so the target returns only when Next is actually serving.
     restart: unless-stopped

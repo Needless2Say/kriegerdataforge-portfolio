@@ -57,9 +57,10 @@ The ones you'll hit most:
 **Environment / secrets**
 
 - Never hard code secrets. EmailJS keys are public by design but still come from
-  `NEXT_PUBLIC_EMAILJS_*` env. Real values go in `.env.local` (gitignored).
-  `.env.local.example` holds placeholders only. See [`skills.md`](./skills.md) before any
-  security sensitive change.
+  `NEXT_PUBLIC_EMAILJS_*` env. Real values go in `.env.kdf` (gitignored) with `GH_PACKAGES_PAT`,
+  and `.env.kdf.example` holds placeholders only. `.env.local` holds only values that work on
+  this machine, see `.env.local.example` (cicd ADR D-030). See [`skills.md`](./skills.md) before
+  any security sensitive change.
 
 ---
 

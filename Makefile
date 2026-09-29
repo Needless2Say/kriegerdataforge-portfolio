@@ -94,13 +94,23 @@ CODEQL_PACK    := codeql/javascript-queries
 
 # ---------- Private GitHub repo (kdf-fmt, over pip) ----------
 
-# To download private kdf python packages, reads GH_PACKAGES_PAT from .env.local if not already set in the environment.
+# To download private kdf python packages, reads GH_PACKAGES_PAT from .env.kdf, the env standard's file for
+# credentials (cicd ADR D-030), if not already set in the environment. A .env.local that still holds it is read
+# after, with a warning, until the token moves, and an empty line in .env.kdf never hides it.
 # The PAT must be a fine grained token with read access to the kriegerdataforge-fmt repo, NOT a classic token.
 # The only token this repo needs, and only pip uses it. There is no private npm
 # scope here, so no .npmrc and no GH_NPM_TOKEN.
 ifeq ($(GH_PACKAGES_PAT),)
+  ifneq ($(wildcard .env.kdf),)
+    GH_PACKAGES_PAT := $(call from_env_file,.env.kdf,GH_PACKAGES_PAT)
+  endif
+endif
+ifeq ($(GH_PACKAGES_PAT),)
   ifneq ($(wildcard .env.local),)
     GH_PACKAGES_PAT := $(call from_env_local,GH_PACKAGES_PAT)
+    ifneq ($(GH_PACKAGES_PAT),)
+      $(warning GH_PACKAGES_PAT was read from .env.local. Move it to .env.kdf, the env standard of cicd ADR D-030.)
+    endif
   endif
 endif
 export GH_PACKAGES_PAT
@@ -115,6 +125,35 @@ ifneq ($(GH_PACKAGES_PAT),)
     GIT_CONFIG_KEY_0="url.https://__token__:$$GH_PACKAGES_PAT@github.com/.insteadOf" \
     GIT_CONFIG_VALUE_0="https://github.com/"
 endif
+
+# ---------- EmailJS (the contact form) ----------
+
+# The three NEXT_PUBLIC_EMAILJS_* keys live in .env.kdf (cicd ADR D-030), and Next.js reads .env.local and never
+# .env.kdf, so make exports them for `make build` and every npm script it runs, read the same way as the token above.
+# An exported value wins, and a .env.local that still holds one is read after, with a warning, until it moves. A key
+# found nowhere is not exported, so a build without one inlines nothing, as before. The dev container gets them from
+# compose, which hands it .env.kdf.
+EMAILJS_KEYS := NEXT_PUBLIC_EMAILJS_SERVICE_ID NEXT_PUBLIC_EMAILJS_TEMPLATE_ID NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+define read_emailjs_key
+ifeq ($$($(1)),)
+  ifneq ($$(wildcard .env.kdf),)
+    $(1) := $$(call from_env_file,.env.kdf,$(1))
+  endif
+endif
+ifeq ($$($(1)),)
+  ifneq ($$(wildcard .env.local),)
+    $(1) := $$(call from_env_local,$(1))
+    ifneq ($$($(1)),)
+      $$(warning $(1) was read from .env.local. Move it to .env.kdf, the env standard of cicd ADR D-030.)
+    endif
+  endif
+endif
+ifneq ($$($(1)),)
+  export $(1)
+endif
+endef
+$(foreach key,$(EMAILJS_KEYS),$(eval $(call read_emailjs_key,$(key))))
 
 # ---------- Version gate ----------
 
@@ -161,16 +200,20 @@ help: ## Show this help message
 _ensure-venv:
 	@[ -d "$(VENV_BIN)" ] || $(MAKE) venv
 
-# Internal: .env.local is gitignored, so a fresh clone has only the example. Copy it once; never
-# overwrite. It carries the NEXT_PUBLIC_EMAILJS_* keys the contact form needs -- Next reads
-# the file directly, including inside the container via the bind mount. Every target that
-# invokes $(COMPOSE) declares this guard: --env-file makes compose refuse to run at all
-# when the file is missing, even for `docker-down`.
+# Internal: .env.local and .env.kdf are gitignored, so a fresh clone has only their examples. Copy
+# each once, never overwrite. .env.kdf carries the NEXT_PUBLIC_EMAILJS_* keys the contact form
+# needs and GH_PACKAGES_PAT (cicd ADR D-030). compose hands it to the container, and make exports
+# the keys for the host build. Every target that invokes $(COMPOSE) declares this guard, since
+# --env-file makes compose refuse to run at all when .env.local is missing, even for `docker-down`.
 _ensure-env-local:
 	@if [ ! -f .env.local ]; then \
 		cp .env.local.example .env.local; \
 		printf "$(GREEN)Created .env.local from .env.local.example.$(NC)\n"; \
-		printf "$(YELLOW)Fill in the NEXT_PUBLIC_EMAILJS_* values or the contact form stays inert.$(NC)\n"; \
+	fi
+	@if [ ! -f .env.kdf ]; then \
+		cp .env.kdf.example .env.kdf; \
+		printf "$(GREEN)Created .env.kdf from .env.kdf.example.$(NC)\n"; \
+		printf "$(YELLOW)Uncomment and fill in the NEXT_PUBLIC_EMAILJS_* lines there or the contact form stays inert.$(NC)\n"; \
 	fi
 
 # Internal: advisory, not fatal. git has legitimate credential fallbacks (Credential
@@ -182,7 +225,7 @@ _warn-packages-pat:
 		printf "$(YELLOW)WARNING: GH_PACKAGES_PAT is not set.$(NC)\n"; \
 		printf "$(YELLOW)  kdf-fmt installs from a PRIVATE repo over git+https, so the style$(NC)\n"; \
 		printf "$(YELLOW)  check needs it on a machine git has no credentials for.$(NC)\n"; \
-		printf "$(YELLOW)  Add it to .env.local:   GH_PACKAGES_PAT=github_pat_xxxx$(NC)\n"; \
+		printf "$(YELLOW)  Uncomment it in .env.kdf and fill it:   GH_PACKAGES_PAT=github_pat_xxxx$(NC)\n"; \
 		printf "$(YELLOW)  Fine-grained PAT, Contents: Read -- NOT the classic GH_NPM_TOKEN.$(NC)\n"; \
 		printf "$(YELLOW)  Continuing -- succeeds only if git already has credentials.$(NC)\n"; \
 	fi
@@ -202,10 +245,10 @@ venv: ## Create the Python virtual environment (bump-* and ci-style)
 	$(PYTHON) -m pip install --upgrade pip
 	@printf "$(GREEN)Virtual environment created at .venv$(NC)\n"
 
-setup: _ensure-env-local _ensure-venv install ## Full bootstrap -- .env.local + Python venv + all dependencies
+setup: _ensure-env-local _ensure-venv install ## Full bootstrap -- .env.local + .env.kdf + Python venv + all dependencies
 	$(call banner,kriegerdataforge-portfolio - setup complete)
 	@printf "$(YELLOW)Next:$(NC)\n"
-	@printf "  1. Fill NEXT_PUBLIC_EMAILJS_* in .env.local (contact form)\n"
+	@printf "  1. Uncomment and fill NEXT_PUBLIC_EMAILJS_* in .env.kdf (contact form)\n"
 	@printf "  2. make docker-up        # hot-reload dev container\n"
 	@printf "  3. open http://localhost:$(DEV_PORT)$(BASE_PATH)\n"
 

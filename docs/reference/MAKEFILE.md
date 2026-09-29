@@ -73,7 +73,9 @@ below a standalone static site.
 `setup` (creates `.env.local` and `.env.kdf` from their examples, then installs), `install`,
 `clean-install`, `venv`.
 
-`_ensure-env-local` matters here. It copies each example once and never overwrites. `.env.kdf`
+`_ensure-env-local` matters here. It copies each example once and never overwrites. Every line
+of the `.env.kdf` example starts commented out, so a fresh copy overrides nothing until a person
+uncomments and fills it, and the reads below skip a commented line. `.env.kdf`
 carries the `NEXT_PUBLIC_EMAILJS_*` keys the contact form needs and `GH_PACKAGES_PAT`, the env
 standard of cicd ADR D-030. Next reads `.env.local` directly, including inside the container via
 the bind mount, but never `.env.kdf`. So make exports the keys for `make build`, read like the

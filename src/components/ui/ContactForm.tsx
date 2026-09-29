@@ -9,7 +9,7 @@ import Transmission, { charPoints, type TransmitPoint } from "./Transmission";
 type FormStatus = "idle" | "sending" | "success" | "error";
 
 // ─── Fill these in once the KDF contact address is ready ─────────────────────
-// Set the three values in .env.kdf, see .env.kdf.example (cicd ADR D-030).
+// Uncomment and set the three values in .env.kdf, see .env.kdf.example (cicd ADR D-030).
 // ─────────────────────────────────────────────────────────────────────────────
 const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";

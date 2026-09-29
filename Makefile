@@ -213,7 +213,7 @@ _ensure-env-local:
 	@if [ ! -f .env.kdf ]; then \
 		cp .env.kdf.example .env.kdf; \
 		printf "$(GREEN)Created .env.kdf from .env.kdf.example.$(NC)\n"; \
-		printf "$(YELLOW)Fill in the NEXT_PUBLIC_EMAILJS_* values there or the contact form stays inert.$(NC)\n"; \
+		printf "$(YELLOW)Uncomment and fill in the NEXT_PUBLIC_EMAILJS_* lines there or the contact form stays inert.$(NC)\n"; \
 	fi
 
 # Internal: advisory, not fatal. git has legitimate credential fallbacks (Credential
@@ -225,7 +225,7 @@ _warn-packages-pat:
 		printf "$(YELLOW)WARNING: GH_PACKAGES_PAT is not set.$(NC)\n"; \
 		printf "$(YELLOW)  kdf-fmt installs from a PRIVATE repo over git+https, so the style$(NC)\n"; \
 		printf "$(YELLOW)  check needs it on a machine git has no credentials for.$(NC)\n"; \
-		printf "$(YELLOW)  Add it to .env.kdf:     GH_PACKAGES_PAT=github_pat_xxxx$(NC)\n"; \
+		printf "$(YELLOW)  Uncomment it in .env.kdf and fill it:   GH_PACKAGES_PAT=github_pat_xxxx$(NC)\n"; \
 		printf "$(YELLOW)  Fine-grained PAT, Contents: Read -- NOT the classic GH_NPM_TOKEN.$(NC)\n"; \
 		printf "$(YELLOW)  Continuing -- succeeds only if git already has credentials.$(NC)\n"; \
 	fi
@@ -248,7 +248,7 @@ venv: ## Create the Python virtual environment (bump-* and ci-style)
 setup: _ensure-env-local _ensure-venv install ## Full bootstrap -- .env.local + .env.kdf + Python venv + all dependencies
 	$(call banner,kriegerdataforge-portfolio - setup complete)
 	@printf "$(YELLOW)Next:$(NC)\n"
-	@printf "  1. Fill NEXT_PUBLIC_EMAILJS_* in .env.kdf (contact form)\n"
+	@printf "  1. Uncomment and fill NEXT_PUBLIC_EMAILJS_* in .env.kdf (contact form)\n"
 	@printf "  2. make docker-up        # hot-reload dev container\n"
 	@printf "  3. open http://localhost:$(DEV_PORT)$(BASE_PATH)\n"
 

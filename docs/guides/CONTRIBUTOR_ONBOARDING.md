@@ -50,7 +50,9 @@ form. Without it, the form silently no ops (fine for local UI work).
 Local settings live in two gitignored files, the ecosystem's env standard (cicd ADR D-030).
 `.env.kdf` holds every credential and no AI session reads it. `.env.local` holds only values
 that work on this machine, and this site needs none. `make setup` creates both from their
-examples, never overwriting. To wire the contact form, fill in the three values in `.env.kdf`:
+examples, never overwriting. Every line of the `.env.kdf` example starts commented out, so a
+fresh copy overrides nothing. To wire the contact form, uncomment and fill in the three values
+in `.env.kdf`:
 
 ```bash
 # .env.kdf  (gitignored, never commit real values)

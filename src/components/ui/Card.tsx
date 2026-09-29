@@ -14,7 +14,7 @@ const glowMap = {
 
 export default function Card({ children, className, glow = "amber" }: CardProps) {
 	return (
-		<div className={cn("glass-card p-5 transition-all duration-300", glowMap[glow], className)}>
+		<div data-heat className={cn("glass-card heat-card p-5 transition-all duration-300", glowMap[glow], className)}>
 			{children}
 		</div>
 	);

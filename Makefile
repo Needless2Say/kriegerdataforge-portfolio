@@ -10,7 +10,7 @@
 #  server. See docs/reference/MAKEFILE.md for why that exception exists.
 #
 #  Fresh clone:
-#    make setup && make docker-up      # http://localhost:3003/kriegerdataforge-portfolio
+#    make setup && make docker-up      # http://localhost:3003
 #    make ci                           # the PR gate -- must be green before you push
 #
 #  Conventions (details in docs/reference/MAKEFILE.md):
@@ -56,7 +56,7 @@ NC     := \033[0m
 # DEV_PORT also appears in docker-compose.yml's port mapping; change both together.
 DEV_PORT     ?= 3003
 PREVIEW_PORT ?= 4174
-BASE_PATH    := /kriegerdataforge-portfolio
+BASE_PATH    :=
 
 # ---------- Python (bump-* and the kdf-fmt style gate only) ----------
 
@@ -155,7 +155,7 @@ help: ## Show this help message
 
 ##@ Setup & Dependencies
 
-.PHONY: _ensure-venv _ensure-env-local venv setup install clean-install
+.PHONY: _ensure-venv _ensure-env-local _warn-packages-pat venv setup install clean-install
 
 # Internal: create the Python venv on demand (bump-* and ci-style only).
 _ensure-venv:
@@ -173,14 +173,36 @@ _ensure-env-local:
 		printf "$(YELLOW)Fill in the NEXT_PUBLIC_EMAILJS_* values or the contact form stays inert.$(NC)\n"; \
 	fi
 
-venv: ## Create the Python virtual environment (bump-* and ci-style only)
+# Internal: advisory, not fatal. git has legitimate credential fallbacks (Credential
+# Manager, ssh), so a naked `pip install` of kdf-fmt can succeed WITHOUT the PAT on a
+# machine that has cached credentials -- which is exactly how a missing one goes
+# unnoticed until a clean checkout, or CI, fails with an opaque auth error instead.
+_warn-packages-pat:
+	@if [ -z "$$GH_PACKAGES_PAT" ]; then \
+		printf "$(YELLOW)WARNING: GH_PACKAGES_PAT is not set.$(NC)\n"; \
+		printf "$(YELLOW)  kdf-fmt installs from a PRIVATE repo over git+https, so the style$(NC)\n"; \
+		printf "$(YELLOW)  check needs it on a machine git has no credentials for.$(NC)\n"; \
+		printf "$(YELLOW)  Add it to .env.local:   GH_PACKAGES_PAT=github_pat_xxxx$(NC)\n"; \
+		printf "$(YELLOW)  Fine-grained PAT, Contents: Read -- NOT the classic GH_NPM_TOKEN.$(NC)\n"; \
+		printf "$(YELLOW)  Continuing -- succeeds only if git already has credentials.$(NC)\n"; \
+	fi
+	@case "$$GH_PACKAGES_PAT" in \
+		""|github_pat_*) ;; \
+		ghp_*) \
+			printf "$(YELLOW)WARNING: GH_PACKAGES_PAT is a classic PAT (ghp_...).$(NC)\n"; \
+			printf "$(YELLOW)  Expected a fine-grained token here; the classic one is GH_NPM_TOKEN.$(NC)\n" ;; \
+		*) \
+			printf "$(YELLOW)WARNING: GH_PACKAGES_PAT does not look like a fine-grained PAT.$(NC)\n" ;; \
+	esac
+
+venv: ## Create the Python virtual environment (bump-* and ci-style)
 	@printf "$(GREEN)Creating Python virtual environment...$(NC)\n"
 	@rm -rf .venv
 	$(PY_CMD) -m venv .venv
 	$(PYTHON) -m pip install --upgrade pip
 	@printf "$(GREEN)Virtual environment created at .venv$(NC)\n"
 
-setup: _ensure-env-local install ## Full bootstrap -- .env.local + all dependencies
+setup: _ensure-env-local _ensure-venv install ## Full bootstrap -- .env.local + Python venv + all dependencies
 	$(call banner,kriegerdataforge-portfolio - setup complete)
 	@printf "$(YELLOW)Next:$(NC)\n"
 	@printf "  1. Fill NEXT_PUBLIC_EMAILJS_* in .env.local (contact form)\n"
@@ -318,7 +340,7 @@ ci-lint: ## CI: ESLint
 # kdf-fmt owns Python formatting/style (ADR D-003). This is a TypeScript repo, so the gate
 # covers scripts/ only (config: kdf-fmt.toml). Installed on demand -- there is no requirements
 # file here to carry the pin, so ci.yml's kdf_fmt_ref is the single source.
-ci-style: _ensure-venv ## CI: kdf-fmt style check for the Python scripts
+ci-style: _ensure-venv _warn-packages-pat ## CI: kdf-fmt style check for the Python scripts
 	@printf "$(GREEN)CI [2/6]: kdf-fmt style...$(NC)\n"
 	@$(PYTHON) -c "import kdf_fmt" 2>/dev/null || $(PIP_GIT_AUTH) $(PYTHON) -m pip install --quiet \
 		"kdf-fmt @ git+https://github.com/Needless2Say/kriegerdataforge-fmt.git@$(shell grep -oE 'kdf_fmt_ref:[[:space:]]*v[0-9.]+' .github/workflows/ci.yml | head -1 | grep -oE 'v[0-9.]+')"

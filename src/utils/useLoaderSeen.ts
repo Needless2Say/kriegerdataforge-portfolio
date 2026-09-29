@@ -14,6 +14,12 @@ import { useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "kdf_loader_v1";
 
+/**
+ * Set on the document while the intro loader covers the whole screen, and
+ * lifted the moment it starts to fade. The page background idles under it.
+ */
+export const LOADER_COVERING = "data-loader-covering";
+
 function subscribe(onChange: () => void): () => void {
 	// The loader flips the flag and fires `loader-done` on completion/skip; the
 	// `storage` event covers the (rare) cross-tab case.

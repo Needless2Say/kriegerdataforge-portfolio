@@ -1,12 +1,16 @@
-# CodeQL static analysis for the KDF marketing site, via the centralized reusable
-# workflow in kriegerdataforge-cicd.
+# CodeQL static analysis for kriegerdataforge-portfolio, via the centralized reusable workflow.
+# Scans: the Next.js site source under src/
 #
-# ⚠️ GATED: CodeQL runs only on public repos (free) or private repos with
+# GATED: CodeQL runs only on public repos (free) or private repos with
 # "GitHub Code Security" (Enterprise add-on; NOT included in GitHub Pro/Copilot).
-# This repo is private, so the analyze job is gated behind the `ENABLE_CODEQL`
-# repo/org Actions variable and stays skipped (green) until that entitlement
-# exists. To turn CodeQL on: set the variable `ENABLE_CODEQL=true` (repo or org
-# level) once the repo is public or Code Security is purchased — no edit needed.
+# The analyze job is gated behind the `ENABLE_CODEQL` repo/org Actions variable
+# and stays skipped (green) until that entitlement exists. To turn CodeQL on: set
+# the variable `ENABLE_CODEQL=true` (repo or org level) once the repo is public or
+# Code Security is purchased -- no edit to this file needed.
+#
+# The same analysis runs LOCALLY today with no entitlement at all:
+#   make codeql-db && make codeql-scan-all      # SARIF, opens in VS Code
+#   make codeql-scan-csv-all                    # CSV, easier to hand to an AI
 
 name: CodeQL
 
@@ -24,7 +28,6 @@ concurrency:
 
 jobs:
   codeql:
-    # Skipped (neutral, non-blocking) until code scanning is entitled — see header.
     if: ${{ vars.ENABLE_CODEQL == 'true' }}
     permissions:
       actions: read
@@ -33,3 +36,4 @@ jobs:
     uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/ci-codeql.yml@main
     with:
       language: javascript-typescript
+      config_file: ./.github/codeql/codeql-config.yml

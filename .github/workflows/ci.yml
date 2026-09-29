@@ -39,6 +39,15 @@ jobs:
   npm-audit:
     uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/ci-npm-audit.yml@main
 
+  # KDF house style (ADR D-003 toolchain split): kdf-fmt owns Python formatting + style for
+  # the scripts/ tree. The lane installs only the pinned kdf-fmt (stdlib-only) and reads this
+  # repo's kdf-fmt.toml. Bumping the pin is how a style change arrives.
+  style:
+    uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/ci-python-kdf-fmt.yml@main
+    with:
+      kdf_fmt_ref: v1.1.0
+    secrets: inherit
+
   secret-scan:
     uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/secret-scan.yml@main
 

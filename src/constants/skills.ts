@@ -1,29 +1,35 @@
 import type { SkillGroup } from "@/types/portfolio";
 
+/*
+	What the platform is built with, nothing else. The previous list read like a
+	general skills inventory and included tools that appear nowhere in these
+	repositories, which is both inaccurate here and off topic for a site about
+	one platform.
+*/
 export const SKILL_GROUPS: SkillGroup[] = [
-	{
-		label: "Data Engineering",
-		color: "forge",
-		skills: ["Python", "SQL", "Snowflake", "Databricks", "Apache Spark", "dbt", "Airflow"],
-	},
-	{
-		label: "Backend",
-		color: "data",
-		skills: ["FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "REST APIs", "Redis"],
-	},
 	{
 		label: "Frontend",
 		color: "data",
-		skills: ["Next.js", "React", "TypeScript", "TailwindCSS", "Zustand"],
+		skills: ["Next.js", "React", "TypeScript", "TailwindCSS", "Zod"],
 	},
 	{
-		label: "Cloud & Infrastructure",
-		color: "infra",
-		skills: ["Azure", "AWS", "Docker", "Kubernetes", "GitHub Actions", "Terraform"],
+		label: "Backend",
+		color: "forge",
+		skills: ["FastAPI", "Python", "SQLModel", "PostgreSQL", "Alembic", "Pydantic"],
 	},
 	{
-		label: "Machine Learning",
+		label: "Identity",
 		color: "system",
-		skills: ["PyTorch", "scikit-learn", "Pandas", "NumPy", "Jupyter"],
+		skills: ["OAuth 2.0 / OIDC", "JWT / JWKS", "PKCE", "argon2id"],
+	},
+	{
+		label: "Platform",
+		color: "infra",
+		skills: ["Terraform", "GitHub Actions", "Docker", "Vercel"],
+	},
+	{
+		label: "Quality Gates",
+		color: "gray",
+		skills: ["pytest", "ESLint", "kdf-fmt", "CodeQL", "gitleaks"],
 	},
 ];

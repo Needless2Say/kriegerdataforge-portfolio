@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { NAV_LINKS } from "@/constants/routes";
+import { NAV_LINKS, ROUTES, hrefFor } from "@/constants/routes";
 import { cn } from "@/utils/cn";
 import { useLoaderShouldPlay } from "@/utils/useLoaderSeen";
 
@@ -13,24 +12,38 @@ export default function Navbar() {
 	// Remounts the mobile menu on each open (via `key`) to replay the staggered
 	// item animation. It drives render, so it is state — not a ref read in render.
 	const [menuKey, setMenuKey] = useState(0);
-	// The nav stays hidden while the intro loader is playing, then fades in when
-	// it hands off — external session state (SSR-safe, no `setState` in an effect).
-	const loaderActive = useLoaderShouldPlay();
+	/*
+		The nav stays hidden while the intro loader is playing, then fades in when
+		it hands off. External session state, SSR-safe, no `setState` in an effect.
+
+		The route test is not optional. `useLoaderShouldPlay` is true for the whole
+		session until the loader actually runs, and the loader only ever mounts on
+		the home page. Without it, anyone arriving straight on /about, /projects or
+		/contact from a link or a search result got a nav that was invisible and
+		`pointer-events: none` for as long as they stayed off the home page.
+	*/
+	const loaderActive = useLoaderShouldPlay() && pathname === ROUTES.HOME;
 
 	const isActive = (path: string) =>
 		path === "/" ? pathname === "/" : pathname.startsWith(path);
 
 	return (
+		/*
+			Gone the instant the loader takes the screen, and faded back in when it
+			hands off. The nav sits above the loader, so fading it out as well left
+			it lying across the loader's own words for most of a second.
+		*/
 		<nav className={cn(
-			"fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 transition-opacity duration-700",
-			loaderActive ? "opacity-0 pointer-events-none" : "opacity-100"
+			"vt-nav fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4",
+			loaderActive ? "opacity-0 pointer-events-none" : "opacity-100 transition-opacity duration-700"
 		)}>
 			{/* ── Desktop ── */}
 			<div className="hidden sm:flex items-center gap-0.5 rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-amber-900/30 px-2 py-1.5 shadow-xl shadow-black/40">
 				{NAV_LINKS.map((link) => (
-					<Link
+					<a
 						key={link.name}
-						href={link.path}
+						href={hrefFor(link.path)}
+						aria-current={isActive(link.path) ? "page" : undefined}
 						className={cn(
 							"relative px-4 py-1.5 text-sm font-semibold rounded-full select-none",
 							"transition-all duration-200 ease-out",
@@ -52,7 +65,7 @@ export default function Navbar() {
 						{isActive(link.path) && (
 							<span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.9)]" />
 						)}
-					</Link>
+					</a>
 				))}
 			</div>
 
@@ -86,9 +99,10 @@ export default function Navbar() {
 				)}>
 					<div key={menuKey} className="py-2">
 						{NAV_LINKS.map((link, i) => (
-							<Link
+							<a
 								key={link.name}
-								href={link.path}
+								href={hrefFor(link.path)}
+								aria-current={isActive(link.path) ? "page" : undefined}
 								onClick={() => setOpen(false)}
 								className={cn(
 									"block px-4 py-2.5 text-sm font-semibold select-none",
@@ -101,7 +115,7 @@ export default function Navbar() {
 								style={{ animationDelay: `${i * 40}ms` }}
 							>
 								{link.name}
-							</Link>
+							</a>
 						))}
 					</div>
 				</div>

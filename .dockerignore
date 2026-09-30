@@ -10,7 +10,6 @@
 # the glob: .dockerignore applies rules in order, last match wins.
 .env
 .env.*
-!.env.example
 !.env.local.example
 *.pem
 *.key

@@ -6,6 +6,12 @@
 > security sensitive work. Unfamiliar KDF term, acronym, or ID prefix? Resolve it in
 > [`docs/reference/GLOSSARY.md`](docs/reference/GLOSSARY.md) before acting on it.
 
+> **Know your role before you act, whatever model or tool you are.**
+> [`docs/agent/AGENT_ROLES.md`](docs/agent/AGENT_ROLES.md) says what each role may do. A review task makes you a
+> reviewer, read only, writing only your report under `docs/security/` and reviewing only what git tracks. In every
+> role, never merge, approve, tag, release, deploy, touch DEV or PROD, push to `main`, read a secret, or edit a
+> guardrail file, and never search, open or quote a path `.gitignore` covers except as that page's rule 6 allows.
+
 ## Vision & purpose. What you're building toward
 
 This is the **public site for KriegerDataForge (KDF)**, a personal software platform Arthur
@@ -92,7 +98,7 @@ simple. Over engineering a static site is the wrong instinct.
 5. **Honor the static export constraints.** No server only APIs, no dynamic server rendering, `images.unoptimized`, and asset paths must respect `BASE_PATH` in `src/constants/routes.ts` (currently empty, domain-root deploy).
 6. **Stay on theme.** Background `#0a0704`, amber `#f59e0b` (forge fire), electric blue `#3b82f6` (data streams), amber↔blue animated gradient text.
 7. **`VERSION` and `package.json` version must match.** Bump via the Make targets only (they write all three of `VERSION`, `package.json`, and `package-lock.json` in lockstep), CI's version-check fails if `VERSION` and `package.json` diverge.
-8. **EmailJS keys are public by design** but still come from `NEXT_PUBLIC_EMAILJS_*` secrets/env. Never hard code real IDs, `.env.local` is gitignored, `.env.local.example` holds placeholders.
+8. **EmailJS keys are public by design** but still come from `NEXT_PUBLIC_EMAILJS_*` secrets/env. Never hard code real IDs. They live in `.env.kdf`, gitignored and closed to every AI session, and `.env.kdf.example` names them.
 9. **Motion runs because something happened, then stops.** Arrival, a scroll, a hover, a click. Nothing new runs continuously, because the ember background already takes most of the frame budget. Every animation checks `prefersReducedMotion()` and shows its finished state instead, with a backstop in the reduced motion block of `globals.css`. The home loader covers the whole screen, so while it is fully opaque it sets `LOADER_COVERING` (from `useLoaderSeen.ts`) on `<html>` and `EmberField` idles under it, lifting the mark as the fade starts. Measured at 1280x900, the loader holds 60fps at 63% of the main thread with the background idling and saturates at 99% without, so anything else that covers the page should do the same.
 10. **Digits go through `drawGlyph`, and nothing uses canvas `shadowBlur`.** A shadowed draw costs in proportion to the whole canvas, measured at 494ms a frame for 140 digits on a full screen canvas against 2ms with the stamped glow `drawGlyph` uses now.
 11. **A canvas that overlays a masked element is its sibling, never its child**, or the mask cuts the canvas away too. A `position: fixed` canvas is portalled to `document.body`, because pages sit inside `Reveal` and the page transition, both of which leave a transform on an ancestor and make `fixed` relative to it.
@@ -127,7 +133,7 @@ export beats any dev server.
 4. [`next.config.ts`](./next.config.ts). Static export + `basePath`/`assetPrefix` constraints (sourced from `src/constants/routes.ts`) that govern every change.
 5. [`skills.md`](./skills.md). The ecosystem security playbook (read before any security sensitive work).
 
-Quick lookups. Theme tokens → `src/app/globals.css`. Content/copy → `src/constants/`. Shared types → `src/types/portfolio.ts`. Contact form wiring → `src/components/ui/ContactForm.tsx` + `.env.local.example`.
+Quick lookups. Theme tokens → `src/app/globals.css`. Content/copy → `src/constants/`. Shared types → `src/types/portfolio.ts`. Contact form wiring → `src/components/ui/ContactForm.tsx` + `.env.kdf.example`.
 
 ## How to work in this repo, the agent kit
 
@@ -158,7 +164,7 @@ Don't skip the plan approval gate. Don't self-merge. The supporting kit:
 - [ ] Build respects the static export + `basePath` constraints (asset paths resolve under `BASE_PATH` in `src/constants/routes.ts`), links/sitemap still correct.
 - [ ] Theme fidelity preserved (amber/blue accents, forge aesthetic).
 - [ ] Version bumped with `make bump-patch` (or `minor`/`major`) so `VERSION` == `package.json` version (the CI version-check requires this).
-- [ ] No secrets committed. Real `NEXT_PUBLIC_EMAILJS_*` values stay in gitignored `.env.local` / repo secrets, never in code. Gitleaks scans full history.
+- [ ] No secrets committed. Real `NEXT_PUBLIC_EMAILJS_*` values stay in gitignored `.env.kdf` / repo secrets, never in code. Gitleaks scans full history.
 - [ ] Anything architectural (build pipeline, deploy, framework upgrade) gets an ADR / design note first.
 
 ## Security. Read [`skills.md`](./skills.md)
@@ -172,8 +178,8 @@ Non-negotiables for this **no backend static site** (full detail + the scenario 
 - **Nothing secret ever enters the bundle or the repo.** A static export ships every byte to the
   browser, and `NEXT_PUBLIC_*` env vars are **public by definition**, so no real secret may ever be
   an env value here. The only env values used (`NEXT_PUBLIC_EMAILJS_*`) are public by design IDs.
-  Real values still live only in gitignored `.env.local` / repo secrets, `.example` files hold
-  placeholders, and CI's gitleaks scan covers full history.
+  Real values still live only in gitignored `.env.kdf` / repo secrets, `.env.kdf.example` names
+  them, and CI's gitleaks scan covers full history.
 - **Dependency / supply chain hygiene.** `npm audit` (high+, prod deps) gates every PR. Keep
   `package-lock.json` authoritative and review lockfile diffs. Dependency bumps go through CI like
   any other change.

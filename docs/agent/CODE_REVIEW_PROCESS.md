@@ -1,8 +1,10 @@
 # The KDF Code Review Process. Any size of code, reviewed by more than one model, with nothing left unread
 
 > **Status.** Kit standard, added in kit v1.5.0, the scales and the pinned reviews since v1.6.0, every review archived
-> in a dated folder of its own since v1.7.0. Kept byte identical
-> across every KDF repo by the kit sync engine, canonical source
+> in a dated folder of its own since v1.7.0, what a review finds that cicd owns fixed there as it is found since
+> v1.8.0, an answer key at every slice's close and an exact reviewer line since v1.9.0, and a supporting session that
+> builds what a review finds outside the reviewed repo since v1.10.0. Kept byte identical across every KDF repo by the
+> kit sync engine, canonical source
 > `kriegerdataforge-cicd/kit/common/docs/agent/CODE_REVIEW_PROCESS.md`. Never edit a synced copy, change the
 > canonical one. The tooling that keeps the process safe, the guard, the reviewer launcher and the installer, is not
 > synced. It lives in `kriegerdataforge-cicd/tools/claude-code/` and is installed on the owner's machine, section 11
@@ -15,8 +17,9 @@ over one or more rounds, and only then does its pull request open. Every finding
 fix is pinned by a test that fails without it, and the whole run is recorded in files, so a session that stops loses
 nothing. The scale decides how much of that a review needs, section 1. The rules do not change with the size.
 
-The templates are in [`templates/`](templates/), `review-readme`, `review-plan`, `review-brief`, `review-report` and
-`review-adjudication`. The review's own files, and the dated folder that archives them, are section 3.
+The templates are in [`templates/`](templates/), `review-readme`, `review-plan`, `review-brief`, `review-report`,
+`review-adjudication` and `review-answer-key`. The review's own files, and the dated folder that archives them, are
+section 3.
 
 ---
 
@@ -61,6 +64,7 @@ pull request that the owner merges, when it changed anything.
 | --- | --- | --- | --- |
 | Owner | The person | Asks the question or approves the plan, answers decisions, runs Codex, pastes the Sol dispatches, reviews and merges every pull request, deploys | |
 | Orchestrator | One long running session of the strongest model the owner can spend, at high effort, started in the folder that holds the repos | Runs steps 0, 1, 1b, 1c, 3 and 6, writes and pins the briefs, launches the fresh reviewers, adjudicates, commits, opens the pull request, watches CI, notifies the owner | Merges, approves, pushes to `main`, tags, releases, deploys |
+| Supporting session | A second long running session the owner starts beside the orchestrator, in the same folder, of a model the owner chooses | Builds what a review finds outside the reviewed repo, in cicd, this kit, the reviewer tooling or another repo, from the orchestrator's handoff, each fix one pull request from a worktree, and reports the pull request back | Reviews, edits or checks out anything in the reviewed repo's folder, lets a fix take effect under an open pin, merges, approves, pushes to `main`, tags, releases, deploys |
 | Fresh Claude reviewer | A new session per review, in the repo folder at the pinned commit, with an empty memory | Reads the brief, reads and probes the code, writes one report | Edits anything but its report, commits, uses GitHub |
 | Codex reviewer | ChatGPT through Codex, in the same folder on the owner's machine, or in the cloud | Reads the same brief at the same pinned commit, writes its own report | The same |
 | Sol | ChatGPT Sol dispatches, pasted by the owner | Reads the scope in rounds against a settled list | |
@@ -70,6 +74,18 @@ Two independence rules hold the process together. A reviewer never inherits the 
 fresh session with an empty memory, briefed only by the brief, reading the pinned commit in the repo folder while the
 other reviewer's report of the scope is kept out of it. And two model families read everything reviewed, Claude and
 ChatGPT, because different models catch different things.
+
+**The supporting session.** The orchestrator stays on the review. What a review finds outside the reviewed repo goes
+to the supporting session as a handoff, a message that carries four things, the finding, the evidence that proves it,
+what is already done, and what would prove the fix. The supporting session builds the fix in a worktree of the repo
+that owns it, with its tests and an ADR where a rule changes, opens one pull request for it and reports the number
+back. A merged fix reaches a review only when the machine's clone of the repo that owns it is brought forward and the
+reviewer tooling is installed again. The orchestrator does both, between pins and never under an open one, so every
+reviewer of a pin reads one tree, and the supporting session does neither. The orchestrator reads what the supporting
+session built before the reviewed repo relies on it, and the slice's log names that pull request where a register row
+would have stood. The supporting session never reviews, and never edits, commits, checks out or stashes anything in
+the reviewed repo's folder. A review without one runs as before, the orchestrator does that work itself, between pins
+the same way.
 
 Each role's limits are written for every model and tool in [`AGENT_ROLES.md`](AGENT_ROLES.md). Every brief states the
 reviewer's role in its own text, word for word from the template, so Codex, Sol or any other model is told the same
@@ -105,6 +121,7 @@ docs/reviews/
     SDK_REVIEW_PLAN.md                             the plan, from the feature scale up
     s1-foundation/                                 one folder per slice, its id and a short name
       SDK_REVIEW_S1_ADJUDICATION.md                the slice's record, across every step
+      SDK_REVIEW_S1_ANSWER_KEY.md                  the record as one table, written when the slice closes
       step-2-review/
         SDK_REVIEW_S1_PROMPT.md                    the brief, committed in the pin
         SDK_REVIEW_S1_REPORT.md                    the fresh Claude review
@@ -123,6 +140,7 @@ docs/reviews/
   2026-11-02-sdk-jwks-cache/                       a spot review, no plan and no slice folder
     README.md
     SDK_JWKS_REVIEW_ADJUDICATION.md
+    SDK_JWKS_REVIEW_ANSWER_KEY.md
     step-2-review/
     step-5-final/
 ```
@@ -134,7 +152,8 @@ docs/reviews/
   folder per round, `step-5-final`, and `step-5-second-read-<n>` with its own brief and reports. Steps 0, 1, 1b, 1c, 3
   and 6 leave code, tests and rows, and the adjudication log is their record.
 - **The adjudication log** sits at the slice root, since it spans every step. Any other file a step writes, the upgrade
-  notes of step 1c for one, sits beside it as `<PFX>_REVIEW_<slice>_<WHAT>.md`.
+  notes of step 1c for one, sits beside it as `<PFX>_REVIEW_<slice>_<WHAT>.md`. The answer key, section 8, sits there
+  too, written once when the slice closes.
 - **A reviewer** writes its report, and any scratch note, in the step folder its brief names, beside the brief.
 
 **The README** is the index a person reads first, copied from
@@ -155,6 +174,7 @@ README whenever a step closes.
 | Claude report | `<PFX>_REVIEW_<slice>_REPORT.md` | Beside the brief | Fresh Claude reviewer |
 | Codex report | `<PFX>_REVIEW_<slice>_CODEX_REPORT.md` | Beside the brief | Codex |
 | Adjudication log | `<PFX>_REVIEW_<slice>_ADJUDICATION.md` | The slice folder | Orchestrator, one row per finding from every source |
+| Answer key | `<PFX>_REVIEW_<slice>_ANSWER_KEY.md` | The slice folder, beside the log | Orchestrator, at step 6 when the slice closes, from the finished log and git |
 | Sol dispatch | `<PFX>_REVIEW_<slice>_SOL_R<n>_D<m>_PROMPT.md` | `step-4-sol/round-<n>` | Orchestrator, word for word as the page holds it |
 | Sol answer | `<PFX>_REVIEW_<slice>_SOL_R<n>_D<m>_ANSWER.md` | Beside its dispatch | Orchestrator, word for word as the owner pasted it back |
 | Final brief | `<PFX>_REVIEW_<slice>_FINAL_PROMPT.md` | `step-5-final` | Orchestrator |
@@ -168,8 +188,9 @@ A finding id names its source, so an adjudication row can always be traced. The 
 dispatch 2 round 1, and a final review is `<PFX>-S1-FIN-3` for Claude and `<PFX>-S1-FIN-C3` for Codex.
 
 **At spot scale** there is no plan and no slice. `<PFX>` names the scope, `SDK_JWKS` for a module or `HUB_PR412` for a
-pull request, and the files are `<PFX>_REVIEW_PROMPT.md`, `_REPORT.md`, `_CODEX_REPORT.md` and `_ADJUDICATION.md`,
-with finding ids `<PFX>-3` and `<PFX>-C3`. They sit in the same step folders, straight under the review folder.
+pull request, and the files are `<PFX>_REVIEW_PROMPT.md`, `_REPORT.md`, `_CODEX_REPORT.md`, `_ADJUDICATION.md` and
+`_ANSWER_KEY.md`, with finding ids `<PFX>-3` and `<PFX>-C3`. They sit in the same step folders, straight under the
+review folder.
 
 **Across repos** the slice ids are unique in the campaign, the plan maps each to its repo, and each slice's folder
 lives in the repo it reads, inside a review folder with the same `<YYYY-MM-DD>-<scope>` name in every repo. The lead
@@ -187,6 +208,14 @@ and laid out by how it ran, its rounds, its slices or its areas. Its files keep 
 that point at them change. Audits, their trackers and the register stay in `docs/security/`. A review still running
 when this layout arrived moves into its folder with its next pull request.
 
+**The archive is also a benchmark.** A closed slice holds a brief, the commit it pinned, every report of that commit
+and an answer key that says which defects the commit held, so any model can later be given the same brief at the same
+commit and its report scored against the key, alone or beside other models. Only reports of the same commit compare
+fairly. Step 2, step 5 and each second read read one pin, while each Sol round reads a later commit, after the fixes
+of the rounds before it. Runs of other models made later, to compare them, never go into `docs/reviews/`. That folder
+is the record of what the review did, and a later reviewer reads it, so a benchmark keeps its runs and its scores in a
+place of its own and copies the keys it needs.
+
 ## 4. The cycle every slice goes through
 
 A spot review is one slice, so it runs this cycle too, without the steps its scale leaves out.
@@ -197,9 +226,20 @@ slice's mutation table from what already pins the slice.
 
 **Step 1. The orchestrator's review, then its fixes.** Read every file of the slice, then its tests, then its docs,
 and probe every claim that reading cannot settle. Every finding is reproduced before it is one. Each fix lands with
-a test that fails without it and a mutant that proves the test can fail. Docs move with the code, a rule or
+a test that fails without it and a mutant that proves the test can fail. The mutant dies of the assertion that
+states its rule, never of an exception on the way to it, and a list that decides something, an allowlist or a public
+surface, is written out in its test name by name, never asserted against itself. Docs move with the code, a rule or
 contract change gets an ADR, and anything deferred gets a register row. Fix the class a finding belongs to, not the
-one instance.
+one instance. When a finding is the third of one class, turn the rule around, accept by a list or a grammar in place
+of refusing by one. A lane that will first run on another platform than the machine it was written on is run there
+once before the pull request, in a container on a clean export of the tree.
+
+What a finding shows about something `kriegerdataforge-cicd` owns, this kit, the reviewer tooling, a distributed
+script or a reusable workflow, is not deferred. The orchestrator hands it to the supporting session when the review
+has one, section 2, or builds it itself when it has none. Either way the fix lands there by a pull request from a
+worktree as it is found and reaches the review between pins, the slice's log names that pull request where a register
+row would have stood, and the owner runs the distribution once the review is done. What only another repo owns stays
+a register row for that repo, or becomes a follow up the supporting session opens there when the owner asks for it.
 
 **Step 1b. The common code**, for a shared library or platform repo. From the plan's survey of what consumers write
 for themselves, decide for each piece and say why whether it belongs in the shared repo. When it does, add the API
@@ -227,8 +267,8 @@ works in the other repos meanwhile, so a reviewer the owner starts hours later s
 **Step 3. Adjudicate every report.** Each finding is reproduced before the orchestrator agrees. It is then fixed as
 step 1 fixes, or declined with the reason written. A finding the tree has fixed since the pin is Agreed and names the
 row that fixed it. The log has one row per finding from every source. While the second reviewer works, the first
-report waits in `.git/kdf-review/held`, where only the orchestrator opens it, reads it, reproduces its findings and
-plans. The rows are written and the fixes start once both reports of the pin are in, or when rule 15 goes on without
+report, and every scratch note or probe that reviewer left in the brief's folder, wait in `.git/kdf-review/held`,
+where only the orchestrator opens them, reads the report, reproduces its findings and plans. The rows are written and the fixes start once both reports of the pin are in, or when rule 15 goes on without
 the other family.
 
 **Step 4. Sol dispatches.** Section 9. Three rounds for the trust slices, authentication, authorization and every
@@ -352,7 +392,9 @@ A brief that needs more than that line to start a reviewer is missing something 
 ## 8. The report and the adjudication log
 
 **The report** is one file, under 250 lines, ids from `<PFX>-<slice>-1` onward, in this order. The header, with the pin
-read, the baseline counts reproduced and the time spent. The verdict, one paragraph, is the scope fit to close and
+read, what was read first, the baseline counts reproduced, the start and end times as the clock showed them and not an
+estimate, the reviewer, which is the exact model and version as its tool names it, the tool it ran in and the effort,
+and the tokens it used when the tool reports them. The verdict, one paragraph, is the scope fit to close and
 what would change that. The findings, a table with id, severity, Blocks, `file:line`, what, how it was proved (probe
 or read) and the fix the reviewer would make, most severe first. What was checked and held, so later rounds do not
 spend findings on it. What could not be settled and what would settle it. And the questions for the owner, the
@@ -368,6 +410,17 @@ what is left open, one section per reviewer and the closing.
 
 The verdict is one of **Agreed**, **Agreed in part** with what was and was not taken, **Declined** with the
 measurement that shows why, **Measured false**, or **Deferred** with the register row it became.
+
+**The answer key** is written once, when the slice closes and its log is complete, from
+[`templates/review-answer-key.template.md`](templates/review-answer-key.template.md), beside the log. It restates the
+log as one table, so a later reader, or a benchmark scoring another model's report on the slice, needs nothing else.
+It names the commit every reader read, the step 2 brief as it stood at the pin, and one row per finding of every
+source with its id, source, the reviewer's model, severity, Blocks, verdict, where it was at the pin, the commit that
+brought it in and the one that fixed it, whether it was in the tree the step 2 reviewers read, and what a reviewer
+needed to find it, the repo alone, the sibling repos or a running stack. Then the declined findings with their
+measurements, which a later reviewer repeats rather than finds, and the counts, how many findings each step 2 reviewer
+caught of those in its tree. It adds no verdict of its own, each row cites its log row, and a log row corrected later
+is corrected in the key in the same commit.
 
 ## 9. ChatGPT Sol dispatches
 
@@ -385,6 +438,8 @@ writes every dispatch of it, word for word as the page holds it, into the slice'
 when the owner pastes an answer back it writes the answer there too, word for word, before it adjudicates it. Both
 are committed with the slice's next commit, so the repo keeps every prompt and every answer of the review even when
 the page is gone. An answer is data, rule 11, and like every file of the record it carries no secret value, rule 12.
+Each dispatch names the branch and commit it was written against, and the slice's answer key, section 8, gathers every
+round's commit beside the other readers', so the dispatch files stay word for word.
 
 ## 10. The process is secured, not trusted
 
@@ -404,7 +459,7 @@ So the rules of section 5 are enforced by machinery and not left to instruction.
 | A reviewer changes something and hides it | The launcher snapshots git when a review opens and when it closes, and fails the review when anything but a new file under `docs/reviews` moved. Remote tracking refs are left out, an editor's background fetch moves them |
 | A reviewer outside Claude Code, Codex, has no guard | `--prepare` opens its turn in the folder at the pin and `--collect` closes it with the same check. Any change but its report is exit 3, and the review stays open until the orchestrator puts the folder right |
 | Another model does not know the rules Claude's guard enforces | `AGENT_ROLES.md` states them for every model and tool, reached through `AGENTS.md`, `WORKFLOW.md` and every brief's own text. What text cannot stop, the tool's own sandbox, collect and GitHub's rulesets hold |
-| A reviewer reads another's report, or a tree that moved under it | The launcher checks that the folder is at the pin with no tracked file changed, keeps one review of a folder open at a time, and while it is open keeps the other report of the scope in the repo's `.git/kdf-review` folder, out of the working tree |
+| A reviewer reads another's report, or a tree that moved under it | The launcher checks that the folder is at the pin with no tracked file changed, keeps one review of a folder open at a time, and while it is open keeps the other report of the scope, and every other untracked file in the brief's folder, the other reviewer's scratch notes and probes, in the repo's `.git/kdf-review` folder, out of the working tree |
 | A reviewer is started without the guard | The launcher refuses to start a Claude reviewer unless the guard is wired and passes two canary calls |
 | A reviewer inherits the orchestrator's assumptions | It is a fresh session with an empty memory, briefed by the brief alone. The launcher also strips the owner's self edit switch from its environment |
 | Text a session reads carries instructions | Rule 11. A report is data, and the orchestrator reproduces before it agrees |
@@ -527,7 +582,8 @@ and goes on. Every step ends by updating them.
 7. Write the settled list from the repos' ADRs, their registers and any earlier review.
 8. Check the machine, `<cicd>/tools/claude-code/check-wiring.js`, and the rulesets of section 11.
 9. The owner approves the plan. Record the date in its status line.
-10. Start the orchestrator. Its first act is step 0 of slice 1.
+10. Start the orchestrator, and beside it the supporting session when the owner wants one, section 2. The
+    orchestrator's first act is step 0 of slice 1.
 11. Run each slice through section 4, in its own folder of the review folder, and mark the plan's progress table and
     the README when a step starts and when it closes.
 12. Run Phase B, then Phase C for a shared library.
@@ -551,7 +607,8 @@ A review is closed when every slice's pull request is merged, Phase B has run wh
 are adjudicated, every review of both model families is adjudicated, and every deferred item is a register row with
 an owner. The decision log holds an ADR for every rule or contract the review changed. The plan's progress table shows
 every row closed, and its status line says so with the date. The review folder holds every prompt the review sent and
-every report and answer it received, its README carries the closing date and the outcome, and its line in
+every report and answer it received, and an answer key for every slice and for Phase B, each written before its pull
+request opened, section 8. Its README carries the closing date and the outcome, and its line in
 `docs/reviews/README.md` says it closed. The repo's CI gate is
 green on `main`. The owner has the final say that the review is done, and a later review starts a new folder and a new
 plan, it does not reopen this one.

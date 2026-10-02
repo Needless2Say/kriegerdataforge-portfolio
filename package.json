@@ -1,6 +1,6 @@
 {
   "name": "kriegerdataforge-portfolio",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "next": "^16.3.5",
+    "next": "^16.3.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
@@ -20,7 +20,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^16.3.5",
+    "eslint-config-next": "^16.3.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

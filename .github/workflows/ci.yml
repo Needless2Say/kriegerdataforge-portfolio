@@ -45,7 +45,7 @@ jobs:
   style:
     uses: Needless2Say/kriegerdataforge-cicd/.github/workflows/ci-python-kdf-fmt.yml@main
     with:
-      kdf_fmt_ref: v1.1.0
+      kdf_fmt_ref: v1.3.0
     secrets: inherit
 
   secret-scan:

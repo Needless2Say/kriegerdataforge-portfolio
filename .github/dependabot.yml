@@ -11,6 +11,7 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+    open-pull-requests-limit: 0
 
   # Surface transitive JS CVEs (e.g. the postcss advisory that hid under `next`)
   # as auto-PRs so they don't accumulate silently.
@@ -22,3 +23,4 @@ updates:
     labels:
       - "dependencies"
       - "javascript"
+    open-pull-requests-limit: 0

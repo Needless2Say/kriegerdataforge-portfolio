@@ -12,6 +12,10 @@
 > role, never merge, approve, tag, release, deploy, touch DEV or PROD, push to `main`, read a secret, or edit a
 > guardrail file, and never search, open or quote a path `.gitignore` covers except as that page's rule 6 allows.
 
+**Ecosystem context.** Before anything else, read `../kriegerdataforge-context/AGENTS.md`. That private repo
+beside this one holds where KDF is headed, the map of its repos and how sessions work. When it is not checked out
+there, carry on with this page.
+
 ## Vision & purpose. What you're building toward
 
 This is the **public site for KriegerDataForge (KDF)**, a personal software platform Arthur

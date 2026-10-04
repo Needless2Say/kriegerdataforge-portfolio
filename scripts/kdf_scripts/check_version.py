@@ -92,6 +92,13 @@ SCRIPTS_SYNC_PATCHED_CONFIGS = {
     "pyproject.toml",
     "requirements-dev.in",
 }
+# The kit sync writes one line into a repo's own AGENTS.md, the ecosystem context pointer (cicd D-046), and the
+# Dependabot limits into .github/dependabot.yml (D-047), so a `chore/kit-sync-*` PR may carry both. Off that branch a
+# change to either still needs a version bump.
+KIT_SYNC_BRANCH_PREFIX = "chore/kit-sync-"
+KIT_SYNC_PATCHED_FILES = {"AGENTS.md", ".github/dependabot.yml"}
+# One PR carrying the kit and the scripts together (distribute_all.py, D-047) may carry what either sync may.
+ECOSYSTEM_SYNC_BRANCH_PREFIX = "chore/ecosystem-sync-"
 
 # local imports — same-directory vendored layout fails over to the canonical package
 # layout (scripts/common/ under the cicd checkout / test runs). Sits below the constants
@@ -320,13 +327,18 @@ def _is_exempt_sync_pr(cwd: Path) -> bool:
         return False
     kit_exempt     = _kit_exempt_files()
     scripts_exempt = _scripts_exempt_files()
-    on_sync_branch = os.environ.get("GITHUB_HEAD_REF", "").startswith(SCRIPTS_SYNC_BRANCH_PREFIX)
+    head_ref       = os.environ.get("GITHUB_HEAD_REF", "")
+    on_ecosystem   = head_ref.startswith(ECOSYSTEM_SYNC_BRANCH_PREFIX)
+    on_sync_branch = head_ref.startswith(SCRIPTS_SYNC_BRANCH_PREFIX) or on_ecosystem
+    on_kit_branch  = head_ref.startswith(KIT_SYNC_BRANCH_PREFIX) or on_ecosystem
     for changed in files:
         if changed in kit_exempt or changed in scripts_exempt:
             continue
         if any(changed.startswith(prefix) for prefix in KIT_EXEMPT_PREFIXES):
             continue
         if changed in SCRIPTS_SYNC_PATCHED_CONFIGS and on_sync_branch:
+            continue
+        if changed in KIT_SYNC_PATCHED_FILES and on_kit_branch:
             continue
         return False
     return True

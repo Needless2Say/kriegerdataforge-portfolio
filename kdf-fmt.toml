@@ -1,5 +1,5 @@
 # kdf-fmt configuration - the KDF Python house style (spec: kriegerdataforge-fmt
-# docs/reference/KDF_FMT_SPEC.md; tool pinned in ci.yml `kdf_fmt_ref` + Makefile).
+# docs/reference/KDF_FMT_SPEC.md; tool at main, declared in requirements-dev.in, cicd D-054).
 #
 # This is a TypeScript repo. The only Python in it is scripts/, so that is the whole of what
 # this gate covers - ESLint and tsc own everything else. The scripts here are vendored copies

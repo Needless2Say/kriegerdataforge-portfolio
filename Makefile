@@ -74,6 +74,12 @@ endif
 # always use venv's python
 PYTHON := $(VENV_BIN)/python
 
+# kdf-fmt's one declaration, its line in requirements-dev.in at main (cicd D-054), which the reusable
+# style lane reads too. ci-style reinstalls from it before each check, forced, since pip skips a
+# reinstall whose version number has not changed, so the local check runs the formatter CI will.
+KDF_FMT_SPEC := $(shell grep -E '^kdf-fmt[[:space:]]*@' requirements-dev.in 2>/dev/null \
+	| sed -E 's/[[:space:]]+\#.*$$//' | head -1)
+
 # ---------- Docker ----------
 
 # compose docker command (always uses .env.local for local development)
@@ -381,12 +387,12 @@ ci-lint: ## CI: ESLint
 	$(LINT_CMD)
 
 # kdf-fmt owns Python formatting/style (ADR D-003). This is a TypeScript repo, so the gate
-# covers scripts/ only (config: kdf-fmt.toml). Installed on demand -- there is no requirements
-# file here to carry the pin, so ci.yml's kdf_fmt_ref is the single source.
+# covers scripts/ only (config: kdf-fmt.toml). requirements-dev.in carries kdf-fmt's one
+# declaration, at main (cicd D-054), and ci-style reinstalls from it before each check.
 ci-style: _ensure-venv _warn-packages-pat ## CI: kdf-fmt style check for the Python scripts
 	@printf "$(GREEN)CI [2/6]: kdf-fmt style...$(NC)\n"
-	@$(PYTHON) -c "import kdf_fmt" 2>/dev/null || $(PIP_GIT_AUTH) $(PYTHON) -m pip install --quiet \
-		"kdf-fmt @ git+https://github.com/Needless2Say/kriegerdataforge-fmt.git@$(shell grep -oE 'kdf_fmt_ref:[[:space:]]*v[0-9.]+' .github/workflows/ci.yml | head -1 | grep -oE 'v[0-9.]+')"
+	@[ -n '$(KDF_FMT_SPEC)' ] || { printf "requirements-dev.in names no kdf-fmt line\n"; exit 1; }
+	@$(PIP_GIT_AUTH) $(PYTHON) -m pip install --quiet --no-deps --force-reinstall '$(KDF_FMT_SPEC)'
 	$(PYTHON) -m kdf_fmt.cli check --no-cache
 
 ci-typecheck: ## CI: TypeScript type check

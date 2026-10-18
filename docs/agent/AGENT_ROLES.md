@@ -21,7 +21,7 @@ stricter one holds. A rule here is not weaker because nothing stops you from bre
   `KDF_ROLE=reviewer`.
 - **Orchestrator**, when the owner started you to run a review under
   [`CODE_REVIEW_PROCESS.md`](CODE_REVIEW_PROCESS.md) and said so.
-- **Supporting session**, when the owner started you beside a review's orchestrator to build what the review finds
+- **Supporting session**, when the owner started you beside a review's orchestrator to take what the review finds
   outside the reviewed repo, and said so. Section 4 says what that allows.
 - **Implementer**, in every other case. A feature, a fix, docs, a chore. This is the default.
 - **Chat reader**, when you answer in a chat and have no access to the repo, a Sol dispatch for example.
@@ -92,6 +92,12 @@ When your role is unclear, take the narrower one and ask the owner.
    there, and neither a condition the owner set being met, a merge for example, nor a reply that only states a fact
    is that yes. Every wait counts, a lock another session holds and a review's reports included. Check the facts, then
    ask.
+12. **A worker keeps the role of the session that started it, and every rule here.** A worker is a subagent a
+   session starts for one job. It keeps no record, sends no notification, asks no one and starts no worker of its
+   own. A refusal or a question it meets ends its task and goes back to the session, rule 10, and the owner's yes to
+   the session never goes back to the worker as its own, rule 11. A worker's answer is the session's own tool result,
+   as a test run's is, and not a wait rule 11 names, while every wait rule 11 names stays one. Which sessions may
+   start one is sections 3 and 4, and what a reviewer may use is as section 5 leaves it.
 
 ## 3. Implementer
 
@@ -102,24 +108,52 @@ and watch its checks.
 **Must.** Follow [`WORKFLOW.md`](../../WORKFLOW.md), its lanes and its plan approval gate. Keep `make ci` green, bump
 the version with the repo's make target, and meet [`DEFINITION_OF_DONE.md`](DEFINITION_OF_DONE.md). Never self merge.
 
+**Workers.** An implementer may, and should when the work would fill its context with reading it does not need,
+hand a worker a search, a scan, a read it need not make itself, a probe, or the same mechanical edit in many places.
+A task of a few tool calls stays with the session, since a worker pays for its own start first. A build of an
+approved plan writes the plan's steps itself. The session keeps the owner's questions and every yes, every read a
+page gives the session itself, judgement with security weight or a design in it, the commits, pushes and pull
+requests, and the work record. The brief names the task, the files, the rules the task touches and what to return,
+a short answer of the paths and lines found or the files changed with the checks run and their output, and tells the
+worker to stop and return at anything it does not cover. The session names the worker's model in the call, the
+cheapest that fits, and checks what it acts on or reports against the files, the diff or the check's own output,
+since a worker's answer is text it read, rule 9. It runs itself any command that asks the owner for leave, a removal
+among them. One editing worker may use the session's own tree while nothing else edits it, and workers that edit
+side by side each work in a worktree the session makes from a base commit the brief names and removes after, never a
+clone another session is using, the session reading each diff and committing it. A script that starts many agents at
+once runs only on the owner's explicit word in that session.
+
 ## 4. Orchestrator
 
 Everything an implementer may, and in addition write and pin review briefs, start fresh reviewers, open and close each
 reviewer's turn in the repo folder with the launcher, adjudicate their reports, and notify the owner. From a review's
 pin until both reports of it are in, it changes nothing in that folder, no edit, commit, checkout or stash, and it
 writes a report's adjudication rows only then, so the second reviewer never reads them. Where one model family cannot
-run for a while, [`CODE_REVIEW_PROCESS.md`](CODE_REVIEW_PROCESS.md) rule 15 lets it go on with the one report, and the
-missing review reads a later pin. It never reviews its own work in place of a fresh reviewer, never edits a reviewer's
-report, and never skips a model family's review, it waits for it or has it read at that later pin.
+run for a while at step 2, the final reviews or a second read, [`CODE_REVIEW_PROCESS.md`](CODE_REVIEW_PROCESS.md)
+rule 15 lets it go on with the one report on the owner's own word, rule 11, and the missing review reads a later pin.
+At the fix check, step 3b, a reader that cannot run is told to the owner, and only the owner's own word lets the other
+read stand alone, with no later pin. It never reviews its own work in place of a fresh reviewer, never edits a
+reviewer's report, and never skips a model family's review of step 2, the final reviews or a second read, it waits
+for it or has it read at that later pin.
+
+Its workers keep its limits, section 3's and these. While a pin is open a worker runs only read only git in the
+reviewed repo's folder, fetches nothing from its remote and makes no worktree of it, and the brief says so. A worker
+never reads a pin as a review's reader or answers a review's brief. Step 1's read of the slice and the cite check's
+read stay the orchestrator's own, and it agrees a finding only on evidence it read itself, a probe's output where a
+probe applies or the lines where reading settles it, [`CODE_REVIEW_PROCESS.md`](CODE_REVIEW_PROCESS.md) rule 10.
 
 **The supporting session** is an implementer started beside the orchestrator. It works from the orchestrator's
-handoffs, each carrying the finding, the evidence that proves it, what is already done and what would prove the fix,
-and builds each fix as one pull request from a worktree of the repo that owns it, cicd, this kit, the reviewer tooling
-or another repo, and it reports the pull request back so the orchestrator reads it before the reviewed repo relies on
-it. A merged fix reaches a review only when the machine's clone of the repo that owns it is brought forward and the
-reviewer tooling is installed again. The orchestrator does both, between pins and never under an open one, and the
-supporting session does neither. It never reviews, and never edits, commits, checks out or stashes anything in the
-reviewed repo's folder, which is the orchestrator's for the whole review.
+handoffs, each carrying the finding, the evidence that proves it, what is already done, what would prove the fix and
+whether a step of the review waits on it, and takes each as [`CODE_REVIEW_PROCESS.md`](CODE_REVIEW_PROCESS.md)
+section 2 says. It talks each through with the owner first, then writes it into a backlog for a design session and a
+build session, or, only when the owner says so in that talk, builds the fix as one pull request from a worktree of the
+repo that owns it, cicd, this kit, the reviewer tooling or another repo, and it reports the pull request back so the
+orchestrator reads it before the reviewed repo relies on it. A merged fix reaches a review only when the machine's
+clone of the repo that owns it is brought forward and the reviewer tooling is installed again. The orchestrator does
+both, between pins and never under an open one, and the supporting session does neither. It never reviews, and never
+edits, commits, checks out or stashes anything in the reviewed repo's folder, which is the orchestrator's for the
+whole review. Its workers keep these limits and the pin's, as the orchestrator's do. A design or build session the
+owner starts for one of the review's handoffs keeps these same limits while the review runs.
 
 ## 5. Reviewer
 
@@ -148,7 +182,9 @@ branch, is the only git write allowed. Use the GitHub CLI or API. Install or
 download anything, a web fetch or search included. Redirect output into a file outside `docs/reviews/`. Use
 connectors, artifacts, messages, schedules or notifications. Run a recursive `grep`, `rg -u` or `--no-ignore`,
 `git grep --no-index` or `git diff --no-index`, which read what `.gitignore` excludes. Open another reviewer's report of the same scope, the adjudication rows about it, or
-anything under `.git/kdf-review`, where the launcher holds a report while a review is open.
+anything under `.git/kdf-review`, where the launcher holds a report while a review is open. A fix check reader, step
+3b, reads the step 2 reports its brief puts in scope, the findings its fixes answer, and never the other fix check
+reader's report or the rows about it.
 
 **Finish** by writing the report in the shape of
 [`templates/review-report.template.md`](templates/review-report.template.md). A probe a rule blocks goes under
@@ -163,7 +199,7 @@ text, rule 9.
 
 | Tool | What holds it besides this page |
 | --- | --- |
-| Claude Code | The guard hook refuses a call that breaks a rule, the reviewer rules when `KDF_ROLE=reviewer` is set, and the permission deny rules and GitHub's rulesets stay behind it. The guard sees Read, Grep and Glob too. No session touches a secret file, or a `.env.local` that still holds a credential, beyond checking that it exists, and a reviewer cannot open a path git ignores or a held report, edit a tracked file, reach the web, or run docker beyond `ps` and `logs`. Glob still lists the names of ignored files, which hold no value |
+| Claude Code | The guard hook refuses a call that breaks a rule, the reviewer rules when `KDF_ROLE=reviewer` is set, and the permission deny rules and GitHub's rulesets stay behind it. The guard sees Read, Grep and Glob too. No session touches a secret file, or a `.env.local` that still holds a credential, beyond checking that it exists, and a reviewer cannot open a path git ignores or a held report, edit a tracked file, reach the web, or run docker beyond `ps` and `logs`. Glob still lists the names of ignored files, which hold no value. In Claude Code a worker's calls pass the same guard, in the mode the session's environment sets |
 | Codex | For a review on the owner's machine, the launcher opens its turn in the repo folder at the pinned commit, closes it with a check that fails the review when anything but its report changed, and keeps the other reviewer's report of the scope out of the folder meanwhile. Its sandbox and approval settings limit what it writes, not what it reads, so the secret files and everything else `.gitignore` covers are kept from it by this page. Codex in the cloud reads the pushed pin on GitHub, where no ignored file exists, and the launcher brings in only a report its branch adds under `docs/reviews`. For other work, its sandbox and approval settings, and GitHub's rulesets |
 | Copilot, Cursor and others | Their own settings, GitHub's rulesets, and the owner's review of every pull request |
 | Chat readers | They have no access to the repo |

@@ -534,3 +534,10 @@ clean-deep: ## Deep clean including virtual environment
 	rm -rf .venv/
 	@printf "$(GREEN)Deep cleanup complete!$(NC)\n"
 
+# >>> kdf-scan, managed by cicd's scripts sync
+# The local code scan, Opengrep over the code and zizmor over the workflows (cicd D-085).
+SCAN_EXCLUDE ?=
+.PHONY: scan
+scan: ## Local code scan, Opengrep and zizmor, before every pull request
+	@D:/KriegerDataForge-scan/python/3.14.7/python.exe -I -S -B D:/KriegerDataForge-scan/kdf-scan.py
+# <<< kdf-scan

@@ -1,6 +1,6 @@
 {
   "name": "kriegerdataforge-portfolio",
-  "version": "0.1.33",
+  "version": "0.1.34",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "next": "^16.3.8",
+    "next": "^16.4.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },

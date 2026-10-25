@@ -1,10 +1,10 @@
 import type { SkillGroup } from "@/types/portfolio";
 
 /*
-	What the platform is built with, nothing else. The previous list read like a
+	What KriegerDataForge is built with, nothing else. The previous list read like a
 	general skills inventory and included tools that appear nowhere in these
 	repositories, which is both inaccurate here and off topic for a site about
-	one platform.
+	one toolkit.
 */
 export const SKILL_GROUPS: SkillGroup[] = [
 	{
@@ -23,7 +23,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
 		skills: ["OAuth 2.0 / OIDC", "JWT / JWKS", "PKCE", "argon2id"],
 	},
 	{
-		label: "Platform",
+		label: "Build and Deploy",
 		color: "infra",
 		skills: ["Terraform", "GitHub Actions", "Docker", "Vercel"],
 	},

@@ -1,7 +1,7 @@
 # Contributor Onboarding, kriegerdataforge-portfolio
 
 Welcome. This is the **public face of KriegerDataForge (KDF)**, a Next.js static export
-portfolio site that shows the platform's apps, stack, and the "forge /
+portfolio site that shows KriegerDataForge's apps, stack, and the "forge /
 data blacksmith" brand. **No database, no auth, no backend**. Pure presentation plus a
 client side contact form. Keep it simple. Over engineering a static site is the wrong instinct.
 

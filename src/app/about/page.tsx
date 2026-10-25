@@ -12,13 +12,13 @@ import SpaceLink from "@/components/ui/SpaceLink";
 
 export const metadata: Metadata = {
 	title: "About",
-	description: "What KriegerDataForge is. A personal platform Arthur Krieger builds and uses for his own apps.",
+	description: "What KriegerDataForge is. The smithy behind Arthur Krieger's apps, a personal toolkit he builds and uses.",
 	alternates: { canonical: "https://kriegerdataforge.com/about" },
 };
 
 /*
-	The history of the platform, not a career timeline. Nothing here reaches
-	outside the platform itself. No roles, no organisations, and nothing about
+	The history of KriegerDataForge, not a career timeline. Nothing here reaches
+	outside KriegerDataForge itself. No roles, no organisations, and nothing about
 	how the owner spends his days, all of which belongs on the personal
 	portfolio rather than on this site.
 */
@@ -35,7 +35,7 @@ const MILESTONES = [
 	},
 	{
 		year: "2026",
-		title: "Shared foundations",
+		title: "Shared parts",
 		desc: "Gave each app its own backend, and pulled the repeated parts out into a shared Python SDK every backend installs, a Terraform setup that declares every environment, and a CI/CD library every repository inherits.",
 	},
 	{
@@ -138,7 +138,7 @@ export default function About() {
 						<SectionHeader
 							title="Forge History"
 							eyebrow="timeline"
-							subtitle="// how the platform got here"
+							subtitle="// how the smithy got here"
 						/>
 					</Reveal>
 
@@ -168,7 +168,7 @@ export default function About() {
 						<SectionHeader
 							title="The Toolbox"
 							eyebrow="tech stack"
-							subtitle="// what the platform is built with"
+							subtitle="// what the smithy is built with"
 						/>
 					</Reveal>
 

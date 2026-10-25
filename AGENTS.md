@@ -18,41 +18,45 @@ there, carry on with this page.
 
 ## Vision & purpose. What you're building toward
 
-This is the **public site for KriegerDataForge (KDF)**, a personal software platform Arthur
-Krieger designs and builds himself, running only his own apps. It explains what the platform is, what is being built on it, and
-what it is built with. An OAuth 2.0 / OIDC identity provider (the `kriegerdataforge` hub), shared
-Python and npm packages (the Python SDK is the one every app backend installs), a Terraform control
-plane, and the apps on top of them, across 18 repositories. The aesthetic is dark industrial, amber forge fire with purple/blue bit accents.
+This is the **public site for KriegerDataForge (KDF)**, the smithy behind Arthur Krieger's apps, a
+personal toolkit he designs and builds himself and uses only for his own apps. It explains what KDF is, what is being
+built with it, and what it is built with. An OAuth 2.0 / OIDC identity provider (the `kriegerdataforge` hub), shared
+Python and npm packages (the Python SDK is the one every app backend installs), templates that new apps start from,
+Terraform infrastructure, and the apps on top of them, across 18 repositories. The aesthetic is dark industrial, amber forge fire with purple/blue bit accents.
 
 **Copy rule, and it is not negotiable.** This site is one person's personal project, built by
 himself. A site that reads like a business he runs on the side creates a problem that no amount of
-polish is worth. The single most important thing this site says is that **it is a personal platform**. Concretely:
+polish is worth. The single most important thing this site says is that **it is a personal toolkit, the smithy
+behind my apps**. Concretely:
 
-- **Call it a personal platform, never a closed one.** It is a platform for Arthur himself and it runs
-  all of his own personal apps. Every place the platform is described has to leave no room to read it
-  as a product, a service, or something open to others. `KDF_INFO.access` is the short form of this.
-  The owner dropped "closed platform" on 2026-09-25, do not bring it back
+- **Call it the smithy behind my apps, a personal toolkit. Never a platform.** The owner retired "personal
+  platform" on 2026-10-25. Never "platform", "ecosystem", "framework", "infrastructure" or "foundation" for KDF as a
+  whole ("infrastructure" stays for the Terraform piece), and never a closed anything. It is a toolkit for Arthur
+  himself and it runs all of his own personal apps. Every place KDF is described has to leave no room to read it as a
+  product, a service, or something open to others. `KDF_INFO.access` is the short form of this. The owner dropped
+  "closed platform" on 2026-09-25, do not bring it back
 - **Humble and plain, never a pitch.** Say what each piece is and what it does, in ordinary words.
   No hype, slogans, superlatives, or boasts, so no "fiery passion", "seamlessly", "free forever",
   "everywhere", or "heaviest", and no absolute security claims like "cannot authenticate anyone".
-  The one exception is the home page eyebrow, "the forge behind my apps". The owner chose it on
-  2026-09-27, keep it and do not add a second slogan anywhere else.
+  The one exception is "the smithy behind my apps", the home page eyebrow, the title and the first sentence of the
+  description. The owner chose "the forge behind my apps" on 2026-09-27 and replaced it on 2026-10-25, so all three
+  say one thing. Keep it and do not add a second slogan anywhere else.
   Use "I" and "my" where a sentence needs them, never stacked for emphasis ("my own personal",
   "every key on it is mine"). In public copy the Terraform repository is "infrastructure", not a
   "control plane". The owner asked for this tone on 2026-09-27
 - **Do not add disclaimers.** The owner removed "nothing for sale", "nothing to sign up for",
-  "no users but me", and "nobody else has an account". Saying it is a personal platform is enough,
+  "no users but me", and "nobody else has an account". Saying it is a personal toolkit is enough,
   listing what it is not protests too much. Do not put them back
-- **No location.** No city, no state, no "based in", no `chi-town`. The platform is not based
+- **No location.** No city, no state, no "based in", no `chi-town`. KDF is not based
   anywhere and the site must not imply it is
 - **"Founder" is allowed**, and is the owner's explicit decision. It is a title on a personal
-  platform, which is why the personal framing above has to carry its weight
+  toolkit, which is why the personal framing above has to carry its weight
 - Never "we", "our", "the team", "services", "clients", "inquiries", or a brand-only copyright line
 - **"Built by myself", or nothing.** The owner dropped "on my own time" on 2026-09-25. Never
   "outside of work", "side project", "day job", "in parallel with", or any other phrasing that
-  positions the platform against something else. On this site there is no something else
+  positions KDF against something else. On this site there is no something else
 - Never reference a job, a role held anywhere, an organisation, a team, or anyone else's internal
-  tooling. This site talks about the platform and nothing outside it. How Arthur spends his days
+  tooling. This site talks about KDF and nothing outside it. How Arthur spends his days
   belongs on the personal portfolio, not here
 - **The stated motive is a passion for building apps.** He wanted to stop starting each one from
   scratch, so they all sit on one organized system that keeps them simple to manage and maintain and
@@ -132,8 +136,8 @@ export beats any dev server.
 ## Required reading
 
 1. [`README.md`](./README.md). What this site is, tech stack, CI/release, and the GitHub Pages deploy gates.
-2. [`src/constants/kdf-info.ts`](src/constants/kdf-info.ts). The canonical KDF brand statement. Tagline, mission, founder, and the ecosystem framing this site exists to communicate.
-3. [`src/constants/projects.ts`](src/constants/projects.ts). The live KDF apps and the platform story (FastAPI/PostgreSQL backbone) you're showcasing.
+2. [`src/constants/kdf-info.ts`](src/constants/kdf-info.ts). The canonical KDF brand statement. Tagline, mission, founder, and the framing this site exists to communicate.
+3. [`src/constants/projects.ts`](src/constants/projects.ts). The live KDF apps and the KDF story (FastAPI/PostgreSQL backbone) you're showcasing.
 4. [`next.config.ts`](./next.config.ts). Static export + `basePath`/`assetPrefix` constraints (sourced from `src/constants/routes.ts`) that govern every change.
 5. [`skills.md`](./skills.md). The ecosystem security playbook (read before any security sensitive work).
 

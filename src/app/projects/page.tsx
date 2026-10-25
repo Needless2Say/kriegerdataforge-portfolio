@@ -10,7 +10,7 @@ import Reveal from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
 	title: "Projects",
-	description: "The projects that make up KriegerDataForge, Arthur Krieger's personal platform. The identity provider, the shared packages, the infrastructure, and the apps built on top of them.",
+	description: "The projects that make up KriegerDataForge, the smithy behind Arthur Krieger's apps. The identity provider, the shared packages, the templates, the infrastructure, and the apps built on top of them.",
 	alternates: { canonical: "https://kriegerdataforge.com/projects" },
 };
 
@@ -24,7 +24,7 @@ export default function Projects() {
 						as="h1"
 						title="Project Forge"
 						eyebrow="everything on the bench"
-						subtitle="// the platform, and the apps I am building on it"
+						subtitle="// the toolkit, and the apps I am building with it"
 					/>
 				</Reveal>
 
@@ -64,11 +64,11 @@ export default function Projects() {
 					<div className="mt-12 text-center">
 						{/*
 							The old line here promised that all source was available. Almost
-							every repository on the platform is private while it is being
+							every KriegerDataForge repository is private while it is being
 							built, so the honest version says where things live instead.
 						*/}
 						<p className="text-slate-500 text-sm mb-4">
-							The platform lives across 18 repositories. Most are private while they are still being built.
+							KriegerDataForge lives across 18 repositories. Most are private while they are still being built.
 						</p>
 						<Link
 							href={KDF_INFO.links.github}

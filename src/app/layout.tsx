@@ -34,13 +34,13 @@ const GA_MEASUREMENT_ID = "G-50SJBQ5MV2";
 export const metadata: Metadata = {
 	metadataBase: new URL(BASE_URL),
 	title: {
-		default: "KriegerDataForge | A Personal Platform",
+		default: "KriegerDataForge | The Smithy Behind My Apps",
 		template: "%s | KriegerDataForge",
 	},
-	description: "KriegerDataForge is a personal platform Arthur Krieger builds and uses for his own apps. It includes an OAuth 2.0 and OIDC identity provider, shared Python and npm packages, Terraform infrastructure, and the apps built on top of them, across 18 repositories.",
+	description: "KriegerDataForge is the smithy behind Arthur Krieger's apps, the toolkit he built so that none of them starts from scratch. His apps share one sign in through his OAuth 2.0 and OIDC identity provider, share code through his Python and npm packages, and new ones start from his templates.",
 	keywords: [
 		"KriegerDataForge",
-		"personal software platform",
+		"personal app toolkit",
 		"personal project",
 		"OAuth 2.0",
 		"OIDC",
@@ -64,15 +64,15 @@ export const metadata: Metadata = {
 		locale: "en_US",
 		url: BASE_URL,
 		siteName: "KriegerDataForge",
-		title: "KriegerDataForge | A Personal Platform",
+		title: "KriegerDataForge | The Smithy Behind My Apps",
 		description:
-			"A personal platform Arthur Krieger builds and uses for his own apps, with one identity provider, shared Python and npm packages, and the apps built on top of them.",
+			"The smithy behind Arthur Krieger's apps, a personal toolkit with one sign in, shared Python and npm packages, and templates for starting new apps.",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "KriegerDataForge | A Personal Platform",
+		title: "KriegerDataForge | The Smithy Behind My Apps",
 		description:
-			"A personal platform Arthur Krieger builds and uses for his own apps.",
+			"The smithy behind Arthur Krieger's apps.",
 	},
 	alternates: { canonical: BASE_URL },
 	/*

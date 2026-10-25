@@ -9,7 +9,7 @@ export interface SkillGroup {
 /*
 	Where each piece actually is, rather than a product lifecycle. The old set was
 	active / beta / planned, which implied things were running in front of users.
-	Nothing on the platform is in front of anyone yet, and saying otherwise on a
+	Nothing in KriegerDataForge is in front of anyone yet, and saying otherwise on a
 	public site is a claim that cannot be backed up.
 */
 export type ProjectStatus = "live · in development" | "in development" | "pre-launch" | "planned";

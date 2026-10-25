@@ -1,7 +1,7 @@
 # Contributing to kriegerdataforge-portfolio
 
 This is a private, owner operated repository in the **KriegerDataForge (KDF)** ecosystem,
-the public site for the platform. There are no external contributors. Work here is done
+the public site for KriegerDataForge. There are no external contributors. Work here is done
 by the owner and AI agents acting on the owner's behalf.
 
 Before you start, read the canonical guides, they override anything summarized here:

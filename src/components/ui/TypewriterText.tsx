@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 
 /*
-	What the platform is, said plainly. The old set read like a product pitch,
+	What KriegerDataForge is, said plainly. The old set read like a product pitch,
 	"App Factory" and all, which is the voice this site is deliberately moving
 	away from.
 */
 const PHRASES = [
-	"A Personal Platform",
+	"A Personal App Toolkit",
 	"Single Sign On Across My Apps",
 	"Shared Python + npm Packages",
 	"One System For All My Apps",

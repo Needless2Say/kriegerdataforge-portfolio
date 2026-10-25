@@ -15,7 +15,7 @@ import BinaryStat from "@/components/ui/BinaryStat";
 import SpaceLink from "@/components/ui/SpaceLink";
 
 export const metadata: Metadata = {
-	title: "KriegerDataForge | A Personal Platform",
+	title: "KriegerDataForge | The Smithy Behind My Apps",
 	description: KDF_INFO.description,
 	alternates: { canonical: "https://kriegerdataforge.com" },
 };
@@ -34,7 +34,7 @@ export default function Home() {
 					className="text-amber-500/70 font-mono text-xs tracking-[0.3em] uppercase mb-6 animate-fade-in"
 					style={{ animationDelay: "0s" }}
 				>
-					◈ the forge behind my apps ◈
+					◈ the smithy behind my apps ◈
 				</p>
 
 				{/*
@@ -109,7 +109,7 @@ export default function Home() {
 						href={hrefFor(ROUTES.ABOUT)}
 						className="px-8 py-3 rounded-full border border-white/15 hover:border-amber-500/40 text-slate-300 hover:text-amber-300 font-semibold transition-all duration-300 w-full sm:w-auto text-center text-sm"
 					>
-						About the Platform
+						About the Smithy
 					</a>
 				</div>
 
@@ -133,7 +133,7 @@ export default function Home() {
 					<SectionHeader
 						title="In the Forge"
 						eyebrow="on the bench"
-						subtitle="// the platform, and the apps I am building on it"
+						subtitle="// the toolkit, and the apps I am building with it"
 					/>
 				</Reveal>
 
